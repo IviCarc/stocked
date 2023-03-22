@@ -1,5 +1,6 @@
 * {
   font-family: "roboto", sans-seriff;
+  box-sizing: border-box;
 }
 
 body {
