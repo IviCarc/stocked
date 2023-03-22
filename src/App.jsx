@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './components/login';
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <p>NASHE</p>      
+      <Login></Login>
     </div>
   );
 }
