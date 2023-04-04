@@ -59,8 +59,6 @@
 .search-bar {
     outline: none;
     background: #ecf0f3;
-    padding: 10px;
-    padding-left: 20px;
     height: 40px;
     font-size: 14px;
     border-radius: 20px;
@@ -69,6 +67,8 @@
     /* box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white; */
     box-shadow: 0px 4px 2px 0px #00000030;
     font-size: 1em;
+    padding: 20px;
+    padding-left: 50px;
 }
 
 .search-icon {
