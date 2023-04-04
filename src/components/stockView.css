@@ -1,11 +1,22 @@
 .stock {
-    padding: 20px;
+
+}
+
+.busqueda {
+    display: flex;
+    margin: 20px 100px;
+    justify-content: flex-end;
 }
 
 .cards-container{
     display: flex;
     gap: 20px;
     justify-content: space-around;
+}
+
+.search-bar {
+    width: 300px;
+    padding: 9px;
 }
 
 .card {
@@ -17,6 +28,13 @@
     height: 300px;
     padding: 5px;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    transition: transform .2s ease;
+    text-decoration: none;
+    color: black;
+}
+
+.card:hover {
+    transform: scale(1.05);
 }
 
 .img-container {
@@ -33,3 +51,87 @@
     justify-content: space-between;
     padding-left: 10px;
 }
+
+.searchbar-container {
+    position: relative;
+}
+
+.search-bar {
+    outline: none;
+    background: #ecf0f3;
+    padding: 10px;
+    padding-left: 20px;
+    height: 40px;
+    font-size: 14px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    transition: box-shadow ease .2s;
+    /* box-shadow: inset 6px 6px 6px #cbced1, inset -6px -6px 6px white; */
+    box-shadow: 0px 4px 2px 0px #00000030;
+    font-size: 1em;
+}
+
+.search-icon {
+    width: 1.5em;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* SELECT STYLES  */
+
+select {
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+    outline:0;
+    box-shadow:none;
+    border:0!important;
+    background: #5c6664;
+    background-image: none;
+    flex: 1;
+    padding: 0 .5em;
+    color:#fff;
+    cursor:pointer;
+    font-size: 1em;
+    background: #ecf0f3;
+    color: black;
+    
+ }
+ select::-ms-expand {
+    display: none;
+ }
+ .select {
+    position: relative;
+    display: flex;
+    width: 10em;
+    line-height: 3;
+    overflow: hidden;
+    border-radius: .25em;
+    margin-right: 10px;
+    box-shadow: 0px 4px 2px 0px #00000030;  
+    background: #ecf0f3;
+    border-radius: 20px;
+    padding-left: 10px;
+ }
+ .select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor:pointer;
+    padding: 0px 1em;
+    pointer-events:none;
+    transition:.25s all ease;
+    background: #ecf0f3;
+    transform: translateY(-5%);
+ }
+ .select:hover::after {
+    color: #97CEEE;
+ }
+
+ option {
+    font-family: "Arial"; 
+ }

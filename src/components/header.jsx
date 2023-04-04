@@ -9,8 +9,8 @@ const Header = () => {
                 <img src={require("../imgs/logo.png")} alt="" />
             </div>
             <ul>
-                <li><Link to='new-model'>CREAR MODELO</Link></li>
-                <li><Link to='stock'>VER STOCK</Link></li>
+                <li><Link className='header-link' to='new-model'>CREAR MODELO</Link></li>
+                <li><Link className='header-link' to='stock'>VER STOCK</Link></li>
             </ul>
         </nav>
         <Outlet></Outlet>

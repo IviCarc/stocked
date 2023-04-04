@@ -1,8 +1,10 @@
 import './stockView.css'
+import { Link } from 'react-router-dom'
+import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
 
 const Card = (props) => {
     return (
-        <div className="card">
+        <Link className="card" href={props.id}>
             <div className="img-container">
                 <img src={require("../imgs/libro.avif")} alt="adawd" />
             </div>
@@ -10,13 +12,29 @@ const Card = (props) => {
                 <p><b>Libro:</b> Harry Potter</p>
                 <p><b>U/Disponibles:</b> 6</p>
             </div>
-        </div>
+        </Link>
     )
 }
 
+
+
 const StockView = () => {
-    return(
+    return (
         <div className="stock">
+            <div className="busqueda">
+                <div class="select">
+                    <select name="format" id="format">
+                        <option selected disabled>Modelo</option>
+                        <option value="libro">Libro</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+                <div className="searchbar-container">
+                    {/* <img src={require("../imgs/magnifying-glass-solid.svg")} alt="busqueda" /> */}
+                    <img src={BusquedaIcon} alt="busqueda" className='search-icon' />
+                    <input type="text" className='search-bar' />
+                </div>
+            </div>
             <div className="cards-container">
                 <Card></Card>
                 <Card></Card>
