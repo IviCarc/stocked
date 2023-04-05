@@ -6,6 +6,7 @@ import './App.css';
 import Login from './components/login';
 import StockView from './components/stockView'
 import Header from './components/header'
+import NewModel from "./components/newModel";
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Header />}>
           <Route path='stock' element={<StockView/>}/>
-          <Route path='new-model' element={<StockView/>}/>
+          <Route path='new-model' element={<NewModel  />}/>
         </Route>
         <Route path='login' element={<Login/>}/>
       </Routes>

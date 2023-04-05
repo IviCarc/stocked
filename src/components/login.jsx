@@ -7,11 +7,11 @@ const Login = () => {
             <h4 className='subtitle'>Ingrese su usuario y contraseña</h4>
             <div className="input-container">
                 <label htmlFor="user">Usuario</label>
-                <input type="text" name='user' />
+                <input type="text" className='input' name='user' />
             </div>
             <div className="input-container">
                 <label htmlFor="password">Contraseña</label>
-                <input type="password" name='password' />
+                <input type="password" className='input' name='password' />
 
             </div>
             <div className="btn-container">

@@ -17,7 +17,6 @@ const Card = (props) => {
 }
 
 
-
 const StockView = () => {
     return (
         <div className="stock">
@@ -30,9 +29,8 @@ const StockView = () => {
                     </select>
                 </div>
                 <div className="searchbar-container">
-                    {/* <img src={require("../imgs/magnifying-glass-solid.svg")} alt="busqueda" /> */}
-                    <img src={BusquedaIcon} alt="busqueda" className='search-icon' />
-                    <input type="text" className='search-bar' />
+                    <img  src={BusquedaIcon} alt="busqueda" className='search-icon' />
+                    <input type="text" className='search-bar input' />
                 </div>
             </div>
             <div className="cards-container">
