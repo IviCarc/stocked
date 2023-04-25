@@ -38,6 +38,11 @@ const StockView = () => {
                 <Card></Card>
                 <Card></Card>
                 <Card></Card>
+                <Card></Card>
+                <Card></Card>
+                <Card></Card>
+                <Card></Card>
+                <Card></Card>
             </div>
         </div>
 
