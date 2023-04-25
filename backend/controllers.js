@@ -1,4 +1,3 @@
-const productos = require("./productos-test.js");
 const mongoose = require('mongoose');
 const fs = require('fs');
 
@@ -12,12 +11,7 @@ const storage = multer.diskStorage({})
 
 const upload = multer({ storage: storage }).single('imagenes')
 
-
 const controller = {}
-
-controller.getAllProducts = async (req, res) => {
-    res.send(productos);
-}
 
 controller.todosProductos = async (req, res) => {
     const todosProductos = await Producto.find();
@@ -59,7 +53,6 @@ controller.nuevoProducto = async (req,res ) => {
         const  categoriaGuardada = await categoria.save();
         return res.status(201).json(categoria);
       });
-
 }
 
 controller.nuevaCategoria = async (req, res ) => {
