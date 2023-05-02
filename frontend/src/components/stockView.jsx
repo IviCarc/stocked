@@ -4,7 +4,7 @@ import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
 
 const Card = (props) => {
     return (
-        <Link className="card" href={props.id}>
+        <Link className="card" href={props.refere}>
             <div className="img-container">
                 <img src={require("../imgs/libro.avif")} alt="adawd" />
             </div>
@@ -34,7 +34,7 @@ const StockView = () => {
                 </div>
             </div>
             <div className="cards-container">
-                <Card></Card>
+                <Card refere="adasd"></Card>
                 <Card></Card>
                 <Card></Card>
                 <Card></Card>
