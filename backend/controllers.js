@@ -15,6 +15,7 @@ const controller = {}
 
 controller.todosProductos = async (req, res) => {
     const todosProductos = await Producto.find();
+    console.log("H")
     res.send(todosProductos)
 }
 
