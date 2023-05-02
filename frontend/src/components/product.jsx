@@ -1,11 +1,11 @@
 import "./product.css";
 
-const Product = () => {
+const Product = (props) => {
   return (
     <div className="product">
       <div className="product-view">
         <div className="product-img">
-
+          AWDASDASD
         </div>
         <div className="product-info">
 
