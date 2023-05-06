@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route} from "react-router-dom" 
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 
 
 import './App.css';
@@ -16,7 +16,7 @@ const App = () => {
         <Route path='/' element={<Header />}>
           <Route path='stock' element={<StockView />}/>
           <Route path='new-model' element={<NewModel  />}/>
-          <Route path="/:id" element={<Product/>}/>
+          <Route path="product/:id" element={<Product/>}/>
         </Route>
         <Route path='login' element={<Login/>}/>
       </Routes>

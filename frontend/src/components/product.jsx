@@ -8,7 +8,6 @@ const Product = (props) => {
           AWDASDASD
         </div>
         <div className="product-info">
-
         </div>
       </div>
       <div className="product-details">
