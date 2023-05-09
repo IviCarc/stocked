@@ -7,7 +7,6 @@ import axios, * as others from 'axios';
 const Card = (props) => {
     return (
         <Link className="card" to={props.id}>
-        <Link className="card" to={props.id}>
             <div className="img-container">
                 <img src={require("../imgs/libro.avif")} alt="adawd" />
             </div>
@@ -20,7 +19,6 @@ const Card = (props) => {
     )
 }
 
-
 const StockView = () => {
     const [productos, setProductos] = useState(null);
 
@@ -32,7 +30,6 @@ const StockView = () => {
         }   
         fetchProductos();
     }, [])
-
 
     return (
         <div className="stock">
@@ -62,7 +59,7 @@ const StockView = () => {
             </div>
         </div>
 
-    )
+            )
 }
 
 export default StockView
