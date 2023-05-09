@@ -11,8 +11,9 @@ const Card = (props) => {
                 <img src={require("../imgs/libro.avif")} alt="adawd" />
             </div>
             <div className="info-container">
-                <p><b>Libro:</b> {props.producto}</p>
-                <p><b>U/Disponibles:</b> 6</p>
+                <p><b>{props.categoria}:</b> {props.producto}</p>
+                <p><b>${props.precio}</b> </p>
+                <p><b>U/Disponibles:</b> {props.cantidadDisponible}</p>
             </div>
         </Link>
     )
@@ -53,19 +54,10 @@ const StockView = () => {
                     productos && productos.map((obj, n) => {
                         console.log(obj)
                         return(
-                            <Card id={obj.id} producto={obj.producto}></Card>
+                            <Card id={obj.id} categoria={obj.categoria} producto={obj.producto} precio={obj.precio} cantidadDisponible={obj.cantidadDisponible}></Card>
                         )
                     })
                 }
-                {/* <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card>
-                <Card></Card> */}
             </div>
         </div>
 
