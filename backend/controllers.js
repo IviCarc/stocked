@@ -15,6 +15,7 @@ const controller = {}
 
 controller.todosProductos = async (req, res) => {
     const todosProductos = await Producto.find();
+    console.log("H")
     res.send(todosProductos)
 }
 
@@ -44,8 +45,9 @@ controller.nuevoProducto = async (req,res ) => {
         }
         const categoriaProducto = req.body.categoria;
         const nuevoProducto = new Producto(
-            {...req.body, 
-                imagenes : fs.readFileSync(`${req.file.path}`)
+            {
+                ...req.body, 
+                // imagenes : fs.readFileSync(`${req.file.path}`)
     });
         const productoInsertado = await nuevoProducto.save();
         const categoria =  await Categoria.findOne({ categoria: categoriaProducto}).exec();
