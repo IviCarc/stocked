@@ -1,18 +1,24 @@
+import { useLocation } from "react-router";
 import "./product.css";
 
 const Product = (props) => {
+  const location = useLocation().pathname.split("/")[2]; // ID  
+
   return (
-    <div className="product">
-      <div className="product-view">
-        <div className="product-img">
-          AWDASDASD
-        </div>
-        <div className="product-info">
-        </div>
-      </div>
-      <div className="product-details">
-        
-      </div>
+    <div className="producto">
+      {
+        props.productos && props.productos.map(obj => {
+          if (obj._id == location) {
+            return (
+             <>
+             {/* ACA HACER LA PAGINA DEL PRODUCTO CON PROPS */}
+                {obj.producto}
+             </>
+            )
+          }
+        })
+      }
+
     </div>
   );
 };

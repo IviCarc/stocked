@@ -1,12 +1,12 @@
 import './stockView.css'
 import { Link } from 'react-router-dom'
 import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
-import React, { useState, useEffect } from 'react';
-import axios, * as others from 'axios';
+
+// import axios, * as others from 'axios';
 
 const Card = (props) => {
     return (
-        <Link className="card" to={props.id}>
+        <Link className="card" to={"http://localhost:3000/productos/" + props.id}>
             <div className="img-container">
                 <img src={require("../imgs/libro.avif")} alt="adawd" />
             </div>
@@ -19,18 +19,8 @@ const Card = (props) => {
     )
 }
 
-const StockView = () => {
-    const [productos, setProductos] = useState(null);
-
-    useEffect(() => {
-        const fetchProductos = async () => {
-            let data = await axios.get('http://localhost:5000/todos-productos');
-            console.log(data.data)
-            setProductos(data.data);
-        }   
-        fetchProductos();
-    }, [])
-
+const StockView = (props) => {
+    
     return (
         <div className="stock">
             <div className="busqueda">
@@ -49,10 +39,9 @@ const StockView = () => {
             <div className="cards-container">
                 {
 
-                    productos && productos.map((obj, n) => {
-                        console.log(obj)
+                    props.productos && props.productos.map((obj, n) => {
                         return(
-                            <Card id={obj.id} categoria={obj.categoria} producto={obj.producto} precio={obj.precio} cantidadDisponible={obj.cantidadDisponible}></Card>
+                            <Card id={obj._id} categoria={obj.categoria} producto={obj.producto} precio={obj.precio} cantidadDisponible={obj.cantidadDisponible}></Card>
                         )
                     })
                 }
