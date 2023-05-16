@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "64492ef4d54c5dca14cfd8f4"
+  },
+  "producto": "vaso",
+  "precio": 456,
+  "descripcion": "adad",
+  "categoria": "adad",
+  "cantidadDisponible": 56456,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64492f40474db4e135d29b2d"
+  },
+  "producto": "vaso",
+  "precio": 456,
+  "descripcion": "adad",
+  "categoria": "adad",
+  "cantidadDisponible": 56456,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64492fa014281a150386931b"
+  },
+  "producto": "lg",
+  "precio": 456,
+  "descripcion": "adad",
+  "categoria": "monitores",
+  "cantidadDisponible": 56456,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6449303214281a1503869322"
+  },
+  "producto": "lg",
+  "precio": 456,
+  "descripcion": "adad",
+  "categoria": "monitores",
+  "cantidadDisponible": 56456,
+  "__v": 0
+}]
