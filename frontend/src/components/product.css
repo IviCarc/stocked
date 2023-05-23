@@ -1,6 +1,30 @@
 .producto {
     display: flex;
-    width: 90%;
+    width: 100%;
+}
+.img-product {
+    margin: 10% auto;
+    display: flex;
+    justify-content: center center;
+    width: 50%;
+}
+.img-product img{
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.price-producto {
+    margin: auto auto;
+    display: flex;
+    flex-direction: column;
+    width: 200px;
     background-color: #fff;
     border-radius: 8px;
+    height: 100%;
+    padding: 5px;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    transition: transform .2s ease;
+    text-decoration: none;
+    color: black;
 }
