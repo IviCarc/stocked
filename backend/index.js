@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
-require('dotenv').config();
 const cors = require('cors');
 
 const { nuevoProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto } = require('./controllers.js');

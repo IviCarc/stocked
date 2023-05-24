@@ -2,13 +2,22 @@
     display: flex;
     width: 100%;
 }
+.about-producto {
+    width: 15%;
+    margin:auto auto;
+}
+.about-producto hr{
+    width: 90%;
+    background-color: black;
+}
 .img-product {
-    margin: 10% auto;
+    margin: 20% auto;
     display: flex;
     justify-content: center center;
-    width: 50%;
+    width: 100%;
 }
 .img-product img{
+    margin: auto auto;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     border-radius: 8px;
     width: 100%;
@@ -18,13 +27,60 @@
     margin: auto auto;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 100%;
     background-color: #fff;
     border-radius: 8px;
-    height: 100%;
+    height: 50%;
     padding: 5px;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     transition: transform .2s ease;
     text-decoration: none;
+    color: black;
+    justify-content: space-between;
+}
+
+.price-producto p {
+    margin-left: 0%;
+}
+
+.trashIconProduct {
+    color: red;
+    position: relative;
+    margin-left : 0%;
+    height: 20px;
+}
+
+.editIconProduct {
+    color: #295DE2;
+    position: relative;
+    margin-left : 0%;
+    height: 20px;
+}
+
+button {
+    margin: auto auto;
+    background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
+button:first-child {
+  color: inherit;
+  cursor: default;
+  font: inherit;
+}
+
+.info-producto{
+    margin: 40px auto;
+    width: 75%;
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 50%;
+    padding: 5px;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     color: black;
 }

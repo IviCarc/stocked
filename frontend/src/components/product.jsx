@@ -1,4 +1,9 @@
 import { useLocation } from "react-router";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+
+
 import "./product.css";
 
 const Product = (props) => {
@@ -10,29 +15,31 @@ const Product = (props) => {
         props.productos && props.productos.map(obj => {
           if (obj._id == location) {
             return (
-             <>
-             {
-            <div>
-              <div className="about-producto">
-              <div className="img-product">
-                <img src={require("../imgs/libro.avif")} alt="adawd" />
-                {/* props.img */}
-              </div>
-              <div className="price-producto">
-                <p><b>${props.precio}</b> </p>
-                <hr />
-                <p><b>Editar</b> </p>
-                <hr />
-                <p><b>Eliminar</b> </p>  
-              </div>
-             </div>
-              <div className="info-producto">
+              <>
+                {
+                  <>
+                    <div className="about-producto">
+                      <div className="img-product">
+                        <img src={require("../imgs/libro.avif")} alt="adawd" />
+                        {/* props.img */}
+                      </div>
+                      <div className="price-producto">
+                        <button><p><b>Precio:${obj.precio} </b></p></button>
+                        <hr />
+                        <button><p><b>Editar</b> <FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" /></p></button>
+                        <hr />
+                        <button><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
+                      </div>
+                    </div>
+                    <div className="info-producto">
 
-              </div>
-             </div>
-             }
-                {obj.producto}
-             </>
+                      <div className="info-titulo">
+                        {obj.producto}
+                      </div>
+                    </div>
+                  </>
+                }
+              </>
             )
           }
         })
