@@ -15,7 +15,7 @@ const App = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       // let data = await axios.get('http://169.254.40.154:5000/todos-productos');
-      let data = await fetch('http://localhost:5000/todos-productos')
+      let data = await fetch('http://192.168.2.155:5000/todos-productos')
         .then(res => res.json())
         .then(datos => {  
           console.log(datos)
@@ -29,15 +29,9 @@ const App = () => {
     <Router>
       <Routes>
         <Route path='/' element={<Header />}>
-<<<<<<< HEAD
-          <Route path='stock' element={<StockView/>}/>
-          <Route path='new-model' element={<NewModel  />}/>
-          
-=======
           <Route path='stock' element={<StockView productos={productos} />} />
           <Route path="productos/:id" element={<Product productos={productos} />} />
           <Route path='new-model' element={<NewModel />} />
->>>>>>> 47dad6d5a086c127094ad4a06f215ff80656b062
         </Route>
         <Route path='login' element={<Login />} />
       </Routes>
