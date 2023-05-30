@@ -1,0 +1,20 @@
+[{
+  "_id": {
+    "$oid": "64492f9314281a1503869319"
+  },
+  "categoria": "monitores",
+  "productos": [
+    {
+      "producto": "lg",
+      "precio": 456,
+      "descripcion": "adad",
+      "categoria": "monitores",
+      "cantidadDisponible": 56456,
+      "_id": {
+        "$oid": "6449303214281a1503869322"
+      },
+      "__v": 0
+    }
+  ],
+  "__v": 1
+}]
