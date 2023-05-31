@@ -1,6 +1,7 @@
 import './stockView.css'
 import { Link } from 'react-router-dom'
 import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
+import './inputs.css'
 
 // import axios, * as others from 'axios';
 
