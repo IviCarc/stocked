@@ -9,7 +9,7 @@ const Card = (props) => {
     return (
         <Link className="card" to={"http://localhost:3000/productos/" + props.id}>
             <div className="img-container">
-                <img src={require("../imgs/libro.avif")} alt="adawd" />
+                <img src={require("../imgs/libro.avif")} alt="product-img" />
             </div>
             <div className="info-container">
                 <p><b>{props.categoria}:</b> {props.producto}</p>

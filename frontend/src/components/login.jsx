@@ -1,4 +1,5 @@
 import "./login.css"
+import "./inputs.css"
 
 const Login = () => {
     return (

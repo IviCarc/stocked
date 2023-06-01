@@ -18,21 +18,21 @@ const NewModel = (props) => {
           <input type="number" min={1} className="input inputs" placeholder="Unidades" />
 
           <div className="cluod" >
-          <FontAwesomeIcon icon={faCloudArrowUp} className="cloudIcon" />
-          <input type="submit" className="input inputs cloudInput " value="Subir foto"/>
+            <FontAwesomeIcon icon={faCloudArrowUp} className="cloudIcon" />
+            <input type="submit" className="input inputs cloudInput " value="Subir foto" />
           </div>
 
           <div className="trash" >
-          <FontAwesomeIcon icon={faTrash} className="trashIcon" />
-          <input type="text" className="input inputs trashInput " placeholder="Caracteristica creada"/>
+            <FontAwesomeIcon icon={faTrash} className="trashIcon" />
+            <input type="text" className="input inputs trashInput " placeholder="Caracteristica creada" />
           </div>
 
           <div className="plus" >
-          <FontAwesomeIcon icon={faPlus} className="plusIcon" />
-          <input type="submit" className="input inputs plusinput " value="Añadir Caracteristica"/>
+            <FontAwesomeIcon icon={faPlus} className="plusIcon" />
+            <input type="submit" className="input inputs plusinput " value="Añadir Caracteristica" />
           </div>
 
-          <button type="button" className="input inputs" id="boton">Crear</button>
+          <button type="button" className="btn" >Crear</button>
         </div>
 
       </div>
