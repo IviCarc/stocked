@@ -5,6 +5,9 @@ const Header = () => {
     return (
         <>
         <nav>
+            <div className="sidebar">
+                
+            </div>
             <div className='logo-container'>
                 <img src={require("../imgs/logo.png")} alt="" />
             </div>
