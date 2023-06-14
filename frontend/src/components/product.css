@@ -13,7 +13,6 @@
 .img-product {
     margin: 20% auto;
     display: flex;
-    justify-content: center center;
     width: 100%;
 }
 .img-product img{
@@ -24,14 +23,12 @@
 }
 
 .price-producto {
-    margin: auto auto;
     display: flex;
     flex-direction: column;
     width: 100%;
     background-color: #fff;
     border-radius: 8px;
-    height: 50%;
-    padding: 5px;
+    height: 100%;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     transition: transform .2s ease;
     text-decoration: none;
@@ -39,9 +36,6 @@
     justify-content: space-between;
 }
 
-.price-producto p {
-    margin-left: 0%;
-}
 
 .trashIconProduct {
     color: red;
@@ -58,13 +52,12 @@
 }
 
 button {
-    margin: auto auto;
     background: none;
   border: 0;
   color: inherit;
   cursor: pointer;
   font: inherit;
-  padding: 0;
+ 
 }
 
 button:first-child {
@@ -74,12 +67,13 @@ button:first-child {
 }
 
 .info-producto{
-    margin: 40px auto;
+    margin: 3% auto;
     width: 75%;
+    height: 100%;
     display: flex;
+    flex-direction: column;
     background-color: #fff;
     border-radius: 8px;
-    height: 100%;
     padding: 5px;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     color: black;
@@ -89,19 +83,37 @@ button:first-child {
 }
 
 .info-titulo {
-    font-weight: 800;
+    margin-left: 3%;
+    width: 100%;
     font-size:25px;
+}
+.info-unidades {
+    text-align: center;
+    width: 100%;
 }
 
 .iconMinus{
 background-color: #E71A1A;
 border-radius: 50%;
+margin-right: 10px;
 cursor: pointer;
 }
 
 .iconPlus{
+    margin-left: 10px;
     background-color: #4DD841;
     border-radius: 50%;
     cursor: pointer;
 }
 
+.info{
+    height: 50vh;
+    margin-left: 2%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.info1, .info2{
+    width: 50%;
+}
