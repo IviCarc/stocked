@@ -3,11 +3,8 @@ import { Outlet, Link } from "react-router-dom";
 
 const Header = () => {
     return (
-        <>
+        <> 
         <nav>
-            <div className="sidebar">
-                
-            </div>
             <div className='logo-container'>
                 <img src={require("../imgs/logo.png")} alt="" />
             </div>
@@ -16,6 +13,8 @@ const Header = () => {
                 <li><Link className='header-link' to='stock'>VER STOCK</Link></li>
             </ul>
         </nav>
+
+
         <Outlet></Outlet>
         </>
     )
