@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-const { nuevoProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto } = require('./controllers.js');
+const { nuevoProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto } = require('./controllers.js');
 
 
 app.use(cors());
@@ -21,6 +21,8 @@ app.get('/get/:id', obtenerProducto);
 app.post('/nuevo-producto', nuevoProducto);
 
 app.post('/nueva-categoria', nuevaCategoria);
+
+app.put('/editarProducto', editarProducto);
 
 
 const start = async () => {

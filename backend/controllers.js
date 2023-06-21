@@ -48,7 +48,7 @@ controller.nuevoProducto = async (req,res ) => {
             {
                 ...req.body, 
                 // imagenes : fs.readFileSync(`${req.file.path}`)
-    });
+            });
         const productoInsertado = await nuevoProducto.save();
         const categoria =  await Categoria.findOne({ categoria: categoriaProducto}).exec();
         categoria.productos.push(nuevoProducto);
@@ -62,6 +62,10 @@ controller.nuevaCategoria = async (req, res ) => {
     const nuevaCategoria = new Categoria(req.body);
     const categoriaInsertada = await nuevaCategoria.save();
     return res.status(201).json(categoriaInsertada);
+}
+
+controller.editarProducto = async (req, res ) => {
+
 }
 
 
