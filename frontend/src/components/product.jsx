@@ -39,13 +39,13 @@ const Product = (props) => {
                       </div>
                       <div className="info">
                       <div className="info1">
-                        <p>Autor:{obj.autor}</p>
-                        <p>Editorial:{obj.editorial}</p>
-                        <p>Edición:{obj.edicion}</p>
+                        <label htmlFor="autor">Autor<input name="autor" type="text" readOnly placeholder={obj.autor} /></label>
+                        <label htmlFor="Editorial">Editorial<input type="text" readOnly placeholder={obj.editorial} /></label>
+                        <label htmlFor="Edicion">Edicion<input type="text" readOnly placeholder={obj.edicion} /></label>
                       </div>
                         <div className="info2">
-                          <p>Fecha de impresión:{obj.fechaImpresion}</p>
-                          <p>Idioma:{obj.idioma}</p>
+                        <label htmlFor="Fecha de impresión">Fecha de impresión<input type="text" readOnly placeholder={obj.fechaImpresion} /></label>
+                        <label htmlFor="Idioma">Idioma:<input type="text" readOnly placeholder={obj.idioma} /></label>
                         </div>
                       </div>
                       <div className="info-unidades">

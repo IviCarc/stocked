@@ -97,6 +97,7 @@ background-color: #E71A1A;
 border-radius: 50%;
 margin-right: 10px;
 cursor: pointer;
+display: none;
 }
 
 .iconPlus{
@@ -104,6 +105,8 @@ cursor: pointer;
     background-color: #4DD841;
     border-radius: 50%;
     cursor: pointer;
+display: none;
+
 }
 
 .info{
