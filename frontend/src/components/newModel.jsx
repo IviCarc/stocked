@@ -1,5 +1,5 @@
-import "./newModel.css";
-import "./inputs.css";
+import "../css/newModel.css";
+import "../css/inputs.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'

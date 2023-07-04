@@ -1,4 +1,4 @@
-import "./header.css";
+import "../css/header.css";
 import { Outlet, Link } from "react-router-dom";
 
 const Header = () => {

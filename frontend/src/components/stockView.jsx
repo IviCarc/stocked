@@ -1,15 +1,13 @@
-import './stockView.css'
+import '../css/stockView.css'
 import { Link } from 'react-router-dom'
 import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
-import './inputs.css'
+import '../css/stockView.css'
 
 // import axios, * as others from 'axios';
 
 const Card = (props) => {
-    console.log(`${process.env.REACT_APP_BASE_URL + props.imagen}`)
-
     return (
-        <Link className="card" to={process.env.REACT_APP_BASE_URL + "productos/" + props.id}>
+        <Link className="card" to={"http://localhost:3000/productos/" + props.id}>
             <div className="img-container">
                 <img src={`${process.env.REACT_APP_BASE_URL + "images/" + props.imagen}`} alt="product-img" />
             </div>

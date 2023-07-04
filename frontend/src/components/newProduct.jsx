@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
-import './newProduct.css'
-import './inputs.css'
+import '../css/newProduct.css'
+import '../css/inputs.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
@@ -10,20 +10,15 @@ const NewProduct = (props) => {
     const [res, setRes] = useState(false)
 
     const obtenerCategorias = async () => {
-        // const categorias = await axios.get('http://localhost:5000/todas-categorias');
-        // console.log(categorias.data)
-        // setListaCategorias(categorias.data);
-
-        let data = await fetch(process.env.REACT_APP_BASE_URL +'todas-categorias')
-            .then(res => res.json())
-            .then(datos => {
-                console.log(datos)
-                setListaCategorias(datos);
-            })
+        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'todas-categorias');
+        setListaCategorias(categorias.data);
     }
 
     useEffect(() => {
-        obtenerCategorias();
+        obtenerCategorias()
+        .catch(e => {
+            console.log(e)
+        });
     }, [])
 
     const onChange = (e, setter, state) => {
@@ -37,7 +32,7 @@ const NewProduct = (props) => {
             },
         });
 
-        if (inputName == 'imagen') {
+        if (inputName === 'imagen') {
 
             setter({
                 ...state,
@@ -62,22 +57,18 @@ const NewProduct = (props) => {
         e.preventDefault();
 
         let data = {};
-        let res
         
         for (const key in state) {
-            if (key === "precio" || key == "cantidadDisponible") data[key] = parseInt(state[key].value);
+            if (key === "precio" || key === "cantidadDisponible") data[key] = parseInt(state[key].value);
             else data[key] = state[key].value;
         }
 
-        try {
-            res = await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } });
-        } catch (e) {
-            console.log(e);
-            return;
-        }
+        await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } })
+        .catch(e => {
+            console.log(e)
+        })
         setRes(true)
 
-        // fetch('http://192.168.2.155:5000/todas-categorias')
     };
 
 

@@ -3,15 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-const { nuevoProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto } = require('./controllers.js');
-
-
-// MULTER
-// const multer = require('multer');
-
-// const storage = multer.diskStorage({})
-
-// const upload = multer({ storage: storage, dest: 'uploads/' })
+const { nuevoProducto, eliminarProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto } = require('./controllers.js');
 
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
@@ -35,6 +27,9 @@ app.post('/nuevo-producto',upload.single('imagen'), nuevoProducto);
 
 app.post('/nueva-categoria', nuevaCategoria);
 
+app.put('/editar-producto/:id', editarProducto  );
+
+app.delete('/eliminar-producto/:id', eliminarProducto);
 
 const start = async () => {
     try {

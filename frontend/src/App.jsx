@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import axios from 'axios';
 
 import './App.css';
 import Login from './components/login';
@@ -15,14 +15,8 @@ const App = () => {
   
   useEffect(() => {
     const fetchProductos = async () => {
-      // let data = await axios.get('http://169.254.40.154:5000/todos-productos');
-      console.log(process.env)
-      let data = await fetch(process.env.REACT_APP_BASE_URL + "todos-productos")
-        .then(res => res.json())
-        .then(datos => {  
-          console.log(datos)
-          setProductos(datos);
-        })
+      let res = await axios.get(process.env.REACT_APP_BASE_URL + 'todos-productos');
+      setProductos(res.data)
     }
     fetchProductos();
   }, [])

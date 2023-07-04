@@ -16,10 +16,8 @@ controller.todasCategorias = async (req, res) => {
 }
 
 controller.obtenerProducto = async (req, res) => {
-    const { categoria, id } = req.params;
+    const { id } = req.params;
     const producto = await Producto.findOne({ _id: id });
-    // const categoria = await Categoria.findOne({categoria:categoria});
-    // const producto = Categoria
     res.send(producto);
 }
 
@@ -36,18 +34,31 @@ controller.nuevoProducto = async (req, res, next) => {
             ...req.body,
             imagen : req.file.filename
         })
-    const productoInsertado = await nuevoProducto.save();
+    await nuevoProducto.save();
     const categoria = await Categoria.findOne({ categoria: categoriaProducto }).exec();
     categoria.productos.push(nuevoProducto);
-    const categoriaGuardada = await categoria.save();
+    await categoria.save();
     return res.status(201).json(categoria);
 };
 
 controller.nuevaCategoria = async (req, res) => {
-    console.log(req.body)
     const nuevaCategoria = new Categoria(req.body);
     const categoriaInsertada = await nuevaCategoria.save();
     return res.status(201).json(categoriaInsertada);
+}
+
+controller.editarProducto = async (req, res) => {
+    const { id } = req.params;
+    const producto = await Producto.findOneAndUpdate({ _id: id }, {...req.body}, {new:true});
+    console.log(producto)
+    await producto.save();
+    return res.status(201).json(producto);
+}
+
+controller.eliminarProducto = async (req, res) => {
+    const { id } = req.params;
+    const producto = await Producto.findOneAndDelete({ _id: id });
+    return res.status(201).json(producto);
 }
 
 
