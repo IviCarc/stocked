@@ -14,7 +14,7 @@ const NewProduct = (props) => {
         // console.log(categorias.data)
         // setListaCategorias(categorias.data);
 
-        let data = await fetch('http://192.168.2.155:5000/todas-categorias')
+        let data = await fetch(process.env.REACT_APP_BASE_URL +'todas-categorias')
             .then(res => res.json())
             .then(datos => {
                 console.log(datos)
@@ -37,7 +37,8 @@ const NewProduct = (props) => {
             },
         });
 
-        if (inputName == 'imagenes') {
+        if (inputName == 'imagen') {
+
             setter({
                 ...state,
                 [inputName]: {
@@ -69,7 +70,7 @@ const NewProduct = (props) => {
         }
 
         try {
-            res = await axios.post("http://192.168.2.155:5000/" + url, data, { headers: { "content-type": contentType } });
+            res = await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } });
         } catch (e) {
             console.log(e);
             return;
