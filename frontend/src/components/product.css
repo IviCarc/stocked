@@ -2,20 +2,24 @@
     display: flex;
     width: 100%;
 }
+
 .about-producto {
     width: 15%;
-    margin:auto auto;
+    margin: auto auto;
 }
-.about-producto hr{
+
+.about-producto hr {
     width: 90%;
     background-color: black;
 }
+
 .img-product {
     margin: 20% auto;
     display: flex;
     width: 100%;
 }
-.img-product img{
+
+.img-product img {
     margin: auto auto;
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     border-radius: 8px;
@@ -40,33 +44,33 @@
 .trashIconProduct {
     color: red;
     position: relative;
-    margin-left : 0%;
+    margin-left: 0%;
     height: 20px;
 }
 
 .editIconProduct {
     color: #295DE2;
     position: relative;
-    margin-left : 0%;
+    margin-left: 0%;
     height: 20px;
 }
 
 button {
     background: none;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
-  font: inherit;
- 
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+
 }
 
 button:first-child {
-  color: inherit;
-  cursor: default;
-  font: inherit;
+    color: inherit;
+    cursor: default;
+    font: inherit;
 }
 
-.info-producto{
+.info-producto {
     margin: 3% auto;
     width: 75%;
     height: 100%;
@@ -78,38 +82,40 @@ button:first-child {
     box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
     color: black;
 }
-.info-producto p{
+
+.info-producto p {
     margin-left: 2%;
 }
 
 .info-titulo {
     margin-left: 3%;
     width: 100%;
-    font-size:25px;
+    font-size: 25px;
 }
+
 .info-unidades {
     text-align: center;
     width: 100%;
 }
 
-.iconMinus{
-background-color: #E71A1A;
-border-radius: 50%;
-margin-right: 10px;
-cursor: pointer;
-display: none;
+.iconMinus {
+    background-color: #E71A1A;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    display: none;
 }
 
-.iconPlus{
+.iconPlus {
     margin-left: 10px;
     background-color: #4DD841;
     border-radius: 50%;
     cursor: pointer;
-display: none;
+    display: none;
 
 }
 
-.info{
+.info {
     height: 50vh;
     margin-left: 2%;
     width: 100%;
@@ -117,6 +123,32 @@ display: none;
     flex-direction: row;
 }
 
-.info1, .info2{
+.info1,
+.info2 {
     width: 50%;
+}
+
+.inputs::placeholder {
+    color: black;
+}
+
+.inputs::placeholder {
+    opacity: 1;
+    
+    }
+
+.inputs::-webkit-input-placeholder {
+    opacity: 1;
+}
+
+.inputs::-moz-placeholder {
+    opacity: 1;
+}
+
+.inputs::-ms-input-placeholder {
+    opacity: 1;
+}
+
+.inputs::-moz-placeholder {
+    opacity: 1;
 }
