@@ -117,38 +117,22 @@ button:first-child {
 
 .info {
     height: 50vh;
-    margin-left: 2%;
+    margin-left: 3%;
     width: 100%;
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
 }
 
-.info1,
-.info2 {
-    width: 50%;
-}
 
-.inputs::placeholder {
+ .info-input::placeholder {
     color: black;
+    opacity: 1;
+    font-weight: bolder;
 }
 
-.inputs::placeholder {
-    opacity: 1;
-    
-    }
 
-.inputs::-webkit-input-placeholder {
-    opacity: 1;
-}
-
-.inputs::-moz-placeholder {
-    opacity: 1;
-}
-
-.inputs::-ms-input-placeholder {
-    opacity: 1;
-}
-
-.inputs::-moz-placeholder {
-    opacity: 1;
+.info-input {
+    margin: 10px 5px    ;
+    line-height: 0;
 }

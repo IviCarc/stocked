@@ -13,10 +13,9 @@ const Product = (props) => {
 
   const toggleReadOnly = () => {
 
-    var elementos = document.querySelectorAll('.inputs');
-
+    var elementos = document.querySelectorAll('.info-input');
     elementos.forEach(function (elemento) {
-      elemento.readOnly = !elemento.readOnly
+    elemento.readOnly = !elemento.readOnly
 
     });
 
@@ -31,8 +30,20 @@ const Product = (props) => {
         props.productos && props.productos.map(producto => {
           if (producto._id == id) {
             const keys = Object.entries(producto)
-            // keys.map()
-            // console.log(keys)
+            function GenerarInputs({ keys }) {
+              const inputs = [];
+      
+              for (let i = 1; i < keys.length; i++) {
+                const key = keys[i][0];
+                const value = keys[i][1];
+                const input = <input type="text" value={`${key}`} readOnly placeholder={`${value}`}/> ;
+                inputs.push(input);
+              }
+            
+              return <div className="info-input">{inputs}</div>;
+            }
+
+            
             return (
               <>
                 {
@@ -56,13 +67,7 @@ const Product = (props) => {
                       </div>
                       <div className="info">
                         <div className="info1">
-                          <label htmlFor="autor">Autor:<input className="inputs" id="A" name="autor" type="text" readOnly placeholder={producto.autor} /></label>
-                          <label htmlFor="Editorial">Editorial:<input className="inputs" id="B" type="text" readOnly placeholder={producto.editorial} /></label>
-                          <label htmlFor="Edicion">Edicion:<input className="inputs" type="text" readOnly placeholder={producto.edicion} /></label>
-                        </div>
-                        <div className="info2">
-                          <label htmlFor="Fecha de impresión">Fecha de impresión<input className="inputs" type="text" readOnly placeholder={producto.fechaImpresion} /></label>
-                          <label htmlFor="Idioma">Idioma:<input className="inputs" type="text" readOnly placeholder={producto.idioma} /></label>
+                        <GenerarInputs keys={keys} />
                         </div>
                       </div>
                       <div className="info-unidades">
