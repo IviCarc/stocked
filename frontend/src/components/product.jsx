@@ -12,10 +12,17 @@ import "./product.css";
 const Product = (props) => {
 
   const toggleReadOnly = () => {
-
+    
     var elementos = document.querySelectorAll('.info-input');
     elementos.forEach(function (elemento) {
-    elemento.readOnly = !elemento.readOnly
+      elemento.readOnly = !elemento.readOnly
+        elemento.addEventListener("focus", function () {
+          if (elemento.readOnly != true )
+          this.style.outline = "1px solid brown";  
+        }) 
+
+      
+    
 
     });
 
@@ -32,18 +39,26 @@ const Product = (props) => {
             const keys = Object.entries(producto)
             function GenerarInputs({ keys }) {
               const inputs = [];
-      
+
               for (let i = 1; i < keys.length; i++) {
                 const key = keys[i][0];
                 const value = keys[i][1];
-                const input = <input type="text" value={`${key}`} readOnly placeholder={`${value}`}/> ;
-                inputs.push(input);
+                if (key != "__v") {
+                  inputs.push(<div className="caracteristica-container">
+                    <b>{`${key}`}:</b>
+                    <input type="text" readOnly placeholder={`${value}`} className="info-input input" />
+                  </div>);
+                }
               }
-            
-              return <div className="info-input">{inputs}</div>;
+
+              return inputs;
             }
 
-            
+
+
+
+
+
             return (
               <>
                 {
@@ -65,10 +80,8 @@ const Product = (props) => {
                       <div className="info-titulo">
                         {producto.producto}
                       </div>
-                      <div className="info">
-                        <div className="info1">
-                        <GenerarInputs keys={keys} />
-                        </div>
+                      <div className="info-cont">
+                          <GenerarInputs keys={keys} />
                       </div>
                       <div className="info-unidades">
                         <p><FontAwesomeIcon icon={faMinus} className="iconMinus" />Unidades Disponibles: {producto.cantidadDisponible}<FontAwesomeIcon icon={faPlus} className="iconPlus" /></p>

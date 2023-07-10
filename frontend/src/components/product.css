@@ -83,12 +83,10 @@ button:first-child {
     color: black;
 }
 
-.info-producto p {
-    margin-left: 2%;
-}
 
 .info-titulo {
-    margin-left: 3%;
+    margin-left: 4%;
+    margin-bottom: 20px;
     width: 100%;
     font-size: 25px;
 }
@@ -115,24 +113,39 @@ button:first-child {
 
 }
 
-.info {
-    height: 50vh;
-    margin-left: 3%;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-}
-
 
  .info-input::placeholder {
-    color: black;
     opacity: 1;
     font-weight: bolder;
 }
 
+.info-input:focus{
+    /* outline: 1px solid #6666; */
+    /* color: #295DE2; */
+}
+
+
+.info-cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
 
 .info-input {
-    margin: 10px 5px    ;
-    line-height: 0;
+    color: black;
+    border: none;
+    min-width:100px;
+    height: 20px !important;
+    padding: 1em;
 }
+
+.caracteristica-container {
+    gap: 3%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+   min-width: 100px;
+   width: 25%;
+}
+
