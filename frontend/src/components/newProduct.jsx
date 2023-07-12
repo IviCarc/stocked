@@ -17,12 +17,12 @@ const NewProduct = (props) => {
 
     // const [res, setRes] = useState(false)
     
-    // useEffect(() => {
-    //     obtenerCategorias()
-    //     .catch(e => {
-    //         console.log(e)
-    //     });
-    // }, [])
+    useEffect(() => {
+        obtenerCategorias()
+        .catch(e => {
+            console.log(e)
+        });
+    }, [])
 
     // const onChange = (e, setter, state) => {
     //     const inputName = e.target.name;
@@ -83,32 +83,61 @@ const NewProduct = (props) => {
     const formData = {
        producto: '',
        descripcion: '',
-       precio: '',
+       precio: 0,
        categoria: '',
-       cantidadDisponible: '',
+       cantidadDisponible: 0,
        imagen: ''
     }
     
     // Usar regex
     
     const formValidations = {
-        email: [(value) => value.includes('@'), 'El correo debe tener un @'],
-        displayName: [(value) => value.length >= 1, 'El nombre es obligatorio'],
-        password: [(value) => value.length >= 6, 'El password debe de tener mas de 6 letras']
+        producto: [(value) => /^([a-zA-Z0-9]{3,20})/.test(value), 'El nombre es obligatorio'],
+        descripcion: [(value) => /^([a-zA-Z]{3,20})$/.test(value), 'El nombre es obligatorio'],
+        precio: [(value) => value >= 0, 'El nombre es obligatorio'],
+        categoria: [(value) => /dad/.test(value), 'El nombre es obligatorio'],
+        cantidadDisponible: [(value) => value >= 0, 'El correo debe tener un @'],
+        imagen: [(value) => value, 'El nombre es obligatorio'],
     }
 
     
     const {
-        displayName, email, password, onInputChange, formState,
+        producto, descripcion, precio, categoria,cantidadDisponible, imagen, onInputChange , formState,
         isFormValid, displayNameValid, emailValid, passwordValid
     } = useForm(formData, formValidations);
 
-    const onSubmit = (event) => {
+    const onSubmit = async (event) => {
         event.preventDefault();
+        if (!isFormValid) return;
+
+        const url = 'nuevo-producto';
+        const contentType = 'application/json'
+        
+        await axios.post(process.env.REACT_APP_BASE_URL + url, formData,{ headers: { "content-type": contentType } })
+        .catch(e => {
+            console.log(e)
+        })
+
         setFormSubmitted(true);
 
-        if (!isFormValid) return;
     }
+
+    // const sendData = async (e, state, url, contentType) => {
+    //     e.preventDefault();
+
+    //     let data = {};
+        
+    //     for (const key in state) {
+    //         if (key === "precio" || key === "cantidadDisponible") data[key] = parseInt(state[key].value);
+    //         else data[key] = state[key].value;
+    //     }
+
+    //     await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } })
+    //     .catch(e => {
+    //         console.log(e)
+    //     })
+    //     setRes(true)
+    // };
 
 
     return (

@@ -11,7 +11,7 @@ export const useForm = (initialform = {}, formValidations = {}) => {
 
     useEffect(() => {
         setFormState(initialform);
-    }, [initialform]);
+    },[]);
 
     const isFormValid = useMemo(() => {
         for (const formValue of Object.keys(formValidation)) {
@@ -66,23 +66,23 @@ const formValidations = {
     password: [(value) => value.length >= 6, 'El password debe de tener mas de 6 letras']
 }
 
-export const RegisterPage = () => {
+// export const RegisterPage = () => {
 
-    const dispatch = useDispatch();
-    const [formSubmitted, setFormSubmitted] = useState(false);
+//     const dispatch = useDispatch();
+//     const [formSubmitted, setFormSubmitted] = useState(false);
 
-    const { status, errorMessage } = useSelector(state => state.auth);
-    const isCheckingAuthentication = useMemo(() => status === 'checking', [status]);
+//     const { status, errorMessage } = useSelector(state => state.auth);
+//     const isCheckingAuthentication = useMemo(() => status === 'checking', [status]);
 
-    const {
-        displayName, email, password, onInputChange, formState,
-        isFormValid, displayNameValid, emailValid, passwordValid
-    } = useForm(formData, formValidations);
+//     const {
+//         displayName, email, password, onInputChange, formState,
+//         isFormValid, displayNameValid, emailValid, passwordValid
+//     } = useForm(formData, formValidations);
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        setFormSubmitted(true);
+//     const onSubmit = (event) => {
+//         event.preventDefault();
+//         setFormSubmitted(true);
 
-        if (!isFormValid) return;
-    }
-}
+//         if (!isFormValid) return;
+//     }
+// }
