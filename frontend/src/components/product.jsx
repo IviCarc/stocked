@@ -12,19 +12,17 @@ import "./product.css";
 const Product = (props) => {
 
   const toggleReadOnly = () => {
-    
+
+    var boton = document.getElementById("editProduct")
     var elementos = document.querySelectorAll('.info-input');
-    elementos.forEach(function (elemento) {
-      elemento.readOnly = !elemento.readOnly
-        elemento.addEventListener("focus", function () {
-          if (elemento.readOnly != true )
-          this.style.outline = "1px solid brown";  
-        }) 
-
+    boton.addEventListener("click",function(){
+      elementos.forEach(function (elemento) {
+        elemento.readOnly = !elemento.readOnly
+        elemento.style.outline = "1px solid brown"
+      });
       
-    
-
     });
+    
 
   }
 
@@ -71,7 +69,7 @@ const Product = (props) => {
                       <div className="price-producto">
                         <button><p><b>Precio:${producto.precio} </b></p></button>
                         <hr />
-                        <button onClick={toggleReadOnly}><p><b>Editar</b> <FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" /></p></button>
+                        <button className="btn-edit" id="editProduct" onClick={toggleReadOnly}><p><b>Editar</b> <FontAwesomeIcon icon={faPenToSquare} className="editIconProduct"  /></p></button>
                         <hr />
                         <button><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
                       </div>
