@@ -118,10 +118,7 @@ button:first-child {
     font-weight: bolder;
 }
 
-.info-input:focus{
-    /* outline: 1px solid #6666; */
-    /* color: #295DE2; */
-}
+
 
 
 .info-cont{

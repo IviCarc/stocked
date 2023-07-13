@@ -12,19 +12,26 @@ import "./product.css";
 const Product = (props) => {
 
   const toggleReadOnly = () => {
+  var boton = document.getElementById("editProduct");
+  var elementos = document.querySelectorAll('.info-input');
 
-    var boton = document.getElementById("editProduct")
-    var elementos = document.querySelectorAll('.info-input');
-    boton.addEventListener("click",function(){
-      elementos.forEach(function (elemento) {
-        elemento.readOnly = !elemento.readOnly
-        elemento.style.outline = "1px solid brown"
-      });
-      
+  boton.addEventListener("click", function () {
+    elementos.forEach(function (elemento) {
+      if(elemento.readOnly == true){
+        elemento.style.outline = "1px solid brown";
+        elemento.readOnly = false;
+        alert("A")
+      }
+      else if (elemento.readOnly == false){
+        elemento.readOnly = true;
+        elemento.style.outline = "none";
+        console.log("B")
+        
+      }
     });
-    
 
-  }
+  });
+}
 
 
   const id = useLocation().pathname.split("/")[2]; // ID  
