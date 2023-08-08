@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const {Schema} = mongoose;
 const { Producto, Categoria } = require('./models/models.js');
 
 const controller = {}
@@ -59,6 +59,18 @@ controller.eliminarProducto = async (req, res) => {
     const { id } = req.params;
     const producto = await Producto.findOneAndDelete({ _id: id });
     return res.status(201).json(producto);
+}
+
+
+// BLUEPRINTS
+
+controller.crearModelo = async (req, res) => {
+    console.log(req.body);
+    // const nuevoModelo = new Schema({
+    //     req.body
+    // })   
+    // const nuevoModelo = mongoose.model(nuevoModelo);
+    return "hpla";
 }
 
 
