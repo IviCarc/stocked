@@ -36,7 +36,11 @@
     margin: 20px auto;
     width: 60%;
 }
-
+#boton:hover {
+    border: 1px solid #4EB1EC;
+    background-color: rgb(255, 255, 255);
+    color: #0d6fa8;
+}
 .cruz {
     width: 35px;
     height: 35px;
