@@ -10,7 +10,6 @@ import "../css/product.css";
 
 const Product = (props) => {
   const location = useLocation().pathname.split("/")[2]; // ID  
-console.log(location)
   return (
     <div className="producto">
       {

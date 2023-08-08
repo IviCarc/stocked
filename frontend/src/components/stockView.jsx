@@ -15,7 +15,7 @@ const Card = (props) => {
                 <p><b>{props.categoria}:</b> {props.producto}</p>
                 <p><b>${props.precio}</b> </p>
                 <p><b>U/Disponibles:</b> {props.cantidadDisponible}</p>
-            </div>
+            </div> 
         </Link>
     )
 }
