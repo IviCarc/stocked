@@ -14,23 +14,22 @@ const Product = (props) => {
   const toggleReadOnly = () => {
   var boton = document.getElementById("editProduct");
   var elementos = document.querySelectorAll('.info-input');
-
   boton.addEventListener("click", function () {
+    console.log("Button clicked");
+
     elementos.forEach(function (elemento) {
-      if(elemento.readOnly == true){
+      if (elemento.readOnly) {
         elemento.style.outline = "1px solid brown";
         elemento.readOnly = false;
-        alert("A")
-      }
-      else if (elemento.readOnly == false){
+        console.log("Switched to edit mode");
+      } else {
         elemento.readOnly = true;
         elemento.style.outline = "none";
-        console.log("B")
-        
+        console.log("Switched to read-only mode");
       }
     });
-
   });
+  
 }
 
 
@@ -58,10 +57,6 @@ const Product = (props) => {
 
               return inputs;
             }
-
-
-
-
 
 
             return (
