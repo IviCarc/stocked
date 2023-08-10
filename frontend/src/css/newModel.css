@@ -48,6 +48,8 @@
 
 .trash {
     position: relative;
+    margin: 0px;
+    height: fit-content;
 }
 
 .trashInput {
@@ -62,6 +64,11 @@
     position: relative;
     left: 15px;
     top: 50%;
+    padding: 0px;
+}
+
+.trashIcon > * {
+    pointer-events: none;
 }
 
 .plus {
