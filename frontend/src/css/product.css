@@ -112,15 +112,6 @@ button:first-child {
 
 }
 
-
- .info-input::placeholder {
-    opacity: 1;
-    font-weight: bolder;
-}
-
-
-
-
 .info-cont{
     display: flex;
     flex-wrap: wrap;
@@ -132,13 +123,10 @@ button:first-child {
     color: black;
     border: none;
     min-width:100px;
+    width: auto;
     height: 20px !important;
     padding: 1em;
-}
-
-.info-input-activado{
-    outline: 1px solid crimson;
-
+    
 }
 
 .caracteristica-container {
@@ -147,6 +135,14 @@ button:first-child {
     align-items: center;
     flex-direction: row;
    min-width: 100px;
-   width: 25%;
+   width: 30%;
 }
 
+.input-editing {
+    font-size: inherit;
+    font-family:inherit;
+    background: none;
+    border: none; /* Elimina el borde por defecto */
+    outline: none; /* Elimina el contorno al hacer clic */
+    /* Agrega aquí otros estilos que desees */
+  }
