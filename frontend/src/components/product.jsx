@@ -7,7 +7,7 @@ import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
 
 
-import "./product.css";
+import "../css/product.css";
 
 
 const Product = (props) => {
