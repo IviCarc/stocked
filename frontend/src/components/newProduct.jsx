@@ -6,16 +6,16 @@ import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 const NewProduct = (props) => {
-    const [listaCategorias, setListaCategorias] = useState(null);
+    const [listaModelos, setListaModelos] = useState(null);
     const [res, setRes] = useState(false)
 
-    const obtenerCategorias = async () => {
-        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'todas-categorias');
-        setListaCategorias(categorias.data);
+    const obtenerModelos = async () => {
+        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'todos-modelos');
+        setListaModelos(modelos.data);
     }
 
     useEffect(() => {
-        obtenerCategorias()
+        obtenerModelos()
         .catch(e => {
             console.log(e)
         });
@@ -48,7 +48,7 @@ const NewProduct = (props) => {
         producto: { value: "", valid: false },
         descripcion: { value: "", valid: false },
         precio: { value: "", valid: false },
-        categoria: { value: "", valid: false },
+        modelo: { value: "", valid: false },
         cantidadDisponible: { value: "", valid: false },
         imagen: { value: "", valid: false },
     });
@@ -83,16 +83,13 @@ const NewProduct = (props) => {
                             <input className='input' type="text" name="producto" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} />
                         </div>
                         <div className="input-div">
-                            <label htmlFor="categoria" className='input-label'>Categoría</label>
+                            <label htmlFor="modelo" className='input-label'>Modelo</label>
                             <div class="select" id='newproduct-select'>
-                                <select name="categoria" id="categoria" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
-                                    {/* <option selected disabled>Modelo</option>
-                            <option value="libro">Libro</option>
-                            <option value="auto">Auto</option> */}
+                                <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
-                                    <option selected value='none'>Seleccione una categoria</option>
-                                    {listaCategorias && listaCategorias.map((obj, i) => {
-                                        return <option key={i} value={obj.categoria}>{obj.categoria}</option>
+                                    <option selected value='none'>Seleccione un modelo</option>
+                                    {listaModelos && listaModelos.map((modelo, i) => {
+                                        return <option key={i} value={modelo}>{modelo}</option>
                                     })}
 
                                 </select>

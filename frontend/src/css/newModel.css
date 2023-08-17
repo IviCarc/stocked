@@ -58,6 +58,7 @@
 }
 
 .trashIcon {
+    cursor: pointer;
     color: red;
     /* padding: 0 5px; */
     width: 1.5em;
@@ -65,6 +66,12 @@
     left: 15px;
     top: 50%;
     padding: 0px;
+    transition: transform .1s ease;
+}
+
+.trashIcon:hover {
+    transform: translateY(-1px) scale(1.1);
+
 }
 
 .trashIcon > * {

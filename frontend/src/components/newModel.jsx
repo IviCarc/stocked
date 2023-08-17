@@ -11,76 +11,53 @@ import axios from 'axios'
 
 const NewModel = (props) => {
 
-    const [caracteristicas, setCaracteristicas] = useState([""]);
-
-    const onChange = (e, setter, state) => {
-        const inputName = e.target.name;
-        const inputValue = e.target.value;
-        setter({
-            ...state,
-            [inputName]: {
-                ...state[inputName],
-                value: inputValue,
-            },
-        });
-    };
+    // const [nombreModelo, setNombreModelo] = useState("");
+    const [modelo, setModelo] = useState({nombreModelo : "", caracteristicas : [""]});
 
     const sendData = async (e, state, url, contentType) => {
         e.preventDefault();
 
-        let data = {};
-
-        for (const key in state) {
-            if (key === "precio" || key === "cantidadDisponible") data[key] = parseInt(state[key].value);
-            else data[key] = state[key].value;
-        }
-
-        await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } })
+        await axios.post(process.env.REACT_APP_BASE_URL + url, state, { headers: { "content-type": contentType } })
             .catch(e => {
                 console.log(e)
             })
-
     };
 
     const agregarCaracteristica = (e) => {
-        // Al primer click escribe un 0, luego escribe el id correspondiente y así
-        // setCaracteristicas([...caracteristicas,caracteristicas.length ==  0 ? 0 : caracteristicas[caracteristicas.length - 1 ] + 1]);
-        setCaracteristicas([...caracteristicas, ""]);
+        setModelo({...modelo, caracteristicas : [...modelo.caracteristicas, ""]});
     }
 
     const borrarCaracteristica = (i) => {
-        const temp = [...caracteristicas];
-        console.log(i)
-        temp.splice(i, 1);
-        setCaracteristicas(temp);
+        const temp = {...modelo};
+        temp.caracteristicas.splice(i, 1);
+        setModelo(temp);
     }
 
     const actualizarCaracteristica = (e, i) => {
-        const temp = [...caracteristicas];
-        temp[i] = e.target.value
+        const temp = {...modelo};
+        temp.caracteristicas[i] = e.target.value    
         console.log(temp)
-        setCaracteristicas(temp)
+        setModelo(temp)
     }
 
     return (
         <div className="newModel">
             <div className="container">
                 <div className="cont">
-
-                    <FontAwesomeIcon icon={faXmark} className="cruz" />
-                    <input type="text" className="input inputs" placeholder="Nombre del modelo" />
+        
+                    <input type="text" className="input inputs" placeholder="Nombre del modelo" onChange={(e) => setModelo({...modelo, nombreModelo : e.target.value})}/>
 
                     {
-                        caracteristicas && caracteristicas.map((obj, i) => {
+                        modelo.caracteristicas && modelo.caracteristicas.map((value, i) => {
                             return (
                                 <div className="trash" key={i} >
                                     {/* RENDERIZA EL ICONO DE ELIMINAR SOLO SI SE AGREGÓ MAS DE UNA CARACTERISTICA */}
-                                    {caracteristicas.length > 1  && 
+                                    {modelo.caracteristicas.length > 1  && 
 
                                     (<FontAwesomeIcon icon={faTrash} className="trashIcon" onClick={() => borrarCaracteristica(i)} listid={i} />)
                                    
                                     }
-                                    <input type="text" className="input inputs trashInput " placeholder="Caracteristica creada" value={obj}
+                                    <input type="text" className="input inputs trashInput " placeholder="Caracteristica creada" value={value}
                                         onChange={(e) => actualizarCaracteristica(e, i)} />
                                 </div>
                             )
@@ -92,7 +69,7 @@ const NewModel = (props) => {
                         <input type="submit" className="input inputs plusinput" onClick={agregarCaracteristica} value="Añadir Caracteristica" />
                     </div>
 
-                    <button id="boton" type="button" className="btn" onClick={sendData}>Crear</button>
+                    <button id="boton" type="button" className="btn" onClick={(e) => sendData(e, modelo, "crear-modelo", "application/json")}>Crear</button>
 
                 </div>
 
