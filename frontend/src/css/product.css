@@ -1,0 +1,148 @@
+.producto {
+    display: flex;
+    width: 100%;
+}
+
+.about-producto {
+    width: 15%;
+    margin: auto auto;
+}
+
+.about-producto hr {
+    width: 90%;
+    background-color: black;
+}
+
+.img-product {
+    margin: 20% auto;
+    display: flex;
+    width: 100%;
+}
+
+.img-product img {
+    margin: auto auto;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.price-producto {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 100%;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    transition: transform .2s ease;
+    text-decoration: none;
+    color: black;
+    justify-content: space-between;
+}
+
+
+.trashIconProduct {
+    color: red;
+    position: relative;
+    margin-left: 0%;
+    height: 20px;
+}
+
+.editIconProduct {
+    color: #295DE2;
+    position: relative;
+    margin-left: 0%;
+    height: 20px;
+}
+
+button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+
+}
+
+button:first-child {
+    color: inherit;
+    cursor: default;
+    font: inherit;
+}
+
+.info-producto {
+    margin: 3% auto;
+    width: 75%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 5px;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    color: black;
+}
+
+
+.info-titulo {
+    margin-left: 4%;
+    margin-bottom: 20px;
+    width: 100%;
+    font-size: 25px;
+}
+
+.info-unidades {
+    text-align: center;
+    width: 100%;
+}
+
+.iconMinus {
+    background-color: #E71A1A;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+
+}
+
+.iconPlus {
+    margin-left: 10px;
+    background-color: #4DD841;
+    border-radius: 50%;
+    cursor: pointer;
+
+}
+
+.info-cont{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.info-input {
+    color: black;
+    border: none;
+    min-width:100px;
+    width: auto;
+    height: 20px !important;
+    padding: 1em;
+    
+}
+
+.caracteristica-container {
+    gap: 3%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+   min-width: 100px;
+   width: 30%;
+}
+
+.input-editing {
+    font-size: inherit;
+    font-family:inherit;
+    background: none;
+    border: none; /* Elimina el borde por defecto */
+    outline: none; /* Elimina el contorno al hacer clic */
+    /* Agrega aquí otros estilos que desees */
+  }

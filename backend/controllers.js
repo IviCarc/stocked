@@ -1,21 +1,11 @@
 const mongoose = require('mongoose');
-const fs = require('fs');
-
-const {Producto, Categoria} = require('./models/models.js');
-
-
-// MULTER
-const multer = require('multer');
-
-const storage = multer.diskStorage({})
-
-const upload = multer({ storage: storage }).single('imagenes')
+const { Schema } = mongoose;
+const { Producto, Categoria } = require('./models/models.js');
 
 const controller = {}
 
 controller.todosProductos = async (req, res) => {
     const todosProductos = await Producto.find();
-    console.log("H")
     res.send(todosProductos)
 }
 
@@ -26,10 +16,8 @@ controller.todasCategorias = async (req, res) => {
 }
 
 controller.obtenerProducto = async (req, res) => {
-    const {categoria, id} = req.params;
-    const producto = await Producto.findOne({_id : id});
-    // const categoria = await Categoria.findOne({categoria:categoria});
-    // const producto = Categoria
+    const { id } = req.params;
+    const producto = await Producto.findOne({ _id: id });
     res.send(producto);
 }
 
@@ -38,27 +26,22 @@ controller.obtenerProducto = async (req, res) => {
 // Por ahora, el producto es agregado a cada categoria sin importar si ya fue agregado una vez, es decir hay repetidos.
 // Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
-controller.nuevoProducto = async (req,res ) => {
-    upload(req, res, async (err) => {
-        if (err) {
-          res.sendStatus(500);
-        }
-        const categoriaProducto = req.body.categoria;
-        const nuevoProducto = new Producto(
-            {
-                ...req.body, 
-                // imagenes : fs.readFileSync(`${req.file.path}`)
-            });
-        const productoInsertado = await nuevoProducto.save();
-        const categoria =  await Categoria.findOne({ categoria: categoriaProducto}).exec();
-        categoria.productos.push(nuevoProducto);
-        const  categoriaGuardada = await categoria.save();
-        return res.status(201).json(categoria);
-      });
-}
+controller.nuevoProducto = async (req, res, next) => {
+    const categoriaProducto = req.body.categoria;
+    console.log(req.file);
+    const nuevoProducto = new Producto(
+        {
+            ...req.body,
+            imagen: req.file.filename
+        })
+    await nuevoProducto.save();
+    const categoria = await Categoria.findOne({ categoria: categoriaProducto }).exec();
+    categoria.productos.push(nuevoProducto);
+    await categoria.save();
+    return res.status(201).json(categoria);
+};
 
-controller.nuevaCategoria = async (req, res ) => {
-    console.log(req.body)
+controller.nuevaCategoria = async (req, res) => {
     const nuevaCategoria = new Categoria(req.body);
     const categoriaInsertada = await nuevaCategoria.save();
     return res.status(201).json(categoriaInsertada);
@@ -68,5 +51,49 @@ controller.editarProducto = async (req, res ) => {
 
 }
 
+controller.editarProducto = async (req, res) => {
+    const { id } = req.params;
+    const producto = await Producto.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
+    console.log(producto)
+    await producto.save();
+    return res.status(201).json(producto);
+}
+
+controller.eliminarProducto = async (req, res) => {
+    const { id } = req.params;
+    const producto = await Producto.findOneAndDelete({ _id: id });
+    return res.status(201).json(producto);
+}
+
+// BLUEPRINTS
+
+controller.crearModelo = async (req, res) => {
+    console.log(req.body);
+    const temp = { modelo: String }
+    req.body.caracteristicas.forEach(caracteristica => {
+        temp[caracteristica] = "String"
+    });
+    console.log(temp)
+    const nuevoModeloSchema = new Schema(temp)
+    console.log(nuevoModeloSchema)
+    const nuevoModelo = mongoose.model(req.body.nombreModelo, nuevoModeloSchema);
+    res.send(req.body);
+}
+
+controller.getAllModels = async (req, res) => {
+    const modelos =  (await mongoose.connection.db.listCollections().toArray()).flatMap(e => {
+        if (e.name == 'categorias' || e.name == 'productos') {
+            return []
+        } else return e.name
+    })
+    res.send(modelos);
+}
+
+controller.getModelo = async (req, res) => {
+    const { nombre } = req.params
+    const modelo = mongoose.model(nombre)
+    const caracteristicas = Object.keys(modelo.schema.obj)
+    res.send(caracteristicas);
+}
 
 module.exports = controller

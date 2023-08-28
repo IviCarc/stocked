@@ -1,0 +1,78 @@
+@import './inputs.css';
+
+.busqueda {
+    display: flex;
+    margin: 20px 100px;
+    justify-content: flex-end;
+}
+
+.cards-container{
+    display: flex;
+    gap: 25px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 85%;
+    margin: 20px auto;
+}
+
+.search-bar {
+    width: 300px;
+    padding: 9px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 210px;
+    background-color: #fff;
+    border-radius: 8px;
+    height: 100%;
+    padding: 5px;
+    box-shadow: 0px 4px 5px 2px rgba(0, 0, 0, 0.300);
+    transition: transform .2s ease;
+    text-decoration: none;
+    color: black;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.img-container {
+    width: 100%;
+    padding: 10px;
+}
+.img-container img{
+    width: 100%;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 10px;
+}
+
+.searchbar-container {
+    position: relative;
+}
+
+.search-bar {
+    padding-left: 50px;
+}
+
+.searchbar-container:hover .search-icon path{
+    fill: "#aaa";
+    background-color: red;
+}
+
+.search-icon {
+    width: 1.5em;
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* SELECT STYLES  */
+
