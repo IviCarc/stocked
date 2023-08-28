@@ -8,6 +8,7 @@ import StockView from './components/stockView'
 import Header from './components/header'
 import NewModel from "./components/newModel";
 import Product from "./components/product";
+import Footer  from './components/footer';
 
 const App = () => {
   const [productos, setProductos] = useState(null);
