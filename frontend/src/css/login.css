@@ -13,12 +13,13 @@
     border: 1px solid rgba(0, 0, 0, 0.185);
     background-color: #fff;
 }
+
 .title {
     text-align: center;
     font-family: "roboto";
     margin: 0px;
     color: #4EB1EC;
-    text-shadow:  0px 4px 4px rgba(0, 0, 0, 0.267);
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.267);
     font-size: 40px;
 }
 
@@ -29,17 +30,25 @@
 }
 
 .input-container {
-    display: flex;    
+    display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
 .input-container label {
-    margin-left:15px ;
+    margin-left: 15px;
 }
 
 
 .btn-container {
     display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.btn {
+    display: flex;
     justify-content: center;
 }
+

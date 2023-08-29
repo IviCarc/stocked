@@ -17,7 +17,9 @@ const Login = () => {
             </div>
             <div className="btn-container">
                 <button className='btn'>Ingresar</button>
+                <button className='btn'>Registrarse</button>
             </div>
+                
         </div>
     )
 }

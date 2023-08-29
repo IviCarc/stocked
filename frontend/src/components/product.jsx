@@ -28,17 +28,17 @@ const Product = (props) => {
     const handleProductUpdate = (productId, updatedValues) => {
       // Encuentra el índice del producto en el array según el _id
       const productIndex = props.productos.findIndex(producto => producto._id === productId);
-    
+
       if (productIndex !== -1) {
         // Crea una copia del array de productos para evitar mutar el estado directamente
         const updatedProductos = [...props.productos];
-    
+
         // Actualiza los valores del producto usando el índice
         updatedProductos[productIndex] = {
           ...updatedProductos[productIndex],
           ...updatedValues
         };
-    
+
         // Actualiza el estado con los productos actualizados
         props.setProductos(updatedProductos); // Asumiendo que tienes una función setProductos en el componente padre
       }
@@ -52,8 +52,8 @@ const Product = (props) => {
     return (
       <div >
         {isEditing ? (
-          <input placeholder={`${value}`} 
-            type="text" 
+          <input placeholder={`${value}`}
+            type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleSave}
@@ -84,16 +84,16 @@ const Product = (props) => {
                     <img src={require("../imgs/libro.avif")} alt="adawd" />
                   </div>
                   <div className="price-producto">
-                    <button><p><b>Precio: ${producto.precio}</b></p></button>
+                    <button className="btn-product"><p><b>Precio: ${producto.precio}</b></p></button>
                     <hr />
-                    <button className="btn-edit" id="editProduct" onClick={toggleReadOnly}>
+                    <button className="btn-edit btn-product" id="editProduct" onClick={toggleReadOnly}>
                       <p>
                         <b>{isEditing ? "Guardar" : "Editar"}</b>{" "}
                         <FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" />
                       </p>
                     </button>
                     <hr />
-                    <button><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
+                    <button className="btn-product"><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
                   </div>
                 </div>
                 <div className="info-producto">
@@ -102,7 +102,7 @@ const Product = (props) => {
                   </div>
                   <div className="info-cont">
                     {keys.map(([key, value], index) => {
-                      if (key !== "__v" && key!=="cantidadDisponible") {
+                      if (key !== "__v" && key !== "cantidadDisponible") {
                         return (
                           <div className="caracteristica-container info-input input" key={index}>
                             <b>{key}:</b>
@@ -126,7 +126,6 @@ const Product = (props) => {
               </>
             );
           }
-          return null
         })
       }
     </div>

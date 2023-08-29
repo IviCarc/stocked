@@ -55,18 +55,11 @@
     height: 20px;
 }
 
-button {
+.btn-product {
     background: none;
     border: 0;
     color: inherit;
     cursor: pointer;
-    font: inherit;
-
-}
-
-button:first-child {
-    color: inherit;
-    cursor: default;
     font: inherit;
 }
 
