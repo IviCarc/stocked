@@ -9,6 +9,8 @@ import Header from './components/header'
 import NewModel from "./components/newModel";
 import Product from "./components/product";
 import NewProduct from './components/newProduct';
+import Register from './components/register';
+import ChangePassword from './components/changePassword';
 
 const App = () => {
   const [productos, setProductos] = useState(null);
@@ -31,6 +33,8 @@ const App = () => {
           <Route path='new-product' element={<NewProduct />} />
         </Route>
         <Route path='login' element={<Login />} />
+        <Route path= 'ChangePassword' element={<ChangePassword/>}/>
+        <Route path='register' element={<Register/>}/>
       </Routes>
     </Router>
   );
