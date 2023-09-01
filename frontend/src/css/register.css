@@ -1,5 +1,6 @@
-.login {
+.register {
     position: absolute;
+    min-width:min-content;
     width: 30%;
     left: 50%;
     top: 50%;
@@ -14,32 +15,6 @@
     background-color: #fff;
 }
 
-.title {
-    text-align: center;
-    font-family: "roboto";
-    margin: 0px;
-    color: #4EB1EC;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.267);
-    font-size: 40px;
-}
-
-.subtitle {
-    text-align: center;
-    font-weight: 500;
-    margin: 10px;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.input-container label {
-    margin-left: 15px;
-}
-
-
 .register-container {
     display: flex;
     flex-direction: row;
@@ -47,18 +22,9 @@
     text-align: center;
 }
 
-.btn {
-    display: flex;
-    justify-content: center;
-}
-
-.changePassword{
-    margin: 10px 5px;
-    text-decoration:none;
-    color: black;
-}
-
-.btn-back{
-   background-color: rgba(255, 0, 0, 0.8);
+.btn-back, .btn-register, .btn-send{
    width: fit-content;
+}
+.btn-back{
+    background-color: rgba(255, 0, 0, 0.8);
 }
