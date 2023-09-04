@@ -1,9 +1,11 @@
+
+const {register } = require('./controllers/auth.controller.js');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-const { nuevoProducto, eliminarProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, getModelo, getAllModels } = require('./controllers.js');
+const { nuevoProducto, eliminarProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, getModelo, getAllModels } = require('./controllers/controllers.js');
 
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
@@ -14,8 +16,9 @@ app.use(express.json());
 
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
-
 URL = process.env.URL || 'http://localhost:5000';
+// app.post("/api/login", login)
+app.post("/api/register",register)
 
 app.get("/todos-productos", todosProductos);
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { Producto, Categoria } = require('./models/models.js');
+const { Producto, Categoria } = require('../models/models.js');
 
 const controller = {}
 
@@ -95,5 +95,7 @@ controller.getModelo = async (req, res) => {
     const caracteristicas = Object.keys(modelo.schema.obj)
     res.send(caracteristicas);
 }
+
+
 
 module.exports = controller
