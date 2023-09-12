@@ -1,21 +1,72 @@
-const {User} = require('../models/user.model.js')
-const mongoose =require('mongoose');
-const register = (req, res) => {
-    const {email,password,username} = req.body
-    const newUser = new User({
-        username,
-        email,
-        password
+const { User } = require('../models/user.model.js')
+const mongoose = require('mongoose');
+const bycrpt = require('bcryptjs');
+const createAccessToken = require('../libs/jwt.js');
 
-    })
-    console.log(newUser)
-    newUser.save  ()
+const register = async (req, res) => {
+    const { email, password, username } = req.body
 
-res.send("registrando")
+    try {
+
+        const passwordHash = await bycrpt.hash(password, 10)
+
+        const newUser = new User({
+            username,
+            email,
+            password: passwordHash
+
+        })
+        console.log(newUser)
+        const userSaved = await newUser.save()
+        const token = await createAccessToken({ id: userSaved._id });
+
+        res.cookie("token", token);
+        res.json({
+            id: userSaved.id,
+            username: userSaved.username,
+            email: userSaved.email,
+            createAt: userSaved.createdAt,
+            updateAt: userSaved.updatedAt
+        });
+    } catch (error) {
+      res.status(500).json({message: error.message})
+    }
+
 };
 
- const login = (req,res ) => {
-res.send("login")
+const login = async (req, res) => {
+    const { email, password} = req.body
+
+    try {
+        const userFound = await User.findOne({email})
+
+        if (!userFound) return res.status(400).json({message:"User not found"})
+
+        const isMatch = await bycrpt.compare(password, userFound.password)
+
+        if(!isMatch) return res.status(400).json({message:"Incorrect Password"})
+
+        const token = await createAccessToken({ id: userFound._id });
+
+        res.cookie("token", token);
+        res.json({
+            id: userFound.id,
+            username: userFound.username,
+            email: userFound.email,
+            createAt: userFound.createdAt,
+            updateAt: userFound.updatedAt
+        });
+    } catch (error) {
+      res.status(500).json({message: error.message})
+    }
+
 };
 
-module.exports ={register,login}
+const logout = async (req,res) =>{
+res.cookie("token","",{
+    expires: new Date(0)
+})
+return res.sendStatus(200)
+};
+
+module.exports = { register, login, logout }

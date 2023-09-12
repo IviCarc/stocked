@@ -1,5 +1,5 @@
 
-const {register } = require('./controllers/auth.controller.js');
+const {register, login, logout } = require('./controllers/auth.controller.js');
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -17,8 +17,10 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
 URL = process.env.URL || 'http://localhost:5000';
-// app.post("/api/login", login)
+
 app.post("/api/register",register)
+app.post("/api/login", login)
+app.post("/api/logout", logout)
 
 app.get("/todos-productos", todosProductos);
 
