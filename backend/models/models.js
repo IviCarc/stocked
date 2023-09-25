@@ -15,7 +15,13 @@ const CategoriaSchema  = new Schema ({
     productos : [ProductosSchema]
 })
 
+const ModelosSchema = new Schema ({
+    nombreModelo : String,
+    caracteristicas : []
+})
+
 const Producto = mongoose.model("Producto", ProductosSchema);
 const Categoria = mongoose.model("Categoria", CategoriaSchema);
+const Modelo = mongoose.model("Modelo", ModelosSchema);
 
-module.exports = {Categoria, Producto}
+module.exports = {Categoria, Producto, Modelo}

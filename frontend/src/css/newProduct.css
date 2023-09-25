@@ -21,7 +21,7 @@
     padding: 10px;  
     display: flex;
     justify-content: space-between;
-    gap: 30px;
+    flex-wrap: wrap;
 }
 
 .inputs-container-separator {

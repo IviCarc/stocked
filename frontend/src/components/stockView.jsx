@@ -6,6 +6,7 @@ import '../css/stockView.css'
 // import axios, * as others from 'axios';
 
 const Card = (props) => {
+    console.log(props)
     return (
         <Link className="card" to={"http://localhost:3000/productos/" + props.id}>
             <div className="img-container">
