@@ -20,6 +20,12 @@ const NewProduct = (props) => {
     const [res, setRes] = useState(false)
     const [inputsModelo, setInputsModelo] = useState(null)
 
+    const capitalizeFirstLetter = (str) =>  {
+        // converting first letter to uppercase
+        const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
+        return capitalized;
+    }
+
     const obtenerCategorias = async () => {
         const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'todas-categorias');
         setListaCategorias(categorias.data);
@@ -118,7 +124,7 @@ const NewProduct = (props) => {
 
                                 <option selected value='none'>Seleccione una categoria</option>
                                 {listaCategorias && listaCategorias.map((categoria, i) => {
-                                    return <option key={i} value={categoria.categoria}>{categoria.categoria}</option>
+                                    return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                                 })}
 
                             </select>
@@ -126,13 +132,13 @@ const NewProduct = (props) => {
                     </div>
 
                     <div className="input-div">
-                        <label htmlFor="modelo" className='input-label'>modelo</label>
+                        <label htmlFor="modelo" className='input-label'>Modelo</label>
                         <div class="select" id='newproduct-select'>
                             <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
-                                <option selected value='none'>Seleccione una modelo</option>
+                                <option selected value='none'>Seleccione un modelo</option>
                                 {listaModelos && listaModelos.map((modelo, i) => {
-                                    return <option key={i} value={modelo}>{modelo}</option>
+                                    return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
 
                             </select>
@@ -165,7 +171,7 @@ const NewProduct = (props) => {
                     {inputsModelo && inputsModelo.map((caracteristica, i) => {
                         return (
                             <div className="input-div">
-                                <label htmlFor={caracteristica} className='input-label'>{caracteristica}:</label>
+                                <label htmlFor={caracteristica} className='input-label'>{capitalizeFirstLetter(caracteristica)}:</label>
                                 <input className='input' onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} type="text" name={caracteristica} />
                             </div>
                         )

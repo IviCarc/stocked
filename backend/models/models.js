@@ -8,7 +8,7 @@ const ProductosSchema = new Schema({
     categoria : String,
     cantidadDisponible : Number,
     imagen : String
-})
+}, {strict : false});
 
 const CategoriaSchema  = new Schema ({
     categoria : String,
