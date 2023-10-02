@@ -102,7 +102,7 @@ const Product = (props) => {
                   </div>
                   <div className="info-cont">
                     {keys.map(([key, value], index) => {
-                      if (key !== "__v" && key !== "cantidadDisponible") {
+                      if (key !== "__v" && key !== "cantidadDisponible" && key !=="_id") {
                         return (
                           <div className="caracteristica-container info-input input" key={index}>
                             <b>{key}:</b>

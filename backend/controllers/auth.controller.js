@@ -69,4 +69,19 @@ res.cookie("token","",{
 return res.sendStatus(200)
 };
 
-module.exports = { register, login, logout }
+const profile = async(req,res) =>{
+const userFound = User.findById(req.user.id);
+if(!userFound) return res.status(400).json({message:"User not found"});
+
+return res.json({
+    id: userFound._id,
+    username: userFound.username,
+    email: userFound.email,
+    createdAt: userFound.createdAt,
+    updatedAt: userFound.updateAt,
+}) 
+res.send("profile")
+}
+
+
+module.exports = { register, login, logout, profile }
