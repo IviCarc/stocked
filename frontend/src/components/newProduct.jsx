@@ -100,7 +100,12 @@ const NewProduct = (props) => {
             else data[key] = state[key].value;
         }
 
+        console.log(data)
+
         await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } })
+            .then(res => {
+                console.log(res);
+            })
             .catch(e => {
                 console.log(e)
             })

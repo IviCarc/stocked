@@ -11,6 +11,9 @@ app.use(cors());
 
 app.use(express.json());
 
+app.use(express.static('public'));
+app.use('/images', express.static('images'));
+
 URL = process.env.URL || 'http://localhost:5000';
 
 app.get("/todos-productos", todosProductos);
@@ -19,7 +22,7 @@ app.get("/todas-categorias", todasCategorias);
 
 app.get('/get/:id', obtenerProducto);
 
-app.post('/nuevo-producto', nuevoProducto);
+app.post('/nuevo-producto',upload.single('imagen'), nuevoProducto);
 
 app.post('/nueva-categoria', nuevaCategoria);
 
