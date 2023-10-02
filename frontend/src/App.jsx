@@ -8,6 +8,7 @@ import StockView from './components/stockView'
 import Header from './components/header'
 import NewModel from "./components/newModel";
 import Product from "./components/product";
+import NewProduct from './components/newProduct';
 
 const App = () => {
   const [productos, setProductos] = useState(null);
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='stock' element={<StockView productos={productos} />} />
           <Route path="productos/:id" element={<Product productos={productos} />} />
           <Route path='new-model' element={<NewModel />} />
+          <Route path='new-product' element={<NewProduct />} />
         </Route>
         <Route path='login' element={<Login />} />
       </Routes>

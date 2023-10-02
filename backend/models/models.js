@@ -8,14 +8,21 @@ const ProductosSchema = new Schema({
     categoria : String,
     cantidadDisponible : Number,
     imagen : String
+}, {strict : false});
+
+const ModelosSchema = new Schema ({
+    nombreModelo : String,
+    caracteristicas : []
 })
 
 const CategoriaSchema  = new Schema ({
     categoria : String,
-    productos : [ProductosSchema]
+    productos : [ProductosSchema],
+    modelos : [ModelosSchema]
 })
 
 const Producto = mongoose.model("Producto", ProductosSchema);
 const Categoria = mongoose.model("Categoria", CategoriaSchema);
+const Modelo = mongoose.model("Modelo", ModelosSchema);
 
-module.exports = {Categoria, Producto}
+module.exports = {Categoria, Producto, Modelo}

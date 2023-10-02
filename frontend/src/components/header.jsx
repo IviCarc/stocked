@@ -11,6 +11,7 @@ const Header = () => {
             <ul>
                 <li><Link className='header-link' to='new-model'>CREAR MODELO</Link></li>
                 <li><Link className='header-link' to='stock'>VER STOCK</Link></li>
+                <li><Link className='header-link' to='new-product'>NEW PRODUCT</Link></li>
             </ul>
         </nav>
         <Outlet></Outlet>
