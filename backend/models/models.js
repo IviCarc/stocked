@@ -10,14 +10,15 @@ const ProductosSchema = new Schema({
     imagen : String
 }, {strict : false});
 
-const CategoriaSchema  = new Schema ({
-    categoria : String,
-    productos : [ProductosSchema]
-})
-
 const ModelosSchema = new Schema ({
     nombreModelo : String,
     caracteristicas : []
+})
+
+const CategoriaSchema  = new Schema ({
+    categoria : String,
+    productos : [ProductosSchema],
+    modelos : [ModelosSchema]
 })
 
 const Producto = mongoose.model("Producto", ProductosSchema);
