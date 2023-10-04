@@ -5,7 +5,7 @@ const ProductosSchema = new Schema({
     producto : String,
     precio : Number,
     descripcion : String,
-    categoria : String,
+    // categoria : {type:Schema.Types.ObjectId, ref: "Categoria"},
     cantidadDisponible : Number,
     imagen : String
 }, {strict : false});
@@ -17,8 +17,8 @@ const ModelosSchema = new Schema ({
 
 const CategoriaSchema  = new Schema ({
     categoria : String,
-    productos : [ProductosSchema],
-    modelos : [ModelosSchema]
+    productos : [{type : Schema.Types.ObjectId, ref: "Producto"}],
+    modelos : [{type : Schema.Types.ObjectId, ref: "Modelo"}]
 })
 
 const Producto = mongoose.model("Producto", ProductosSchema);

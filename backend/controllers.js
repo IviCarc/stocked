@@ -6,7 +6,6 @@ const controller = {}
 
 controller.todosProductos = async (req, res) => {
     const todosProductos = await Producto.find();
-    console.log("H")
     res.send(todosProductos)
 }
 
@@ -15,14 +14,11 @@ controller.todasCategorias = async (req, res) => {
     const todasCategorias = await Categoria.find();
     console.log(todasCategorias)
     res.send(todasCategorias);
-
 }
 
 controller.obtenerProducto = async (req, res) => {
     const {categoria, id} = req.params;
     const producto = await Producto.findOne({_id : id});
-    // const categoria = await Categoria.findOne({categoria:categoria});
-    // const producto = Categoria
     res.send(producto);
 }
 
@@ -31,26 +27,26 @@ controller.obtenerProducto = async (req, res) => {
 // Por ahora, el producto es agregado a cada categoria sin importar si ya fue agregado una vez, es decir hay repetidos.
 // Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
-controller.nuevoProducto = async (req, res, next) => {
-    const categoriaProducto = req.body.categoria;
-    console.log(categoriaProducto);
+controller.crearProducto =  async (req, res, next) => {
     const nuevoProducto = new Producto(
         {
             ...req.body,
             imagen: req.file.filename
         })
-    await nuevoProducto.save();
-    const categoria = await Categoria.findOne({ categoria: categoriaProducto }).exec();
-    categoria.productos.push(nuevoProducto);
-    await categoria.save();
-    return res.status(201).json(categoria);
+
+    await nuevoProducto.save()
+
+    const categoria = await Categoria.findOne({categoria:req.body.categoria}).exec()
+    categoria.productos.push(nuevoProducto._id);    
+    await categoria.save()
+    return res.status(201).json(nuevoProducto);
 };
 
-controller.nuevaCategoria = async (req, res ) => {
+controller.crearCategoria = async (req, res ) => {
     console.log(req.body)
     const nuevaCategoria = new Categoria(req.body);
-    const categoriaInsertada = await nuevaCategoria.save();
-    return res.status(201).json(categoriaInsertada);
+    await nuevaCategoria.save()
+    return res.status(201).json(nuevaCategoria);
 }
 
 controller.editarProducto = async (req, res) => {
@@ -67,29 +63,30 @@ controller.eliminarProducto = async (req, res) => {
     return res.status(201).json(producto);
 }
 
-// BLUEPRINTS
+// Modelos
 
 controller.crearModelo = async (req, res) => {
-    console.log(req.body)
-    const nuevoModelo = new Modelo(req.body);
-
-    console.log(nuevoModelo)
-
+    const data = {
+        nombreModelo: req.body.nombreModelo,
+        caracteristicas: req.body.caracteristicas
+    }
+    const nuevoModelo = new Modelo(data);
     await nuevoModelo.save()
+    const categoria = await Categoria.findOne({categoria : req.body.categoria}).exec()
+    categoria.modelos.push(nuevoModelo._id)
+    await categoria.save()
+    return res.status(201).json(nuevoModelo);
 }
 
-controller.getAllModels = async (req, res) => {
+controller.todosModelos = async (req, res) => {
     const modelos = await Modelo.find();
-
     const newArray = modelos.map(e => e.nombreModelo)
     res.send(newArray)
 }
 
-controller.getModelo = async (req, res) => {
+controller.obtenerModelo = async (req, res) => {
     const { nombre } = req.params
-
     const modelo = await Modelo.findOne({ nombreModelo: nombre });
-    
     res.send(modelo.caracteristicas)
 }
 

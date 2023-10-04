@@ -27,12 +27,12 @@ const NewProduct = (props) => {
     }
 
     const obtenerCategorias = async () => {
-        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'todas-categorias');
+        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
         setListaCategorias(categorias.data);
     }
 
     const obtenerModelos = async () => {
-        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'todos-modelos');
+        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'modelos');
         setListaModelos(modelos.data);
     }
 
@@ -82,7 +82,7 @@ const NewProduct = (props) => {
             catch(e) {
                 console.log(e)
             }
-            setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'getModel/' + e.target.value)).data)
+            setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'modelo/' + e.target.value)).data)
             
         }
        
@@ -184,7 +184,7 @@ const NewProduct = (props) => {
 
                 </div>
 
-                <button className='btn' id='send-btn' onClick={(e) => sendData(e, nuevoProducto, 'nuevo-producto', 'multipart/form-data')}>Subir producto</button>
+                <button className='btn' id='send-btn' onClick={(e) => sendData(e, nuevoProducto, 'crear-producto', 'multipart/form-data')}>Subir producto</button>
 
                 {
                     res && <p className='sended'>Producto enviado correctamente</p>
