@@ -84,8 +84,16 @@ controller.crearModelo = async (req, res) => {
 
 controller.todosModelos = async (req, res) => {
     const modelos = await Modelo.find();
-    const newArray = modelos.map(e => e.nombreModelo)
-    res.send(newArray)
+    const newArray = modelos.map(modelo => modelo.nombreModelo)
+    return res.status(201).json(newArray)
+}
+
+controller.obtenerModelosCategoria = async (req, res) => {
+    const {categoria} = req.params;
+    const populated = await Categoria.findOne({categoria : categoria}).populate('modelos').exec()
+    modelos = populated.modelos.map(modelo => modelo.nombreModelo)
+    console.log(modelos)
+    return res.status(201).json(modelos)
 }
 
 controller.obtenerModelo = async (req, res) => {
