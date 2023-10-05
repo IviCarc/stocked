@@ -70,7 +70,8 @@ return res.sendStatus(200)
 };
 
 const profile = async(req,res) =>{
-const userFound = User.findById(req.user.id);
+console.log(req.user)
+const userFound = await User.findById(req.user.id);
 if(!userFound) return res.status(400).json({message:"User not found"});
 
 return res.json({
@@ -78,7 +79,7 @@ return res.json({
     username: userFound.username,
     email: userFound.email,
     createdAt: userFound.createdAt,
-    updatedAt: userFound.updateAt,
+    updatedAt: userFound.updatedAt,
 }) 
 res.send("profile")
 }

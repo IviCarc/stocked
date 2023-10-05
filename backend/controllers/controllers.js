@@ -47,10 +47,6 @@ controller.nuevaCategoria = async (req, res) => {
     return res.status(201).json(categoriaInsertada);
 }
 
-controller.editarProducto = async (req, res ) => {
-
-}
-
 controller.editarProducto = async (req, res) => {
     const { id } = req.params;
     const producto = await Producto.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
