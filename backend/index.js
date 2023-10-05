@@ -31,7 +31,7 @@ app.delete('/eliminar-producto/:id', eliminarProducto);
 // Categorias
 app.get("/categorias", todasCategorias);
 
-app.post('/nueva-categoria', crearCategoria);
+app.post('/crear-categoria', crearCategoria);
 
 
 // Modelos

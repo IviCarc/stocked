@@ -31,8 +31,8 @@ controller.crearProducto = async (req, res, next) => {
     const nuevoProducto = new Producto(
         {
             ...req.body,
-            imagen: req.file.filename
-        })
+                imagen: req.file.filename
+            })
 
     await nuevoProducto.save()
 
@@ -43,9 +43,8 @@ controller.crearProducto = async (req, res, next) => {
 };
 
 controller.crearCategoria = async (req, res) => {
-    console.log(req.body)
     const nuevaCategoria = new Categoria(req.body);
-    await nuevaCategoria.save()
+    await nuevaCategoria.save() 
     return res.status(201).json(nuevaCategoria);
 }
 
