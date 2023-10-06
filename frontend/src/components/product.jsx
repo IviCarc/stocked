@@ -1,16 +1,35 @@
-import { useLocation } from "react-router";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { useLocation, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import React, { useState } from "react";
-
-
 import "../css/product.css";
 
 
 const Product = (props) => {
+  const navigate = useNavigate();
+
+  const handleEliminarProducto = async (productId) => {
+    try {
+      // Mostrar una ventana de confirmación antes de eliminar
+      const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
+
+      if (confirmDelete) {
+        const res = await fetch(`http://localhost:5000/eliminar-producto/${productId}`, {
+          method: 'DELETE',
+        });
+        if (res.status === 204) {
+          // Redirige a la página de stock
+          navigate('/stock');
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.error('Error al eliminar el producto:', error);
+    }
+  };
 
   const [isEditing, setIsEditing] = useState(false); // Agrega estado para el modo de edición
 
@@ -25,35 +44,11 @@ const Product = (props) => {
       onSave(inputValue);
     };
 
-    const handleProductUpdate = (productId, updatedValues) => {
-      // Encuentra el índice del producto en el array según el _id
-      const productIndex = props.productos.findIndex(producto => producto._id === productId);
-    
-      if (productIndex !== -1) {
-        // Crea una copia del array de productos para evitar mutar el estado directamente
-        const updatedProductos = [...props.productos];
-    
-        // Actualiza los valores del producto usando el índice
-        updatedProductos[productIndex] = {
-          ...updatedProductos[productIndex],
-          ...updatedValues
-        };
-    
-        // Actualiza el estado con los productos actualizados
-        props.setProductos(updatedProductos); // Asumiendo que tienes una función setProductos en el componente padre
-      }
-    };
-
-    const handleInputClick = (e) => {
-      e.stopPropagation(); // Detener la propagación del evento para que no llegue al contenedor
-      setIsEditing(true);
-    };
-
     return (
       <div >
         {isEditing ? (
-          <input placeholder={`${value}`} 
-            type="text" 
+          <input placeholder={`${value}`}
+            type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onBlur={handleSave}
@@ -93,7 +88,7 @@ const Product = (props) => {
                       </p>
                     </button>
                     <hr />
-                    <button><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
+                    <button onClick={() => handleEliminarProducto(producto._id)}><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
                   </div>
                 </div>
                 <div className="info-producto">
@@ -102,7 +97,7 @@ const Product = (props) => {
                   </div>
                   <div className="info-cont">
                     {keys.map(([key, value], index) => {
-                      if (key !== "__v" && key!=="cantidadDisponible") {
+                      if (key !== "__v" && key !== "cantidadDisponible") {
                         return (
                           <div className="caracteristica-container info-input input" key={index}>
                             <b>{key}:</b>

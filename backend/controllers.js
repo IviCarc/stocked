@@ -62,7 +62,7 @@ controller.editarProducto = async (req, res) => {
 controller.eliminarProducto = async (req, res) => {
     const { id } = req.params;
     const producto = await Producto.findOneAndDelete({ _id: id });
-    return res.status(201).json(producto);
+    return res.status(204).json();
 }
 
 // BLUEPRINTS
