@@ -17,8 +17,8 @@ controller.todasCategorias = async (req, res) => {
 }
 
 controller.obtenerProducto = async (req, res) => {
-    const {categoria, id} = req.params;
-    const producto = await Producto.findOne({_id : id});
+    const { categoria, id } = req.params;
+    const producto = await Producto.findOne({ _id: id });
     res.send(producto);
 }
 
@@ -27,25 +27,24 @@ controller.obtenerProducto = async (req, res) => {
 // Por ahora, el producto es agregado a cada categoria sin importar si ya fue agregado una vez, es decir hay repetidos.
 // Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
-controller.crearProducto =  async (req, res, next) => {
+controller.crearProducto = async (req, res, next) => {
     const nuevoProducto = new Producto(
         {
             ...req.body,
-            imagen: req.file.filename
-        })
+                imagen: req.file.filename
+            })
 
     await nuevoProducto.save()
 
-    const categoria = await Categoria.findOne({categoria:req.body.categoria}).exec()
-    categoria.productos.push(nuevoProducto._id);    
+    const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
+    categoria.productos.push(nuevoProducto._id);
     await categoria.save()
     return res.status(201).json(nuevoProducto);
 };
 
-controller.crearCategoria = async (req, res ) => {
-    console.log(req.body)
+controller.crearCategoria = async (req, res) => {
     const nuevaCategoria = new Categoria(req.body);
-    await nuevaCategoria.save()
+    await nuevaCategoria.save() 
     return res.status(201).json(nuevaCategoria);
 }
 
@@ -60,6 +59,11 @@ controller.editarProducto = async (req, res) => {
 controller.eliminarProducto = async (req, res) => {
     const { id } = req.params;
     const producto = await Producto.findOneAndDelete({ _id: id });
+
+    const categoria = await Categoria.findOneAndUpdate({ productos: producto._id }, { $pull: { productos: producto._id } });
+
+    await categoria.save();
+    
     return res.status(204).json();
 }
 
@@ -72,7 +76,7 @@ controller.crearModelo = async (req, res) => {
     }
     const nuevoModelo = new Modelo(data);
     await nuevoModelo.save()
-    const categoria = await Categoria.findOne({categoria : req.body.categoria}).exec()
+    const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
     categoria.modelos.push(nuevoModelo._id)
     await categoria.save()
     return res.status(201).json(nuevoModelo);
@@ -80,8 +84,16 @@ controller.crearModelo = async (req, res) => {
 
 controller.todosModelos = async (req, res) => {
     const modelos = await Modelo.find();
-    const newArray = modelos.map(e => e.nombreModelo)
-    res.send(newArray)
+    const newArray = modelos.map(modelo => modelo.nombreModelo)
+    return res.status(201).json(newArray)
+}
+
+controller.obtenerModelosCategoria = async (req, res) => {
+    const {categoria} = req.params;
+    const populated = await Categoria.findOne({categoria : categoria}).populate('modelos').exec()
+    modelos = populated.modelos.map(modelo => modelo.nombreModelo)
+    console.log(modelos)
+    return res.status(201).json(modelos)
 }
 
 controller.obtenerModelo = async (req, res) => {

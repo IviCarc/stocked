@@ -9,6 +9,7 @@ import Header from './components/header'
 import NewModel from "./components/newModel";
 import Product from "./components/product";
 import NewProduct from './components/newProduct';
+import CrearCategoria from './components/crearCategoria';
 
 const App = () => {
   const [productos, setProductos] = useState(null);
@@ -33,6 +34,7 @@ const App = () => {
           <Route path="productos/:id" element={<Product productos={productos} />} />
           <Route path='new-model' element={<NewModel />} />
           <Route path='new-product' element={<NewProduct />} />
+          <Route path='new-category' element={<CrearCategoria />} />
         </Route>
         <Route path='login' element={<Login />} />
       </Routes>

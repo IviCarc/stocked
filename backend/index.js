@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, todosModelos, obtenerModelo } = require('./controllers.js');
+const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, todosModelos, obtenerModelo, obtenerModelosCategoria } = require('./controllers.js');
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
 
@@ -31,13 +31,15 @@ app.delete('/eliminar-producto/:id', eliminarProducto);
 // Categorias
 app.get("/categorias", todasCategorias);
 
-app.post('/nueva-categoria', crearCategoria);
+app.post('/crear-categoria', crearCategoria);
 
 
 // Modelos
 app.get('/modelos', todosModelos);
 
 app.get('/modelo/:nombre', obtenerModelo);
+
+app.get('/categoriaModelo/:categoria', obtenerModelosCategoria);
 
 app.post('/crear-modelo', crearModelo);
 

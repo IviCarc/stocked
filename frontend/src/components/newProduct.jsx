@@ -127,7 +127,7 @@ const NewProduct = (props) => {
                         <div class="select" id='newproduct-select'>
                             <select name="categoria" id="categoria" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
-                                <option selected value='none'>Seleccione una categoria</option>
+                                <option selected disabled value=''>Seleccione una categoria</option>
                                 {listaCategorias && listaCategorias.map((categoria, i) => {
                                     return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                                 })}
@@ -141,7 +141,7 @@ const NewProduct = (props) => {
                         <div class="select" id='newproduct-select'>
                             <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
-                                <option selected value='none'>Seleccione un modelo</option>
+                                <option selected disabled value=''>Seleccione un modelo</option>
                                 {listaModelos && listaModelos.map((modelo, i) => {
                                     return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
