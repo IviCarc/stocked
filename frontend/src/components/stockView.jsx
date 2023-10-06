@@ -12,7 +12,7 @@ const Card = (props) => {
                 <img src={`${process.env.REACT_APP_BASE_URL + "images/" + props.imagen}`} alt="product-img" />
             </div>
             <div className="info-container">
-                <p><b>{props.categoria}:</b> {props.producto}</p>
+                <p>{props.producto}</p>
                 <p><b>${props.precio}</b> </p>
                 <p><b>U/Disponibles:</b> {props.cantidadDisponible}</p>
             </div> 

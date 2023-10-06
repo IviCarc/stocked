@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-const { nuevoProducto, eliminarProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, getModelo, getAllModels } = require('./controllers.js');
-
+const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, todosModelos, obtenerModelo } = require('./controllers.js');
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
 
@@ -17,27 +16,31 @@ app.use('/images', express.static('images'));
 
 URL = process.env.URL || 'http://localhost:5000';
 
-app.get("/todos-productos", todosProductos);
 
-app.get("/todas-categorias", todasCategorias);
+// Productos
+app.get("/productos", todosProductos);
 
-app.get('/get/:id', obtenerProducto);
+app.get('/producto/:id', obtenerProducto);
 
-app.post('/nuevo-producto',upload.single('imagen'), nuevoProducto);
+app.post('/crear-producto',upload.single('imagen'), crearProducto);
 
-app.post('/nueva-categoria', nuevaCategoria);
-
-app.put('/editar-producto/:id', editarProducto  );
+app.put('/editar-producto', editarProducto);
 
 app.delete('/eliminar-producto/:id', eliminarProducto);
 
-// Blueprints
+// Categorias
+app.get("/categorias", todasCategorias);
+
+app.post('/nueva-categoria', crearCategoria);
+
+
+// Modelos
+app.get('/modelos', todosModelos);
+
+app.get('/modelo/:nombre', obtenerModelo);
 
 app.post('/crear-modelo', crearModelo);
 
-app.get('/getModel/:nombre', getModelo);
-
-app.get('/todos-modelos', getAllModels);
 
 const start = async () => {
     try {

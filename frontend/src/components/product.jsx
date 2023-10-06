@@ -121,7 +121,6 @@ const Product = (props) => {
               </>
             );
           }
-          return null
         })
       }
     </div>
