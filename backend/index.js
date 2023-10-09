@@ -5,6 +5,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
+
+const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, todosModelos, obtenerModelo, obtenerModelosCategoria } = require('./controllers.js');
 const cookieParser = require('cookie-parser');
 
 const { nuevoProducto, eliminarProducto, nuevaCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, getModelo, getAllModels } = require('./controllers/controllers.js');
@@ -26,25 +28,32 @@ app.get("/api/profile",authRequired ,profile)
 
 app.get("/todos-productos", todosProductos);
 
-app.get("/todas-categorias", todasCategorias);
+// Productos
+app.get("/productos", todosProductos);
 
-app.get('/get/:id', obtenerProducto);
+app.get('/producto/:id', obtenerProducto);
 
-app.post('/nuevo-producto',upload.single('imagen'), nuevoProducto);
+app.post('/crear-producto',upload.single('imagen'), crearProducto);
 
-app.post('/nueva-categoria', nuevaCategoria);
-
-app.put('/editar-producto/:id', editarProducto  );
+app.put('/editar-producto', editarProducto);
 
 app.delete('/eliminar-producto/:id', eliminarProducto);
 
-// Blueprints
+// Categorias
+app.get("/categorias", todasCategorias);
+
+app.post('/crear-categoria', crearCategoria);
+
+
+// Modelos
+app.get('/modelos', todosModelos);
+
+app.get('/modelo/:nombre', obtenerModelo);
+
+app.get('/categoriaModelo/:categoria', obtenerModelosCategoria);
 
 app.post('/crear-modelo', crearModelo);
 
-app.get('/getModel/:nombre', getModelo);
-
-app.get('/todos-modelos', getAllModels);
 
 const start = async () => {
     try {
