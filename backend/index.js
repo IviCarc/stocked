@@ -19,12 +19,16 @@ app.use('/images', express.static('images'));
 app.use(cookieParser());
 URL = process.env.URL || 'http://localhost:5000';
 
+// LogIn
+
 app.post("/api/register",register)
+
 app.post("/api/login", login)
+
 app.post("/api/logout", logout)
+
 app.get("/api/profile",authRequired ,profile)
 
-app.get("/todos-productos", authRequired, todosProductos);
 
 // Productos
 app.get("/productos", authRequired, todosProductos);

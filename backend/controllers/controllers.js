@@ -1,27 +1,28 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-const { Producto, Categoria, Modelo } = require('../models/models');
+const { Producto, Categoria, Modelo, User } = require('../models/models');
 
 const controller = {}
 
 controller.todosProductos = async (req, res) => {
     console.log(req.user)
     const todosProductos = await Producto.find();
-    res.send(todosProductos)
+    return res.send(todosProductos)
 }
 
 // Funcion de la pagina principal
 controller.todasCategorias = async (req, res) => {
-    console.log(req.user)
-    const todasCategorias = await Categoria.find();
-    console.log(todasCategorias)
-    res.send(todasCategorias);
+    console.log("hola")
+    const usuario = await User.findById(req.user.id);
+    // const todasCategorias = await User.find({ categorias: usuario.categorias });
+    // console.log(todasCategorias)
+    return res.send(usuario.categorias);
 }
 
 controller.obtenerProducto = async (req, res) => {
     const { categoria, id } = req.params;
     const producto = await Producto.findOne({ _id: id });
-    res.send(producto);
+    return res.send(producto);
 }
 
 // getAllProducts es la prueba que utiliza la página 
@@ -30,24 +31,33 @@ controller.obtenerProducto = async (req, res) => {
 // Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
 controller.crearProducto = async (req, res, next) => {
+    const usuario = User.findOne({ _id: req.user.id });
     const nuevoProducto = new Producto(
         {
             ...req.body,
-                imagen: req.file.filename
+                // imagen: req.file.filename
             })
 
     await nuevoProducto.save()
 
-    const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
+    const categoria = await User.findOne({ categorias: req.body.categoria }).exec()
+    console.log(categoria)
+    // const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
     categoria.productos.push(nuevoProducto._id);
     await categoria.save()
     return res.status(201).json(nuevoProducto);
 };
 
 controller.crearCategoria = async (req, res) => {
-    const nuevaCategoria = new Categoria(req.body);
-    await nuevaCategoria.save() 
-    return res.status(201).json(nuevaCategoria);
+    console.log(req.user);
+    const usuarioActualizado = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { categorias: req.body } });
+    await usuarioActualizado.save();
+    // req.user.categorias.push(req.body);
+    // req.user.save();
+    return res.status(201).json(req.body);
+    // const nuevaCategoria = new Categoria(req.body);
+    // await nuevaCategoria.save() 
+    // return res.status(201).json(nuevaCategoria);
 }
 
 controller.editarProducto = async (req, res) => {

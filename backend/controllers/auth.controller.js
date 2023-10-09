@@ -18,7 +18,7 @@ const register = async (req, res) => {
         })
         console.log(newUser)
         const userSaved = await newUser.save()
-        const token = await createAccessToken({ id: userSaved._id });
+        const token = await createAccessToken({ id: userSaved._id , categorias: userSaved.categorias});
 
         res.cookie("token", token);
         res.json({
@@ -46,7 +46,7 @@ const login = async (req, res) => {
 
         if (!isMatch) return res.status(400).json({ message: "Incorrect Password" })
 
-        const token = await createAccessToken({ id: userFound._id });
+        const token = await createAccessToken({ id: userFound._id , categorias : userFound.categorias});
 
         res.cookie("token", token);
         res.json({

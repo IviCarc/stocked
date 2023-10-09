@@ -18,7 +18,6 @@ const App = () => {
   
   useEffect(() => {
     const fetchProductos = async () => {
-      // let data = await axios.get('http://169.254.40.154:5000/todos-productos');
       let data = await fetch('http://localhost:5000/productos')
         .then(res => res.json())
         .then(datos => {  

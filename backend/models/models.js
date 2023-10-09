@@ -41,7 +41,6 @@ const ModelosSchema = new Schema({
 
 
 const Producto = mongoose.model("Producto", ProductosSchema);
-// const Categoria = mongoose.model("Categoria", CategoriaSchema);
 const Modelo = mongoose.model("Modelo", ModelosSchema);
 const User = mongoose.model('User', userSchema)
 

@@ -28,6 +28,7 @@ const NewProduct = (props) => {
 
     const obtenerCategorias = async () => {
         const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
+        console.log(process.env.REACT_APP_BASE_URL)
         setListaCategorias(categorias.data);
     }
 
