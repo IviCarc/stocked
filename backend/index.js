@@ -1,6 +1,8 @@
 
 const {register, login, logout, profile } = require('./controllers/auth.controller.js');
 const {authRequired} = require('./middlewares/validarToken.js')
+const {validateSchema} = require('./middlewares/validarMiddleware.js')
+const {registerSchema, loginSchema} = require('./schemas/auth.schema.js')
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -8,6 +10,7 @@ const cors = require('cors');
 
 const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCategorias, obtenerProducto, editarProducto, crearModelo, todosModelos, obtenerModelo, obtenerModelosCategoria } = require('./controllers/controllers.js');
 const cookieParser = require('cookie-parser');
+
 
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
@@ -21,12 +24,9 @@ URL = process.env.URL || 'http://localhost:5000';
 
 // LogIn
 
-app.post("/api/register",register)
-
-app.post("/api/login", login)
-
+app.post("/api/register",validateSchema(registerSchema),register)
+app.post("/api/login",validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
-
 app.get("/api/profile",authRequired ,profile)
 
 

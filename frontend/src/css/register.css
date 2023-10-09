@@ -20,11 +20,24 @@
     flex-direction: row;
     justify-content: space-around;
     text-align: center;
+    padding: 15px;
+    margin: auto auto;
 }
+
+
 
 .btn-back, .btn-register, .btn-send{
    width: fit-content;
+   margin: 10px;
 }
 .btn-back{
     background-color: rgba(255, 0, 0, 0.8);
+}
+
+.input-register{
+    display: flex;
+    flex-direction: column;    
+}
+.input-register input {
+    margin: 10px;
 }

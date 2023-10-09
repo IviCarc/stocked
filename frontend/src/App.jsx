@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 
 
 import './App.css';
@@ -28,7 +28,7 @@ const App = () => {
   }, [])
 
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path='/' element={<Header />}>
           <Route path='stock' element={<StockView productos={productos} />} />
@@ -41,7 +41,7 @@ const App = () => {
         <Route path= 'ChangePassword' element={<ChangePassword/>}/>
         <Route path='register' element={<Register/>}/>
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 

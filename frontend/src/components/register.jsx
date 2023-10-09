@@ -1,37 +1,40 @@
 import "../css/register.css";
 import { Outlet, Link } from "react-router-dom";
+import { useForm } from 'react-hook-form'
+import { registerRequest } from "../api/auth";
 
-const Register = (props) =>{
+const Register = (props) => {
+    const { register, handleSubmit } = useForm();
     return (
-<div className='register'>
+        <div className='register'>
             <h1 className='title'>STOCKED</h1>
             <h4 className='subtitle'>Ingrese un nombre de usuario, email y una contraseña</h4>
-            <div className="input-container">
+
+            <form className="input-register" onSubmit={handleSubmit(async (values) => {
+                console.log(values)
+                const res = await registerRequest(values)
+                console.log(res)
+            })} >
+
                 <label htmlFor="user"></label>
-                <input type="text" className='input' name='user' placeholder="Ingrese un usuario" required />
-            </div>
-            <div className="input-container">
+                <input type="text" {...register("username", { required: true })} className='input' placeholder="Ingrese un usuario" />
+
                 <label htmlFor="email"></label>
-                <input type="email" className='input' name='email' placeholder="Ingrese un email" required  />
-            </div>
-            <div className="input-container">
+                <input type="email" {...register("email", { required: true })} className='input' placeholder="Ingrese un email" />
                 <label htmlFor="password"></label>
-                <input type="password" className='input' name='password' placeholder="Ingrese una contraseña" required  />
+                <input type="password" {...register("password", { required: true })} className='input' placeholder="Ingrese una contraseña" />
 
-            </div>
-            <div className="input-container">
-                <label htmlFor="password"></label>
-                <input type="password" className='input' name='password' placeholder="Repita la contraseña" required  />
+                <div className="register-container">
+                    <Link className='backLink' to='/login/'><button className='btn btn-back'>Volver</button></Link>
+                    <button type="submit" className='btn btn-register'>Registrarse</button>
+                </div>
 
-            </div>
-            <div className="register-container">
-                <Link className='backLink' to='http://localhost:3000/login/'><button className='btn btn-back'>Volver</button></Link>
-                <Link className='backLink' to=''><button className='btn btn-register'>Registrarse</button></Link>
-            </div>
-            
-                
+            </form>
+
+
+
         </div>
     )
 }
 
-export default Register ;
+export default Register;
