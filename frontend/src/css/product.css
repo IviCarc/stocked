@@ -1,6 +1,7 @@
 .producto {
     display: flex;
-    width: 100%;
+    width: 85%;
+    margin: auto;
 }
 
 .about-producto {
@@ -53,13 +54,14 @@
     position: relative;
     margin-left: 0%;
     height: 20px;
+    cursor: pointer;
 }
 
 button {
     background: none;
     border: 0;
     color: inherit;
-    cursor: pointer;
+    cursor: pointer !important;
     font: inherit;
 
 }
@@ -92,27 +94,29 @@ button:first-child {
 }
 
 .info-unidades {
-    text-align: center;
-    width: 100%;
+    width: fit-content;
+    gap: 1rem;
+    margin: 0px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .iconMinus {
     background-color: #E71A1A;
     border-radius: 50%;
-    margin-right: 10px;
     cursor: pointer;
-
+    padding: 2px;
 }
 
 .iconPlus {
-    margin-left: 10px;
     background-color: #4DD841;
     border-radius: 50%;
     cursor: pointer;
-
+    padding: 2px;
 }
 
-.info-cont{
+.info-cont {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -122,11 +126,11 @@ button:first-child {
 .info-input {
     color: black;
     border: none;
-    min-width:100px;
+    min-width: 100px;
     width: auto;
     height: 20px !important;
     padding: 1em;
-    
+
 }
 
 .caracteristica-container {
@@ -134,15 +138,50 @@ button:first-child {
     display: flex;
     align-items: center;
     flex-direction: row;
-   min-width: 100px;
-   width: 30%;
+    min-width: 100px;
+    width: 30%;
+    height: 40px;
 }
 
 .input-editing {
     font-size: inherit;
-    font-family:inherit;
+    font-family: inherit;
     background: none;
-    border: none; /* Elimina el borde por defecto */
-    outline: none; /* Elimina el contorno al hacer clic */
+    border: none;
+    /* Elimina el borde por defecto */
+    outline: none;
+    color: black;
+    /* Elimina el contorno al hacer clic */
     /* Agrega aquí otros estilos que desees */
-  }
+}
+
+.select-container-product {
+    
+}
+
+.select-container-product::after {
+    padding: 0px ;
+    right: 0px;
+    top: 0px;
+    transform: translate(-50%, -25%);
+}
+
+.not-editable {
+    background-color: #fff !important;
+    box-shadow: none;
+}
+
+.not-editable::after {
+    display: none !important;
+}
+/* 
+.not-editable {
+    background-color: #fff;
+    box-shadow: none;
+} */
+
+.option-product {
+    height: 40px !important;
+    padding: 0px;
+    margin: 0px;
+}

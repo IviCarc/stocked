@@ -49,7 +49,8 @@ controller.crearCategoria = async (req, res) => {
 }
 
 controller.editarProducto = async (req, res) => {
-    const { id } = req.params;
+    const id = req.body._id;
+    console.log(id)
     const producto = await Producto.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
     console.log(producto)
     await producto.save();
