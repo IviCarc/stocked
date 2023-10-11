@@ -24,7 +24,7 @@ const Product = (props) => {
 				});
 				if (res.status === 204) {
 					// Redirige a la página de stock
-					navigate('/stock');
+					navigate('/');
 					window.location.reload();
 				}
 			}
@@ -79,6 +79,13 @@ const Product = (props) => {
 		setListaCategorias(categorias.data);
 	}
 
+	const sumarUnidad = (e) => {
+		console.log()
+		e.target.className.baseVal.includes("iconMinus") ?
+			setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible - 1 }) :
+			setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible + 1 });
+	}
+
 	useEffect(() => {
 		obtenerProducto()
 			.catch(e => {
@@ -92,87 +99,94 @@ const Product = (props) => {
 
 	return (
 		<div className="producto">
+			<div className="container-product">
+				{producto ?
+					<>
 
-			{producto ?
-				<>
-
-					<div className="about-producto">
-						<div className="img-product">
-							<img src={require("../imgs/libro.avif")} alt="adawd" />
+						<div className="about-producto">
+							<div className="img-product">
+								<img src={`${process.env.REACT_APP_BASE_URL + "images/" + producto.imagen}`} alt="adawd" />
+							</div>
+							<div className="price-producto">
+								<button className="btn-edit" id="editProduct" onClick={editarProducto}>
+									<p>
+										<b>{isEditing ? "Guardar" : "Editar"}</b>{" "}
+										<FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" />
+									</p>
+								</button>
+								<hr />
+								<button onClick={() => handleEliminarProducto(
+									producto._id
+								)}><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
+							</div>
 						</div>
-						<div className="price-producto">
-							<button className="btn-edit" id="editProduct" onClick={editarProducto}>
-								<p>
-									<b>{isEditing ? "Guardar" : "Editar"}</b>{" "}
-									<FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" />
-								</p>
-							</button>
-							<hr />
-							<button onClick={() => handleEliminarProducto(
-								producto._id
-							)}><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
-						</div>
-					</div>
-					<div className="info-producto">
-						<div className="info-titulo">
-							{capitalizeFirstLetter(producto.producto)}
-						</div>
-						<div className="info-cont">
 
-							{
-								Object.keys(producto).map((key, index) => {
-									if (key !== "__v" && key !== "cantidadDisponible" && key !== "_id" && key !== "producto" && key !== 'categoria') {
-										return (
-											<div className="caracteristica-container" key={index}>
-												<label for={key}>{capitalizeFirstLetter(key)}:</label>
-												<input type="text" className={isEditing ? "input info-input" : "input-editing"}
-													disabled={!isEditing}
-													value={producto[key]}
-													onChange={(e) => onChange(e, setProducto, producto)}
-													name={key}
-												/>
-											</div>
-										);
-									}
 
-									if (key == 'categoria') {
-										return (
-											<div className="caracteristica-container" key={index}>
-												<label htmlFor="categoria">{capitalizeFirstLetter(key)}</label>
-												<div className={"select select-container-product" + (!isEditing ? " not-editable" : "")}>
-													<select name="categoria" id="" className={"select-product" + (!isEditing ? " not-editable" : "")}onChange={(e) => onChange(e, setProducto, producto)} >
-														{listaCategorias && listaCategorias.map((categoria, i) => {
-															return <option className="" key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
-														})}
+						<div className="info-producto">
+							<div className="info-titulo">
+								{capitalizeFirstLetter(producto.producto)}
+							</div>
+							<div className="info-cont">
 
-													</select>
-
+								{
+									Object.keys(producto).map((key, index) => {
+										if (key !== "__v" && key !== "cantidadDisponible" && key !== "_id" && key !== "producto" && key !== 'categoria' && key !== 'imagen') {
+											return (
+												<div className="caracteristica-container" key={index}>
+													<label for={key}>{capitalizeFirstLetter(key)}:</label>
+													<input type="text" className={isEditing ? "input info-input" : "input-editing"}
+														disabled={!isEditing}
+														value={producto[key]}
+														onChange={(e) => onChange(e, setProducto, producto)}
+														name={key}
+													/>
 												</div>
-											</div>
-										)
+											);
+										}
+
+										if (key == 'categoria') {
+											return (
+												<div className="caracteristica-container" key={index}>
+													<label htmlFor="categoria">{capitalizeFirstLetter(key)}</label>
+													<div className={"select select-container-product" + (!isEditing ? " not-editable" : "")}>
+														<select name="categoria" id="" className={"select-product" + (!isEditing ? " not-editable" : "")} onChange={(e) => onChange(e, setProducto, producto)} >
+															{listaCategorias && listaCategorias.map((categoria, i) => {
+																return <option className="" key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
+															})}
+
+														</select>
+
+													</div>
+												</div>
+											)
+										}
+
 									}
 
+
+									)
 								}
+							</div>
+							<div className="info-unidades">
+								<p>Unidades Disponibles:</p>
 
-
-								)
-							}
+								<FontAwesomeIcon icon={faMinus} className={isEditing ? "iconMinus" : "disabled"} onClick={sumarUnidad} />
+								<p>{producto.cantidadDisponible}</p>
+								<FontAwesomeIcon icon={faPlus} className={isEditing ? "iconPlus" : "disabled"} onClick={sumarUnidad} />
+							</div>
 						</div>
-						<div className="info-unidades">
-							<FontAwesomeIcon icon={faMinus} className="iconMinus" />
-							<p>Unidades Disponibles: {producto.cantidadDisponible}</p>
-							<FontAwesomeIcon icon={faPlus} className="iconPlus" />
-						</div>
-					</div>
 
-				</>
+					</>
 
 
-				:
+					:
 
 
 
-				<div></div>}
+					<div></div>}
+
+			</div>
+
 
 
 		</div>

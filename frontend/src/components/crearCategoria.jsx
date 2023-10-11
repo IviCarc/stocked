@@ -26,10 +26,10 @@ const CrearCategoria = (props) => {
 
     return (
         <div className="newCategoria">
-            <div className="container">
+            <div className="container-newCategoria container">
 
                 <div className="input-container-newCategoria">
-                    <input type="text" className="input inputs" placeholder="Nombre de la categoria" onChange={(e) => setCategoria({ categoria : e.target.value })} />
+                    <input type="text" className="input input-newCategoria" placeholder="Nombre de la categoria" onChange={(e) => setCategoria({ categoria : e.target.value })} />
                 </div>
 
                 <button id="boton" type="button" className="btn" onClick={(e) => sendData(e, categoria, "crear-categoria", "application/json")}>Crear</button>

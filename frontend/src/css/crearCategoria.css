@@ -6,6 +6,23 @@
     align-items: center;
 }
 
-.container {
+.container-newCategoria {
     height: fit-content;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+}
+
+.input-container-newCategoria {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.input-newCategoria{
+    width: 100%;
+    text-align: center;
 }

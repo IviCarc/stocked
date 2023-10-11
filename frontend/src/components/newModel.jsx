@@ -62,14 +62,13 @@ const NewModel = (props) => {
 
     return (
         <div className="newModel">
-            <div className="container">
+            <div className="container container-newModel">
 
                 <div className="input-container-newModel">
-
-                    <input type="text" className="input inputs" placeholder="Nombre del modelo" onChange={(e) => setModelo({ ...modelo, nombreModelo: e.target.value })} />
+                    <input type="text" className="input input-newModel" placeholder="Nombre del modelo" onChange={(e) => setModelo({ ...modelo, nombreModelo: e.target.value })} />
                 </div>
 
-                <div class="select" id='newproduct-select'>
+                <div class="select" id='newmodel-select'>
                     <select name="categoria" id="newmodel-categoria" onChange={(e) => setModelo({ ...modelo, categoria: e.target.value })} >
 
                         <option selected value='none'>Seleccione una categoria</option>
@@ -90,7 +89,7 @@ const NewModel = (props) => {
                                     (<FontAwesomeIcon icon={faTrash} className="trashIcon" onClick={() => borrarCaracteristica(i)} listid={i} />)
 
                                 }
-                                <input type="text" className="input inputs trashInput " placeholder="Caracteristica creada" value={value}
+                                <input type="text" className="input input-newModel trashInput " placeholder="Caracteristica creada" value={value}
                                     onChange={(e) => actualizarCaracteristica(e, i)} />
                             </div>
                         )
@@ -99,7 +98,7 @@ const NewModel = (props) => {
 
                 <div className="input-container-newModel plus" >
                     <FontAwesomeIcon icon={faPlus} className="plusIcon" />
-                    <input type="submit" className="input inputs plusinput" onClick={agregarCaracteristica} value="Añadir Caracteristica" />
+                    <input type="submit" className="input input-newModel plusinput" onClick={agregarCaracteristica} value="Añadir Caracteristica" />
                 </div>
 
                 <button id="boton" type="button" className="btn" onClick={(e) => sendData(e, modelo, "crear-modelo", "application/json")}>Crear</button>
