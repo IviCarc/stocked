@@ -12,15 +12,16 @@ import NewProduct from './components/newProduct';
 import Register from './components/register';
 import ChangePassword from './components/changePassword';
 import CrearCategoria from './components/crearCategoria';
-
+import { AuthProvider } from './context/authContext';
+import ProtectedRoute from './ProtectedRoute';
 const App = () => {
   const [productos, setProductos] = useState(null);
-  
+
   useEffect(() => {
     const fetchProductos = async () => {
       let data = await fetch('http://localhost:5000/productos')
         .then(res => res.json())
-        .then(datos => {  
+        .then(datos => {
           setProductos(datos);
         })
     }
@@ -28,20 +29,25 @@ const App = () => {
   }, [])
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Header />}>
-          <Route path='stock' element={<StockView productos={productos} />} />
-          <Route path="productos/:id" element={<Product productos={productos} />} />
-          <Route path='new-model' element={<NewModel />} />
-          <Route path='new-product' element={<NewProduct />} />
-          <Route path='new-category' element={<CrearCategoria />} />
-        </Route>
-        <Route path='login' element={<Login />} />
-        <Route path= 'ChangePassword' element={<ChangePassword/>}/>
-        <Route path='register' element={<Register/>}/>
-      </Routes>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<ProtectedRoute/>}>
+            <Route path='/' element={<Header />}>
+              <Route path='stock' element={<StockView productos={productos} />} />
+              <Route path="productos/:id" element={<Product productos={productos} />} />
+              <Route path='new-model' element={<NewModel />} />
+              <Route path='new-product' element={<NewProduct />} />
+              <Route path='new-category' element={<CrearCategoria />} />
+            </Route>
+          </Route>
+          <Route path='login' element={<Login />} />
+          <Route path='ChangePassword' element={<ChangePassword />} />
+          <Route path='register' element={<Register />} />
+
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

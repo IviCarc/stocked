@@ -2,11 +2,15 @@ const { User } = require('../models/models.js')
 const mongoose = require('mongoose');
 const bycrpt = require('bcryptjs');
 const createAccessToken = require('../libs/jwt.js');
-
+const jwt = require('jsonwebtoken')
+const {TOKEN_SECRET} = require('../config.js')
 const register = async (req, res) => {
     const { email, password, username } = req.body
 
     try {
+
+        const userFound = await User.findOne({ email })
+        if (userFound) return res.status(400).json(["El email ya esta en uso" ])
 
         const passwordHash = await bycrpt.hash(password, 10)
 
@@ -18,7 +22,7 @@ const register = async (req, res) => {
         })
         console.log(newUser)
         const userSaved = await newUser.save()
-        const token = await createAccessToken({ id: userSaved._id , categorias: userSaved.categorias});
+        const token = await createAccessToken({ id: userSaved._id, categorias: userSaved.categorias });
 
         res.cookie("token", token);
         res.json({
@@ -46,7 +50,7 @@ const login = async (req, res) => {
 
         if (!isMatch) return res.status(400).json({ message: "Incorrect Password" })
 
-        const token = await createAccessToken({ id: userFound._id , categorias : userFound.categorias});
+        const token = await createAccessToken({ id: userFound._id, categorias: userFound.categorias });
 
         res.cookie("token", token);
         res.json({
@@ -86,5 +90,23 @@ const profile = async (req, res) => {
     res.send("profile")
 }
 
+const verify = async (req, res) => {
+    const { token } = req.cookies;
+    if (!token) return res.send(false);
+  
+    jwt.verify(token, TOKEN_SECRET, async (error, user) => {
+      if (error) return res.sendStatus(401);
+  
+      const userFound = await User.findById(user.id);
+      if (!userFound) return res.sendStatus(401);
+  
+      return res.json({
+        id: userFound._id,
+        username: userFound.username,
+        email: userFound.email,
+      });
+    });
+  };
 
-module.exports = { register, login, logout, profile }
+
+module.exports = { register, login, logout, profile, verify }

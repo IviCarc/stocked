@@ -1,5 +1,5 @@
 
-const {register, login, logout, profile } = require('./controllers/auth.controller.js');
+const {register, login, logout, profile, verify } = require('./controllers/auth.controller.js');
 const {authRequired} = require('./middlewares/validarToken.js')
 const {validateSchema} = require('./middlewares/validarMiddleware.js')
 const {registerSchema, loginSchema} = require('./schemas/auth.schema.js')
@@ -15,7 +15,10 @@ const cookieParser = require('cookie-parser');
 const multer  = require('multer')
 const upload = multer({ dest: 'public/images/' })
 
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:3000",
+    credentials:true
+}));
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/images', express.static('images'));
@@ -27,6 +30,7 @@ URL = process.env.URL || 'http://localhost:5000';
 app.post("/api/register",validateSchema(registerSchema),register)
 app.post("/api/login",validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
+app.get("/verify",verify)
 app.get("/api/profile",authRequired ,profile)
 
 
