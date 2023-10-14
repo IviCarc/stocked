@@ -80,10 +80,14 @@ const Product = (props) => {
 	}
 
 	const sumarUnidad = (e) => {
-		console.log()
-		e.target.className.baseVal.includes("iconMinus") ?
-			setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible - 1 }) :
+		if (e.target.className.baseVal.includes("iconMinus")) {
+			if (producto.cantidadDisponible > 0) {
+				setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible - 1 });
+			}
+		} else {
 			setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible + 1 });
+
+		}
 	}
 
 	useEffect(() => {
