@@ -85,8 +85,17 @@ controller.todosModelos = async (req, res) => {
 
 controller.obtenerModelosCategoria = async (req, res) => {
     const {categoria} = req.params;
+    
     const populated = await Categoria.findOne({categoria : categoria}).populate('modelos').exec()
-    modelos = populated.modelos.map(modelo => modelo.nombreModelo)
+    
+    try {
+        modelos = populated.modelos.map(modelo => modelo.nombreModelo)
+    
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json(error)
+    }
+
     console.log(modelos)
     return res.status(201).json(modelos)
 }

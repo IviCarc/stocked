@@ -13,14 +13,16 @@ const NewProduct = (props) => {
         modelo: { value: "", valid: false },
         cantidadDisponible: { value: "", valid: false },
         imagen: { value: "", valid: false },
+        categoria: { value: "", valid: false },
     });
 
     const [listaCategorias, setListaCategorias] = useState(null);
+    // const [isCategoriaSelected, setIsCategoriaSelected] = useState(false);
     const [listaModelos, setListaModelos] = useState(null);
     const [res, setRes] = useState(false)
     const [inputsModelo, setInputsModelo] = useState(null)
 
-    const capitalizeFirstLetter = (str) =>  {
+    const capitalizeFirstLetter = (str) => {
         // converting first letter to uppercase
         const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
         return capitalized;
@@ -31,17 +33,13 @@ const NewProduct = (props) => {
         setListaCategorias(categorias.data);
     }
 
-    const obtenerModelos = async () => {
-        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'modelos');
+    const obtenerModelos = async (categoria) => {
+        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'categoriaModelo/' + categoria);
         setListaModelos(modelos.data);
     }
 
     useEffect(() => {
         obtenerCategorias()
-            .catch(e => {
-                console.log(e)
-            });
-        obtenerModelos()
             .catch(e => {
                 console.log(e)
             });
@@ -71,7 +69,7 @@ const NewProduct = (props) => {
         }
 
         if (inputName === 'modelo') {
-            let temp = {...nuevoProducto}
+            let temp = { ...nuevoProducto }
             try {
                 for (const caracteristica of inputsModelo) {
                     console.log(temp[caracteristica])
@@ -79,16 +77,19 @@ const NewProduct = (props) => {
                 }
                 setNuevoProducto(temp)
             }
-            catch(e) {
+            catch (e) {
                 console.log(e)
             }
             setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'modelo/' + e.target.value)).data)
-            
+
         }
-       
+
+        if (inputName === 'categoria') {
+            console.log(inputValue)
+            obtenerModelos(inputValue)
+        }
+
     };
-
-
 
     const sendData = async (e, state, url, contentType) => {
         e.preventDefault();
@@ -112,7 +113,6 @@ const NewProduct = (props) => {
         setRes(true)
 
     };
-
 
     return (
         <div className="new-product">
@@ -142,7 +142,7 @@ const NewProduct = (props) => {
                             <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
                                 <option selected disabled value=''>Seleccione un modelo</option>
-                                {listaModelos && listaModelos.map((modelo, i) => {
+                                {listaModelos && nuevoProducto.categoria.value !== "" &&  listaModelos.map((modelo, i) => {
                                     return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
 
@@ -177,7 +177,7 @@ const NewProduct = (props) => {
                         return (
                             <div className="input-div">
                                 <label htmlFor={caracteristica} className='input-label'>{capitalizeFirstLetter(caracteristica)}:</label>
-                                <input className='input' onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} type="text" name={caracteristica} />
+                                <input className='input' onChange={(e) => onChange(e, setNuevoProducto, )} type="text" name={caracteristica} />
                             </div>
                         )
                     })}
