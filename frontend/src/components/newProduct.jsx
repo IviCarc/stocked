@@ -124,7 +124,7 @@ const NewProduct = (props) => {
                     </div>
                     <div className="input-div">
                         <label htmlFor="categoria" className='input-label'>Categoria</label>
-                        <div class="select" id='newproduct-select'>
+                        <div className="select" id='newproduct-select'>
                             <select name="categoria" id="categoria" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
                                 <option selected disabled value=''>Seleccione una categoria</option>
@@ -138,7 +138,7 @@ const NewProduct = (props) => {
 
                     <div className="input-div">
                         <label htmlFor="modelo" className='input-label'>Modelo</label>
-                        <div class="select" id='newproduct-select'>
+                        <div className="select" id='newproduct-select'>
                             <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
 
                                 <option selected disabled value=''>Seleccione un modelo</option>

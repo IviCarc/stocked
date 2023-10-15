@@ -12,25 +12,25 @@ import NewProduct from './components/newProduct';
 import CrearCategoria from './components/crearCategoria';
 
 const App = () => {
-  const [productos, setProductos] = useState(null);
+  const [categorias, setCategorias] = useState(null);
   
   useEffect(() => {
-    const fetchProductos = async () => {
-      let data = await fetch('http://localhost:5000/productos')
+    const fetchCategorias = async () => {
+      let data = await fetch('http://localhost:5000/categorias')
         .then(res => res.json())
         .then(datos => {  
-          setProductos(datos);
+          setCategorias(datos);
         })
     }
-    fetchProductos();
+    fetchCategorias();
   }, [])
 
   return (
     <Router>
       <Routes>
         <Route path='/' element={<Header />}>
-          <Route path='' element={<StockView productos={productos} />} />
-          <Route path="productos/:id" element={<Product productos={productos} />} />
+          <Route path='' element={<StockView categorias={categorias} />} />
+          <Route path="productos/:id" element={<Product />} />
           <Route path='new-model' element={<NewModel />} />
           <Route path='new-product' element={<NewProduct />} />
           <Route path='new-category' element={<CrearCategoria />} />

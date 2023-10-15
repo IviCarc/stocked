@@ -43,7 +43,6 @@ const NewModel = (props) => {
     const actualizarCaracteristica = (e, i) => {
         const temp = { ...modelo };
         temp.caracteristicas[i] = e.target.value
-        console.log(temp)
         setModelo(temp)
     }
 
@@ -68,7 +67,7 @@ const NewModel = (props) => {
                     <input type="text" className="input input-newModel" placeholder="Nombre del modelo" onChange={(e) => setModelo({ ...modelo, nombreModelo: e.target.value })} />
                 </div>
 
-                <div class="select" id='newmodel-select'>
+                <div className="select" id='newmodel-select'>
                     <select name="categoria" id="newmodel-categoria" onChange={(e) => setModelo({ ...modelo, categoria: e.target.value })} >
 
                         <option selected value='none'>Seleccione una categoria</option>

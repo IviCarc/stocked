@@ -11,8 +11,7 @@ controller.todosProductos = async (req, res) => {
 
 // Funcion de la pagina principal
 controller.todasCategorias = async (req, res) => {
-    const todasCategorias = await Categoria.find();
-    console.log(todasCategorias)
+    const todasCategorias = await Categoria.find().populate('productos');
     res.send(todasCategorias);
 }
 
@@ -21,11 +20,6 @@ controller.obtenerProducto = async (req, res) => {
     const producto = await Producto.findOne({ _id: id });
     res.send(producto);
 }
-
-// getAllProducts es la prueba que utiliza la página 
-
-// Por ahora, el producto es agregado a cada categoria sin importar si ya fue agregado una vez, es decir hay repetidos.
-// Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
 controller.crearProducto = async (req, res, next) => {
     const nuevoProducto = new Producto(

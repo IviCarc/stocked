@@ -1,19 +1,41 @@
 @import './inputs.css';
 
-.busqueda {
+.stock {
+    margin-top: 40px;
     display: flex;
-    margin: 20px 100px;
-    justify-content: flex-end;
+    flex-direction: column;
+    align-items: center;
 }
 
-.cards-container{
+.busqueda {
+    width: 100%;
     display: flex;
-    gap: 25px;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    width: 85%;
-    margin: 20px auto;
+    justify-content: flex-end;
+    margin-right: 100px;
 }
+
+.categorias {
+    width: 70%;
+}
+
+.categoria {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inside-div {
+    width: 100%;
+    background-color: aliceblue;
+    padding: 40px;
+    box-sizing: border-box;
+}
+.categoria h1 {
+    width: 100%;
+}
+.carousel-container {
+    
+}
+
 
 .search-bar {
     width: 300px;
@@ -23,7 +45,8 @@
 .card {
     display: flex;
     flex-direction: column;
-    width: 230px;
+    /* width: 230px; */
+    width: 100%;
     background-color: #fff;
     border-radius: 8px;
     height: 100%;
@@ -35,7 +58,7 @@
 }
 
 .card:hover {
-    transform: scale(1.05);
+    /* transform: scale(1.05); */
 }
 
 .img-container {
