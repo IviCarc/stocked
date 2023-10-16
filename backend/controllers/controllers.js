@@ -6,7 +6,9 @@ const controller = {}
 
 controller.todosProductos = async (req, res) => {
     console.log(req.user)
-    const todosProductos = await Producto.find();
+    const todosProductos = await Producto.find({
+        user: req.user.id
+    });
     return res.send(todosProductos)
 }
 

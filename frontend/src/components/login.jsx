@@ -1,17 +1,24 @@
 import "../css/login.css"
 import "../css/inputs.css"
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form'
-import { useAuth } from "../context/authContext";
+import { useAuth } from "../context/AuthContext";
+import { useEffect } from "react";
 
 
 const Login = () => {
 
     const { register, handleSubmit, formState:{errors} } = useForm()
-    const {signIn, errores} = useAuth();
-    const onSubmit = handleSubmit(data =>{
-       signIn(data)
-    })
+    const {signIn,  errores, isAuthenticated} = useAuth();
+    const onSubmit = (data) => signIn(data);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+          navigate("/");
+        }
+      }, [isAuthenticated]);
+    
+    const navigate = useNavigate();
 
     return (
         <div className='login'>

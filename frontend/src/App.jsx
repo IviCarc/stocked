@@ -12,39 +12,28 @@ import NewProduct from './components/newProduct';
 import Register from './components/register';
 import ChangePassword from './components/changePassword';
 import CrearCategoria from './components/crearCategoria';
-import { AuthProvider } from './context/authContext';
+import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 const App = () => {
-  const [productos, setProductos] = useState(null);
-
-  useEffect(() => {
-    const fetchProductos = async () => {
-      let data = await fetch('http://localhost:5000/productos')
-        .then(res => res.json())
-        .then(datos => {
-          setProductos(datos);
-        })
-    }
-    fetchProductos();
-  }, [])
-
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route element={<ProtectedRoute/>}>
+          <Route path='login' element={<Login />} />
+          <Route path='register' element={<Register />} />
+          <Route path='ChangePassword' element={<ChangePassword />} />
+
+          <Route element={<ProtectedRoute />}>
             <Route path='/' element={<Header />}>
-              <Route path='stock' element={<StockView productos={productos} />} />
-              <Route path="productos/:id" element={<Product productos={productos} />} />
-              <Route path='new-model' element={<NewModel />} />
+              <Route path='stock' element={<StockView  />} />
+              <Route path="productos/:id" element={<Product  />} /> 
+              
               <Route path='new-product' element={<NewProduct />} />
+              <Route path='new-model' element={<NewModel />} />
               <Route path='new-category' element={<CrearCategoria />} />
+              {/* productos={productos} productos={productos} */}
             </Route>
           </Route>
-          <Route path='login' element={<Login />} />
-          <Route path='ChangePassword' element={<ChangePassword />} />
-          <Route path='register' element={<Register />} />
-
         </Routes>
       </BrowserRouter>
     </AuthProvider>

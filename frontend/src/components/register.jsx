@@ -1,22 +1,25 @@
 import "../css/register.css";
-import { Outlet, Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form'
-import { registerRequest } from "../api/auth";
-import { useAuth } from '../context/authContext'
+import { useAuth } from '../context/AuthContext'
 import { useEffect } from "react";
 
 const Register = (props) => {
-    const { register, handleSubmit, formState: { errors } } = useForm()
     const { signUp, isAuthenticated, errores } = useAuth();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        if (isAuthenticated) navigate('/')
-    }, [isAuthenticated])
-
-    const onSubmit = async (values) => {
-        signUp(values)
-    }
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm();
+      const navigate = useNavigate();
+    
+      const onSubmit = async (value) => {
+        await signUp(value);
+      };
+    
+      useEffect(() => {
+        if (isAuthenticated) navigate("/");
+      }, [isAuthenticated]);
     return (
         <div className='register'>
             <h1 className='title'>STOCKED</h1>
