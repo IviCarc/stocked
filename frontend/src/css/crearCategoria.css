@@ -6,21 +6,26 @@
     align-items: center;
 }
 
-.container-newCategoria {
+.form-newCategoria {
     height: fit-content;
     display: flex;
     justify-content: space-around;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     padding: 40px;
 }
 
 .input-container-newCategoria {
     width: 100%;
     display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
+    gap: 10px;
 }
+
+
 
 .input-newCategoria{
     width: 100%;

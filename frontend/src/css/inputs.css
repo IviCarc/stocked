@@ -89,4 +89,11 @@ select {
  option {
     font-family: "Arial"; 
  }
+
+ .input-error-message {
+   color: red;
+   display: block;
+   padding: 0px;
+   margin: 0px;
+}
  
