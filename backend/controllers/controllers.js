@@ -5,7 +5,6 @@ const { Producto, Categoria, Modelo, User } = require('../models/models');
 const controller = {}
 
 controller.todosProductos = async (req, res) => {
-    console.log(req.user)
     const todosProductos = await Producto.find({
         user: req.user.id
     });
@@ -14,10 +13,7 @@ controller.todosProductos = async (req, res) => {
 
 // Funcion de la pagina principal
 controller.todasCategorias = async (req, res) => {
-    console.log("hola")
-    const usuario = await User.findById(req.user.id);
-    // const todasCategorias = await User.find({ categorias: usuario.categorias });
-    // console.log(todasCategorias)
+    const usuario = await User.findById(req.user.id).populate({path: 'categorias', populate: {path: 'productos'}}).exec();
     return res.send(usuario.categorias);
 }
 
@@ -33,37 +29,38 @@ controller.obtenerProducto = async (req, res) => {
 // Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
 controller.crearProducto = async (req, res, next) => {
-    const usuario = User.findOne({ _id: req.user.id });
+    const usuario = await User.findOne({ _id: req.user.id }).exec();
     const nuevoProducto = new Producto(
         {
             ...req.body,
-            // imagen: req.file.filename
+            imagen: req.file.filename
         })
 
     await nuevoProducto.save()
 
-    const categoria = await usuario.findOne({ categorias: req.body.categoria }).exec()
+    for (const categoria of usuario.categorias) {
+        if (categoria.categoria == req.body.categoria) {
+            categoria.productos.push(nuevoProducto._id);
+        }
+    }
+
+    // const categoria = await usuario.findOne({ categorias: { $elemMatch: { categoria: req.body.categoria } } }).exec()
+    // console.log(categoria)
     // const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
-    categoria.productos.push(nuevoProducto._id);
-    await categoria.save()
+    // categoria.productos.push(nuevoProducto._id);
+    await usuario.save()
     return res.status(201).json(nuevoProducto);
 };
 
 controller.crearCategoria = async (req, res) => {
     const usuarioActualizado = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { categorias: req.body } });
     await usuarioActualizado.save();
-    // req.user.categorias.push(req.body);
-    // req.user.save();
     return res.status(201).json(req.body);
-    // const nuevaCategoria = new Categoria(req.body);
-    // await nuevaCategoria.save() 
-    // return res.status(201).json(nuevaCategoria);
 }
 
 controller.editarProducto = async (req, res) => {
     const { id } = req.params;
     const producto = await Producto.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
-    console.log(producto)
     await producto.save();
     return res.status(201).json(producto);
 }
@@ -93,7 +90,6 @@ controller.crearModelo = async (req, res) => {
     usuario.categorias.map((categoria, i) => {
         if (categoria.categoria == req.body.categoria) {
             categoria.modelos.push(nuevoModelo)
-            console.log(categoria.modelos)
         }
     })
 
@@ -104,6 +100,7 @@ controller.crearModelo = async (req, res) => {
     return res.status(201).json(nuevoModelo);
 }
 
+// NO SE USA
 controller.todosModelos = async (req, res) => {
     const modelos = await Modelo.find();
     const newArray = modelos.map(modelo => modelo.nombreModelo)
@@ -111,11 +108,22 @@ controller.todosModelos = async (req, res) => {
 }
 
 controller.obtenerModelosCategoria = async (req, res) => {
-    const { categoria } = req.params;
-    const populated = await Categoria.findOne({ categoria: categoria }).populate('modelos').exec()
-    modelos = populated.modelos.map(modelo => modelo.nombreModelo)
-    console.log(modelos)
-    return res.status(201).json(modelos)
+    const categoriaEntrante = req.params.categoria;
+
+    const usuario = await User.findOne({ _id: req.user.id, categorias: { $elemMatch: { categoria: categoriaEntrante } } }).populate('categorias.modelos').exec();
+
+    let modelos;
+
+    for (categoria of usuario.categorias) {
+        if (categoria.categoria == categoriaEntrante) {
+            modelos = categoria.modelos.map((modelo) => {
+                return modelo.nombreModelo
+            })
+        }
+    }
+
+    return res.status(201).json(modelos);
+
 }
 
 controller.obtenerModelo = async (req, res) => {
