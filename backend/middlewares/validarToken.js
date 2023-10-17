@@ -4,6 +4,8 @@ const TOKEN_SECRET  = require('../config.js')
 const authRequired = (req, res, next) => {
     const { token } = req.cookies;
 
+    console.log(token)
+
     if (!token)
         return res.status(401).json({ message: "No token, authorization denied" });
 

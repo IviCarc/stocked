@@ -3,7 +3,7 @@ import '../css/newProduct.css'
 import '../css/inputs.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import axios from '../api/axios'
 
 const NewProduct = (props) => {
     const [nuevoProducto, setNuevoProducto] = useState({

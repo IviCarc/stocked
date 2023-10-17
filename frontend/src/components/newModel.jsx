@@ -6,7 +6,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react"
-import axios from 'axios'
+import axios from '../api/axios'
 
 
 const NewModel = (props) => {
@@ -15,7 +15,7 @@ const NewModel = (props) => {
     const [listaCategorias, setListaCategorias] = useState(null);
     const [modelo, setModelo] = useState({ nombreModelo: "", categoria: "", caracteristicas: [""] });
 
-    const capitalizeFirstLetter = (str) => {
+    const capitalizeFirstLetter = (str) => { 
         // converting first letter to uppercase
         const capitalized = str.charAt(0).toUpperCase() + str.slice(1);
         return capitalized;

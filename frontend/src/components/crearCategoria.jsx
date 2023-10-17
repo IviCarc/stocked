@@ -6,7 +6,8 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react"
-import axios from 'axios'
+import axios from '../api/axios'
+
 
 
 const CrearCategoria = (props) => {
@@ -17,6 +18,8 @@ const CrearCategoria = (props) => {
         e.preventDefault();
 
         console.log(state)
+
+
 
         await axios.post(process.env.REACT_APP_BASE_URL + url, state, { headers: { "content-type": contentType } })
             .catch(e => {

@@ -37,13 +37,12 @@ controller.crearProducto = async (req, res, next) => {
     const nuevoProducto = new Producto(
         {
             ...req.body,
-                // imagen: req.file.filename
-            })
+            // imagen: req.file.filename
+        })
 
     await nuevoProducto.save()
 
-    const categoria = await User.findOne({ categorias: req.body.categoria }).exec()
-    console.log(categoria)
+    const categoria = await usuario.findOne({ categorias: req.body.categoria }).exec()
     // const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
     categoria.productos.push(nuevoProducto._id);
     await categoria.save()
@@ -51,7 +50,6 @@ controller.crearProducto = async (req, res, next) => {
 };
 
 controller.crearCategoria = async (req, res) => {
-    console.log(req.user);
     const usuarioActualizado = await User.findOneAndUpdate({ _id: req.user.id }, { $push: { categorias: req.body } });
     await usuarioActualizado.save();
     // req.user.categorias.push(req.body);
@@ -77,7 +75,7 @@ controller.eliminarProducto = async (req, res) => {
     const categoria = await Categoria.findOneAndUpdate({ productos: producto._id }, { $pull: { productos: producto._id } });
 
     await categoria.save();
-    
+
     return res.status(201).json(producto);
 }
 
@@ -86,13 +84,23 @@ controller.eliminarProducto = async (req, res) => {
 controller.crearModelo = async (req, res) => {
     const data = {
         nombreModelo: req.body.nombreModelo,
-        caracteristicas: req.body.caracteristicas
+        caracteristicas: req.body.caracteristicas,
     }
-    const nuevoModelo = new Modelo(data);
-    await nuevoModelo.save()
-    const categoria = await Categoria.findOne({ categoria: req.body.categoria }).exec()
-    categoria.modelos.push(nuevoModelo._id)
-    await categoria.save()
+    const nuevoModelo = new Modelo(data)
+
+    const usuario = await User.findOne({ _id: req.user.id }).exec()
+
+    usuario.categorias.map((categoria, i) => {
+        if (categoria.categoria == req.body.categoria) {
+            categoria.modelos.push(nuevoModelo)
+            console.log(categoria.modelos)
+        }
+    })
+
+    await nuevoModelo.save();
+
+    await usuario.save();
+
     return res.status(201).json(nuevoModelo);
 }
 
@@ -103,8 +111,8 @@ controller.todosModelos = async (req, res) => {
 }
 
 controller.obtenerModelosCategoria = async (req, res) => {
-    const {categoria} = req.params;
-    const populated = await Categoria.findOne({categoria : categoria}).populate('modelos').exec()
+    const { categoria } = req.params;
+    const populated = await Categoria.findOne({ categoria: categoria }).populate('modelos').exec()
     modelos = populated.modelos.map(modelo => modelo.nombreModelo)
     console.log(modelos)
     return res.status(201).json(modelos)

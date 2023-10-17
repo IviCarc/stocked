@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
 import '../css/stockView.css'
 import { useEffect, useState } from 'react'
-
+import axios from '../api/axios'
 // import axios, * as others from 'axios';
 
 const Card = (props) => {
@@ -26,11 +26,12 @@ const StockView = (props) => {
 
   useEffect(() => {
     const fetchProductos = async () => {
-      let data = await fetch('http://localhost:5000/productos')
-        .then(res => res.json())
-        .then(datos => {
-          setProductos(datos);
-        })
+        let data = await axios.get('http://localhost:5000/productos')
+    //   let data = await fetch('http://localhost:5000/productos')
+    //     .then(res => res.json())
+    //     .then(datos => {
+    //       setProductos(datos);
+    //     })
     }
     fetchProductos();
   }, [])
