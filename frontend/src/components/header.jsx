@@ -12,17 +12,13 @@ const Header = () => {
             <ul>
                 <li><Link className='header-link' >Bienvenido {user.username}</Link></li>
                 <li><Link className='header-link' to='new-model'>Crear Modelo</Link></li>
-                <li><Link className='header-link' to='stock'>Ver Stock</Link></li>
+                <li><Link className='header-link' to=''>Ver Stock</Link></li>
                 <li><Link className='header-link' to='new-product'>Crear Producto</Link></li>
                 <li><Link className='header-link' to='new-category'>Crear Categoria</Link></li>
                 <li><Link className='header-link' to='/login' onClick={() => {
                     logout();
                 }}>Cerrar Sesion</Link></li>
                 
-                <li><Link className='header-link' to='new-model'>CREAR MODELO</Link></li>
-                <li><Link className='header-link' to=''>VER STOCK</Link></li>
-                <li><Link className='header-link' to='new-product'>CREAR PRODUCTO</Link></li>
-                <li><Link className='header-link' to='new-category'>CREAR CATEGORIA</Link></li>
             </ul>
         </nav>
         <Outlet></Outlet>

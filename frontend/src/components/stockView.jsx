@@ -23,15 +23,13 @@ const Card = (props) => {
 
 const StockView = (props) => {
     const [categorias, setCategorias] = useState(null);
-
+    const fetchCategorias = async () => {
+        let data = await axios.get('http://localhost:5000/categorias');
+        console.log(data.data)
+        setCategorias(data.data);
+    }
     useEffect(() => {
-        const fetchCategorias = async () => {
-            let data = await fetch('http://localhost:5000/categorias')
-                .then(res => res.json())
-                .then(datos => {
-                    setCategorias(datos);
-                })
-        }
+        
         fetchCategorias();
     }, [])
 
@@ -41,19 +39,9 @@ const StockView = (props) => {
         return capitalized;
     }
 
-    var settings = {
-        dots: true,
-        className: "inside-div",
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        centerMode: true,
-        infinite: true
-    };
-
     return (
 
         <div className="stock">
-
             <div className="busqueda">
                 <div className="select">
                     <select name="format" id="format">
