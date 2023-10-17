@@ -2,7 +2,9 @@ import '../css/stockView.css'
 import { Link } from 'react-router-dom'
 import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
 import '../css/stockView.css'
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react'
+import axios from '../api/axios'
+// import axios, * as others from 'axios';
 
 const Card = (props) => {
     return (

@@ -71,7 +71,7 @@
     cursor: pointer;
 }
 
-button {
+.btn-product {
     background: none;
     border: 0;
     color: inherit;

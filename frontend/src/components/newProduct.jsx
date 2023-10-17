@@ -3,7 +3,7 @@ import '../css/newProduct.css'
 import '../css/inputs.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import axios from '../api/axios'
 
 const NewProduct = (props) => {
     const [nuevoProducto, setNuevoProducto] = useState({
@@ -17,7 +17,6 @@ const NewProduct = (props) => {
     });
 
     const [listaCategorias, setListaCategorias] = useState(null);
-    // const [isCategoriaSelected, setIsCategoriaSelected] = useState(false);
     const [listaModelos, setListaModelos] = useState(null);
     const [res, setRes] = useState(false)
     const [inputsModelo, setInputsModelo] = useState(null)
@@ -30,6 +29,7 @@ const NewProduct = (props) => {
 
     const obtenerCategorias = async () => {
         const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
+        console.log(process.env.REACT_APP_BASE_URL)
         setListaCategorias(categorias.data);
     }
 

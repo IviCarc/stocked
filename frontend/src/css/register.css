@@ -1,0 +1,61 @@
+.register {
+    position: absolute;
+    min-width:min-content;
+    width: 30%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    box-shadow: -15px 15px 20px 4px rgba(0, 0, 0, 0.377);
+    padding: 50px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.185);
+    background-color: #fff;
+}
+
+.register-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    text-align: center;
+    padding: 15px;
+    margin: auto auto;
+}
+
+
+
+.btn-back, .btn-register, .btn-send{
+   width: fit-content;
+   margin: 10px;
+}
+.btn-back{
+    background-color: rgba(255, 0, 0, 0.8);
+}
+
+.input-register{
+    display: flex;
+    flex-direction: column;    
+}
+.input-register input {
+    margin: 10px;
+}
+
+.error-msj{
+    color: red;
+    font-weight: 400;
+    text-align: center;
+    font-size: 14px;
+}
+
+.error-div{
+    background-color: red;
+    color: white;
+    padding: 2px;
+    margin: auto auto;
+    border-radius: 2px;
+    font-weight: 600;
+    text-align: center;
+    width: max-content;
+}
