@@ -22,11 +22,12 @@ controller.obtenerProducto = async (req, res) => {
 }
 
 controller.crearProducto = async (req, res, next) => {
+    console.log(req)
     const nuevoProducto = new Producto(
         {
             ...req.body,
-                imagen: req.file.filename
-            })
+            imagen: req.file.filename
+        })
 
     await nuevoProducto.save()
 
@@ -38,7 +39,7 @@ controller.crearProducto = async (req, res, next) => {
 
 controller.crearCategoria = async (req, res) => {
     const nuevaCategoria = new Categoria(req.body);
-    await nuevaCategoria.save() 
+    await nuevaCategoria.save()
     return res.status(201).json(nuevaCategoria);
 }
 
@@ -58,7 +59,7 @@ controller.eliminarProducto = async (req, res) => {
     const categoria = await Categoria.findOneAndUpdate({ productos: producto._id }, { $pull: { productos: producto._id } });
 
     await categoria.save();
-    
+
     return res.status(204).json();
 }
 
@@ -84,13 +85,13 @@ controller.todosModelos = async (req, res) => {
 }
 
 controller.obtenerModelosCategoria = async (req, res) => {
-    const {categoria} = req.params;
-    
-    const populated = await Categoria.findOne({categoria : categoria}).populate('modelos').exec()
-    
+    const { categoria } = req.params;
+
+    const populated = await Categoria.findOne({ categoria: categoria }).populate('modelos').exec()
+
     try {
         modelos = populated.modelos.map(modelo => modelo.nombreModelo)
-    
+
     } catch (error) {
         console.log(error)
         return res.status(500).json(error)
