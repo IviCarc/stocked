@@ -57,7 +57,8 @@
     margin: 0px !important;
     padding-left: 20px !important;
     width: 100% !important;
-    line-height: 40px;
+    line-height: 20px;
+    height: 40px !important;
 }
 
 #imagen {

@@ -12,11 +12,11 @@ import { yupResolver } from "@hookform/resolvers/yup"
 const schema = yup
     .object({
         producto: yup.string().min(4, "Mínimo 4 caracteres").required(),
-        precio: yup.number().integer().min(0).required(),
+        precio: yup.number().min(0).required(),
         descripcion: yup.string().min(4, "Mínimo 4 caracteres").required(),
-        cantidadDisponible: yup.number().integer().min(0).required(),
+        cantidadDisponible: yup.number().integer("Debe ingresar números enteros").min(0).required(),
         categoria: yup.string().required("Debe seleccionar una categoria"),
-        modelo: yup.string().min(4, "Mínimo 4 caracteres"),
+        modelo: yup.string(),
         imagen: yup.mixed().required("Debe subir una imagen")
             .test("test", "La imagen debe tener formato JPG o PNG", value => {
                 return value.type === "image/jpeg" || value.type === "image/png"
@@ -31,6 +31,7 @@ const NewProduct = (props) => {
         watch,
         control,
         formState: { errors },
+        setValue
     } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -81,6 +82,31 @@ const NewProduct = (props) => {
         return value.replace(/[^0-9]/g, '')
     }
 
+    const onChange = (e) => {
+        const inputValue = e.target.value;
+
+        if (inputValue === "") {
+            setValue(e.target.name, 0);
+            return;
+        }
+
+        if (isNaN(parseFloat(inputValue))) {
+            console.log("NAN")
+            return ; // No se modifica el valor si no es numérico
+        }
+
+        if (inputValue[0] == "0") {
+            console.log(parseFloat(inputValue) * 1)
+            setValue(e.target.name, parseFloat(inputValue) * 1);
+            console.log(inputValue)
+
+            return  
+        }
+        // Se actualiza el valor utilizando setValue
+        setValue(e.target.name, parseFloat(inputValue));
+    };
+
+
 
     return (
         <div className="new-product">
@@ -94,8 +120,8 @@ const NewProduct = (props) => {
 
                     <div className="input-div">
                         <label htmlFor="categoria" className='input-label'>Categoria</label>
-                        <div className="newproduct-select-container" id=''>
-                            <select className="select select-newProduct" id="categoria" {...register("categoria")}
+                        <div className="newproduct-select-container " id=''>
+                            <select className="select select-newProduct" id="" {...register("categoria")}
                                 onChange={(e) => obtenerModelos(e.target.value)}>
 
                                 <option selected disabled value=''>Seleccione una categoria</option>
@@ -105,8 +131,8 @@ const NewProduct = (props) => {
                                 })}
 
                             </select>
-                            {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
                         </div>
+                            {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
                     </div>
 
                     <div className="input-div">
@@ -118,9 +144,9 @@ const NewProduct = (props) => {
                                 {listaModelos && listaModelos.map((modelo, i) => {
                                     return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
-
                             </select>
                         </div>
+                        {errors.modelo && <p className="input-error-message">{errors.modelo.message}</p>}
                     </div>
 
                     <div className="input-div">
@@ -131,8 +157,19 @@ const NewProduct = (props) => {
 
                     <div className="input-div">
                         <label htmlFor="cantidadDisponible" className='input-label'>Cantidad del producto:</label>
-                        <input className='input' type="number"
-                            {...register('cantidadDisponible')} />
+                        <Controller
+                            control={control}
+                            name="cantidadDisponible"
+                            render={({ field }) => (
+                                <input
+                                    {...register("cantidadDisponible")}
+                                    className="input"
+                                    type="number"
+                                    onChange={onChange}
+                                    value={field.value}
+                                />
+                            )}
+                        />
                         {errors.cantidadDisponible && <p className="input-error-message">{errors.cantidadDisponible.message}</p>}
                     </div>
                     <div className="input-div">
@@ -140,36 +177,16 @@ const NewProduct = (props) => {
                         <Controller
                             control={control}
                             name="precio"
-                            rules={{ pattern: /^([0-9])*$/ }}
-                            render={({ field }) => {
-                                return (
-                                    <input className='input' type="number"
-                                        {...field}
-                                        control={control}
-                                        onChange={((e) => field.onChange(e => parseInt(e.target.value)))}
-                                        defaultValue={0}
-                                        value={(field.value === "") ? 0 : field.value}
-                                    />)
-                            }}
-                            // render={({ field: { onChange, value } }) => (
-                            //     <input className='input' type="number"
-                            //         onChange={e => {
-                            //             if (isNaN(parseFloat(e.target.value))) {
-                            //                 console.log("NAN")
-                            //                 console.log(e.target.value)
-                            //                 return
-                            //             }
-                            //             else {
-                            //                 console.log(e.target.value)
-                            //                 value = parseFloat(e.target.value)
-                            //             }
-                            //         }}
-                            //         value={value}
-                            //     />
-                            // )}
-                            defaultValue={0}>
-
-                        </Controller>
+                            render={({ field }) => (
+                                <input
+                                    {...register("precio")}
+                                    className="input"
+                                    type="number"
+                                    onChange={onChange}
+                                    value={field.value}
+                                />
+                            )}
+                        />
                         {/* <input className='input' type="number"  {...register("precio")} /> */}
                         {errors.precio && <p className="input-error-message">{errors.precio.message}</p>}
                     </div>
