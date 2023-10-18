@@ -5,16 +5,59 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import axios from '../api/axios'
 
+import * as yup from 'yup'
+import { useForm, Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+
+const schema = yup
+    .object({
+        producto: yup.string().min(4, "Mínimo 4 caracteres").required(),
+        precio: yup.number().min(0).required(),
+        descripcion: yup.string().min(4, "Mínimo 4 caracteres").required(),
+        cantidadDisponible: yup.number().integer("Debe ingresar números enteros").min(0).required(),
+        categoria: yup.string().required("Debe seleccionar una categoria"),
+        modelo: yup.string(),
+        imagen: yup.mixed().required("Debe subir una imagen")
+            .test("test", "La imagen debe tener formato JPG o PNG", value => {
+                return value.type === "image/jpeg" || value.type === "image/png"
+            })
+    })
+    .required()
+
+import * as yup from 'yup'
+import { useForm, Controller } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+
+const schema = yup
+    .object({
+        producto: yup.string().min(4, "Mínimo 4 caracteres").required(),
+        precio: yup.number().min(0).required(),
+        descripcion: yup.string().min(4, "Mínimo 4 caracteres").required(),
+        cantidadDisponible: yup.number().integer("Debe ingresar números enteros").min(0).required(),
+        categoria: yup.string().required("Debe seleccionar una categoria"),
+        modelo: yup.string(),
+        imagen: yup.mixed().required("Debe subir una imagen")
+            .test("test", "La imagen debe tener formato JPG o PNG", value => {
+                return value.type === "image/jpeg" || value.type === "image/png"
+            })
+    })
+    .required()
+
 const NewProduct = (props) => {
-    const [nuevoProducto, setNuevoProducto] = useState({
-        producto: { value: "", valid: false },
-        descripcion: { value: "", valid: false },
-        precio: { value: "", valid: false },
-        modelo: { value: "", valid: false },
-        cantidadDisponible: { value: "", valid: false },
-        imagen: { value: "", valid: false },
-        categoria: { value: "", valid: false },
-    });
+    const {
+        register,
+        handleSubmit,
+        watch,
+        control,
+        formState: { errors },
+        setValue
+    } = useForm({
+        resolver: yupResolver(schema),
+        defaultValues: {
+            cantidadDisponible: 0,
+            precio: 0
+        }
+    })
 
     const [listaCategorias, setListaCategorias] = useState(null);
     const [listaModelos, setListaModelos] = useState(null);
@@ -27,15 +70,19 @@ const NewProduct = (props) => {
         return capitalized;
     }
 
-    const obtenerCategorias = async () => {
-        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
-        console.log(process.env.REACT_APP_BASE_URL)
-        setListaCategorias(categorias.data);
-    }
-
     const obtenerModelos = async (categoria) => {
         const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'categoriaModelo/' + categoria);
         setListaModelos(modelos.data);
+    }
+
+    const obtenerCaracteristicasModelo = async (e) => {
+        setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'modelo/' + e.target.value)).data)
+    }
+
+
+    const obtenerCategorias = async () => {
+        const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
+        setListaCategorias(categorias.data);
     }
 
     useEffect(() => {
@@ -45,152 +92,169 @@ const NewProduct = (props) => {
             });
     }, [])
 
-    const onChange = async (e, setter, state) => {
-        const inputName = e.target.name;
+    const onSubmit = async (data) => {
+        const res = await axios.post(process.env.REACT_APP_BASE_URL + "crear-producto", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+        console.log(res)
+    }
+
+    const allowOnlyNumber = (value) => {
+        return value.replace(/[^0-9]/g, '')
+    }
+
+    const onChange = (e) => {
         const inputValue = e.target.value;
 
-        setter({
-            ...state,
-            [inputName]: {
-                ...state[inputName],
-                value: inputValue,
-            },
-        });
-
-        if (inputName === 'imagen') {
-
-            setter({
-                ...state,
-                [inputName]: {
-                    ...state[inputName],
-                    value: e.target.files[0],
-                },
-            });
+        if (inputValue === "") {
+            setValue(e.target.name, 0);
+            return;
         }
 
-        if (inputName === 'modelo') {
-            let temp = { ...nuevoProducto }
-            try {
-                for (const caracteristica of inputsModelo) {
-                    console.log(temp[caracteristica])
-                    delete temp[caracteristica]
-                }
-                setNuevoProducto(temp)
-            }
-            catch (e) {
-                console.log(e)
-            }
-            setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'modelo/' + e.target.value)).data)
-
+        if (isNaN(parseFloat(inputValue))) {
+            console.log("NAN")
+            return ; // No se modifica el valor si no es numérico
         }
 
-        if (inputName === 'categoria') {
+        if (inputValue[0] == "0") {
+            console.log(parseFloat(inputValue) * 1)
+            setValue(e.target.name, parseFloat(inputValue) * 1);
             console.log(inputValue)
-            obtenerModelos(inputValue)
-        }
 
+            return  
+        }
+        // Se actualiza el valor utilizando setValue
+        setValue(e.target.name, parseFloat(inputValue));
     };
 
-    const sendData = async (e, state, url, contentType) => {
-        e.preventDefault();
 
-        let data = {};
-
-        for (const key in state) {
-            if (key === "precio" || key === "cantidadDisponible") data[key] = parseInt(state[key].value);
-            else data[key] = state[key].value;
-        }
-
-        console.log(data)
-
-        await axios.post(process.env.REACT_APP_BASE_URL + url, data, { headers: { "content-type": contentType } })
-            .then(res => {
-                console.log(res);
-            })
-            .catch(e => {
-                console.log(e)
-            })
-        setRes(true)
-
-    };
 
     return (
         <div className="new-product">
-            <div className="new-product-inside-div">
+            <form onSubmit={handleSubmit(onSubmit)} className="new-product-inside-div">
                 <div className="inputs-container">
                     <div className="input-div">
                         <label htmlFor="producto" className='input-label'>Nombre del producto:</label>
-                        <input className='input' type="text" name="producto" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} />
+                        <input className='input' type="text" name="producto" {...register("producto")} />
+                        {errors.producto && <p className="input-error-message">{errors.producto.message}</p>}
                     </div>
+
                     <div className="input-div">
                         <label htmlFor="categoria" className='input-label'>Categoria</label>
-                        <div className="select" id='newproduct-select'>
-                            <select name="categoria" id="categoria" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
+                        <div className="newproduct-select-container " id=''>
+                            <select className="select select-newProduct" id="" {...register("categoria")}
+                                onChange={(e) => obtenerModelos(e.target.value)}>
 
                                 <option selected disabled value=''>Seleccione una categoria</option>
+
                                 {listaCategorias && listaCategorias.map((categoria, i) => {
                                     return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                                 })}
 
                             </select>
                         </div>
+                            {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
                     </div>
 
                     <div className="input-div">
                         <label htmlFor="modelo" className='input-label'>Modelo</label>
-                        <div className="select" id='newproduct-select'>
-                            <select name="modelo" id="modelo" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} >
-
+                        <div className="newproduct-select-container" id=''>
+                            <select className="select select-newProduct" id="modelo" {...register("modelo")}
+                                onChange={obtenerCaracteristicasModelo}>
                                 <option selected disabled value=''>Seleccione un modelo</option>
-                                {listaModelos && nuevoProducto.categoria.value !== "" &&  listaModelos.map((modelo, i) => {
+                                {listaModelos && listaModelos.map((modelo, i) => {
                                     return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
-
                             </select>
                         </div>
+                        {errors.modelo && <p className="input-error-message">{errors.modelo.message}</p>}
                     </div>
 
                     <div className="input-div">
                         <label htmlFor="descripcion" className='input-label'>Descripción del producto:</label>
-                        <input className='input' onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} type="text" name="descripcion" />
+                        <input className='input' type="text" {...register("descripcion")} />
+                        {errors.descripcion && <p className="input-error-message">{errors.descripcion.message}</p>}
                     </div>
 
                     <div className="input-div">
                         <label htmlFor="cantidadDisponible" className='input-label'>Cantidad del producto:</label>
-                        <input className='input' onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} type="number" name="cantidadDisponible" />
+                        <Controller
+                            control={control}
+                            name="cantidadDisponible"
+                            render={({ field }) => (
+                                <input
+                                    {...register("cantidadDisponible")}
+                                    className="input"
+                                    type="number"
+                                    onChange={onChange}
+                                    value={field.value}
+                                />
+                            )}
+                        />
+                        {errors.cantidadDisponible && <p className="input-error-message">{errors.cantidadDisponible.message}</p>}
                     </div>
                     <div className="input-div">
                         <label htmlFor="precio" className='input-label'>Precio:</label>
-                        <input className='input' onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} type="number" name="precio" />
+                        <Controller
+                            control={control}
+                            name="precio"
+                            render={({ field }) => (
+                                <input
+                                    {...register("precio")}
+                                    className="input"
+                                    type="number"
+                                    onChange={onChange}
+                                    value={field.value}
+                                />
+                            )}
+                        />
+                        {/* <input className='input' type="number"  {...register("precio")} /> */}
+                        {errors.precio && <p className="input-error-message">{errors.precio.message}</p>}
                     </div>
 
                     <div className="input-div">
                         <label htmlFor="imagen" className='input-label'>Subir imagen:</label>
-                        <input className='' type="file" name="imagen" id="imagen" onChange={(e) => onChange(e, setNuevoProducto, nuevoProducto)} />
+                        {/* INPUT CONTROLADO PARA LA IMAGEN */}
+                        <Controller
+                            control={control}
+                            name="imagen"
+                            render={({ field: { value, onChange } }) => (
+                                <input className='' type="file" id="imagen"  {...register("imagen")}
+                                    value={value?.fileName}
+                                    onChange={(e) => {
+                                        onChange(e.target.files[0]);
+                                    }}
+                                />
+                            )}
+                        >
+                        </Controller>
+
                         <div className='div-imagen'>
                             <label htmlFor="imagen" className='input input-imagen' type="text" />
                             <FontAwesomeIcon icon={faCloudArrowUp} className="cloudIcon " id='img-icon' />
                         </div>
+                        {errors.imagen && <p className="input-error-message">{errors.imagen.message}</p>}
                     </div>
+
+                    {/* RENDERIZA LOS INPUTS NUEVOS */}
 
                     {inputsModelo && inputsModelo.map((caracteristica, i) => {
                         return (
-                            <div className="input-div">
+                            <div className="input-div" key={i}>
                                 <label htmlFor={caracteristica} className='input-label'>{capitalizeFirstLetter(caracteristica)}:</label>
-                                <input className='input' onChange={(e) => onChange(e, setNuevoProducto, )} type="text" name={caracteristica} />
+                                <input className='input' type="text" name={caracteristica}
+                                    {...register(caracteristica)} />
                             </div>
                         )
                     })}
 
                 </div>
 
-                <button className='btn' id='send-btn' onClick={(e) => sendData(e, nuevoProducto, 'crear-producto', 'multipart/form-data')}>Subir producto</button>
+                <button className='btn' id='send-btn' type="submit">Subir producto</button>
 
                 {
                     res && <p className='sended'>Producto enviado correctamente</p>
                 }
 
-            </div>
+            </form>
         </div>
     )
 }

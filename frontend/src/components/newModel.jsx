@@ -1,17 +1,45 @@
 import "../css/newModel.css";
 import "../css/inputs.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useEffect } from "react"
 import axios from '../api/axios'
+import { useForm, Control, useFieldArray } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+
+const schema = yup
+    .object({
+        nombreModelo: yup.string().min(4, "Debe ingresar al menos 3 caracteres").required(),
+        categoria: yup.string().required("Debe seleccionar una categoria"),
+        caracteristicas: yup.array()
+            .of(
+                yup.string()
+                .min(4, "Debe ingresar al menos 4 caracteres")
+                .matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos"))
+            .required("Tienes que ingresar al menos una caracteristica").min(1, "Debe tener al menos una característica"),
+    })
+    .required()
+
 
 
 const NewModel = (props) => {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        control
+    } = useForm({
+        resolver: yupResolver(schema)
+    })
 
-    // const [nombreModelo, setNombreModelo] = useState("");
+    const { fields, append, remove } = useFieldArray({
+        name: "caracteristicas",
+        control
+    });
+
+
     const [listaCategorias, setListaCategorias] = useState(null);
     const [modelo, setModelo] = useState({ nombreModelo: "", categoria: "", caracteristicas: [""] });
 
@@ -21,29 +49,8 @@ const NewModel = (props) => {
         return capitalized;
     }
 
-    const sendData = async (e, state, url, contentType) => {
-        e.preventDefault();
-
-        await axios.post(process.env.REACT_APP_BASE_URL + url, state, { headers: { "content-type": contentType } })
-            .catch(e => {
-                console.log(e)
-            })
-    };
-
-    const agregarCaracteristica = (e) => {
-        setModelo({ ...modelo, caracteristicas: [...modelo.caracteristicas, ""] });
-    }
-
-    const borrarCaracteristica = (i) => {
-        const temp = { ...modelo };
-        temp.caracteristicas.splice(i, 1);
-        setModelo(temp);
-    }
-
-    const actualizarCaracteristica = (e, i) => {
-        const temp = { ...modelo };
-        temp.caracteristicas[i] = e.target.value
-        setModelo(temp)
+    const onSubmit = async (data) => {
+        await axios.post(process.env.REACT_APP_BASE_URL + "crear-modelo", data)
     }
 
     const obtenerCategorias = async () => {
@@ -56,53 +63,58 @@ const NewModel = (props) => {
             .catch(e => {
                 console.log(e)
             });
+        append("");
     }, [])
 
 
     return (
         <div className="newModel">
-            <div className="container container-newModel">
+            <form className="container container-newModel" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="input-container-newModel">
-                    <input type="text" className="input input-newModel" placeholder="Nombre del modelo" onChange={(e) => setModelo({ ...modelo, nombreModelo: e.target.value })} />
+                    <input type="text" className="input input-newModel" placeholder="Nombre del modelo" {...register("nombreModelo")} />
                 </div>
+                {errors.nombreModelo && <p className="input-error-message">{errors.nombreModelo.message}</p>}
 
-                <div className="select" id='newmodel-select'>
-                    <select name="categoria" id="newmodel-categoria" onChange={(e) => setModelo({ ...modelo, categoria: e.target.value })} >
+                <div className="input-container-newModel" id='newmodel-select'>
+                    <select className="select" name="categoria" id="newmodel-categoria"  {...register("categoria")}>
 
-                        <option selected value='none'>Seleccione una categoria</option>
+                        <option disabled selected value=''>Seleccione una categoria</option>
                         {listaCategorias && listaCategorias.map((categoria, i) => {
                             return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                         })}
 
                     </select>
                 </div>
+                {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
 
                 {
-                    modelo.caracteristicas && modelo.caracteristicas.map((value, i) => {
+                    fields.map((field, i) => {
                         return (
-                            <div className="input-container-newModel trash" key={i} >
-                                {/* RENDERIZA EL ICONO DE ELIMINAR SOLO SI SE AGREGÓ MAS DE UNA CARACTERISTICA */}
-                                {modelo.caracteristicas.length > 1 &&
+                            <>
+                                <div className="input-container-newModel">
+                                    <input key={field.id}
+                                        type="text"
+                                        className="input input-newModel"
+                                        placeholder="Caracteristica creada"
+                                        {...register(`caracteristicas.${i}`)} />
 
-                                    (<FontAwesomeIcon icon={faTrash} className="trashIcon" onClick={() => borrarCaracteristica(i)} listid={i} />)
-
-                                }
-                                <input type="text" className="input input-newModel trashInput " placeholder="Caracteristica creada" value={value}
-                                    onChange={(e) => actualizarCaracteristica(e, i)} />
-                            </div>
+                                    {fields.length > 1 ? (<FontAwesomeIcon icon={faTrash} className="trashIcon" onClick={() => remove(i)} listid={i} />) : null}
+                                </div>
+                                {errors?.caracteristicas?.[i] && <p className="input-error-message">{errors.caracteristicas[i].message}</p>}
+                            </>
                         )
                     })
                 }
 
                 <div className="input-container-newModel plus" >
                     <FontAwesomeIcon icon={faPlus} className="plusIcon" />
-                    <input type="submit" className="input input-newModel plusinput" onClick={agregarCaracteristica} value="Añadir Caracteristica" />
+                    <button type="button" onClick={() => append("")} className="input input-newModel plusinput" >Añadir Caracteristica</button>
                 </div>
 
-                <button id="boton" type="button" className="btn" onClick={(e) => sendData(e, modelo, "crear-modelo", "application/json")}>Crear</button>
+                <button className="btn" type="submit" onClick={(e) => console.log(errors)}>Crear</button>
 
-            </div>
+            </form>
         </div>
     );
 };
