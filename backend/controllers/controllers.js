@@ -20,6 +20,7 @@ controller.todasCategorias = async (req, res) => {
 controller.obtenerProducto = async (req, res) => {
     const { categoria, id } = req.params;
     const producto = await Producto.findOne({ _id: id });
+    console.log("h")
     return res.send(producto);
 }
 

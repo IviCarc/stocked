@@ -6,7 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import "../css/product.css";
-import axios from "axios";
+import axios from '../api/axios' 
 
 
 const Product = (props) => {
@@ -39,8 +39,8 @@ const Product = (props) => {
 
 	const obtenerProducto = async () => {
 		const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'producto/' + id);
-		setProducto(categorias.data);
 		console.log(categorias.data)
+		setProducto(categorias.data);
 	}
 
 	const [isEditing, setIsEditing] = useState(false); // Agrega estado para el modo de edición

@@ -25,7 +25,7 @@ const App = () => {
           <Route element={<ProtectedRoute />}>
             <Route path='/' element={<Header />}>
               <Route path='' element={<StockView  />} />
-              <Route path="productos/:id" element={<Product  />} /> 
+              <Route path="producto/:id" element={<Product  />} /> 
               
               <Route path='new-product' element={<NewProduct />} />
               <Route path='new-model' element={<NewModel />} />

@@ -8,7 +8,7 @@ import axios from '../api/axios'
 
 const Card = (props) => {
     return (
-        <Link className="card" to={"http://localhost:3000/productos/" + props.id}>
+        <Link className="card" to={"http://localhost:3000/producto/" + props.id}>
             <div className="img-container">
                 <img src={`${process.env.REACT_APP_BASE_URL + "images/" + props.imagen}`} alt="product-img" />
             </div>
