@@ -19,7 +19,6 @@ const register = async (req, res) => {
             password: passwordHash,
             categorias: []
         })
-        console.log(newUser)
         const userSaved = await newUser.save()
         const token = await createAccessToken({ id: userSaved._id });
 
@@ -79,10 +78,8 @@ const logout = async (req, res) => {
 };
 
 const profile = async (req, res) => {
-    console.log(req.user)
     const userFound = await User.findById(req.user.id);
     if (!userFound) return res.status(400).json({ message: "User not found" });
-    console.log(userFound)
 
     return res.json({
         id: userFound._id,

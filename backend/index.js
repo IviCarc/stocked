@@ -1,8 +1,8 @@
 
-const {register, login, logout, profile, verifyToken } = require('./controllers/auth.controller.js');
-const {authRequired} = require('./middlewares/validarToken.js')
-const {validateSchema} = require('./middlewares/validarMiddleware.js')
-const {registerSchema, loginSchema} = require('./schemas/auth.schema.js')
+const { register, login, logout, profile, verifyToken } = require('./controllers/auth.controller.js');
+const { authRequired } = require('./middlewares/validarToken.js')
+const { validateSchema } = require('./middlewares/validarMiddleware.js')
+const { registerSchema, loginSchema, productoSchema } = require('./schemas/auth.schema.js')
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -12,11 +12,11 @@ const { crearProducto, eliminarProducto, crearCategoria, todosProductos, todasCa
 const cookieParser = require('cookie-parser');
 
 
-const multer  = require('multer')
+const multer = require('multer')
 const upload = multer({ dest: 'public/images/' })
 
 app.use(cors({
-    origin:"http://localhost:3000",
+    origin: "http://localhost:3000",
     credentials: true
 }));
 app.use(express.json());
@@ -27,11 +27,11 @@ URL = process.env.URL || 'http://localhost:5000';
 
 // LogIn
 
-app.post("/api/register",validateSchema(registerSchema),register)
-app.post("/api/login",validateSchema(loginSchema), login)
+app.post("/api/register", validateSchema(registerSchema), register)
+app.post("/api/login", validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
-app.get("/verify",verifyToken)
-app.get("/api/profile",authRequired ,profile)
+app.get("/verify", verifyToken)
+app.get("/api/profile", authRequired, profile)
 
 
 // Productos
@@ -39,8 +39,7 @@ app.get("/productos", authRequired, todosProductos);
 
 app.get('/producto/:id', authRequired, obtenerProducto);
 
-app.post('/crear-producto', authRequired,upload.single('imagen'),
-crearProducto);
+app.post('/crear-producto', authRequired, upload.single('imagen'), validateSchema(productoSchema), crearProducto);
 
 app.put('/editar-producto', authRequired, editarProducto);
 

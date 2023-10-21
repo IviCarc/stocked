@@ -74,8 +74,11 @@ const NewProduct = (props) => {
     }, [])
 
     const onSubmit = async (data) => {
-        const res = await axios.post(process.env.REACT_APP_BASE_URL + "crear-producto", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-        console.log(res)
+        try {
+            const res = await axios.post(process.env.REACT_APP_BASE_URL + "crear-producto", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } catch(e) {
+            alert(e.response.data.message)
+        }
     }
 
     const allowOnlyNumber = (value) => {
