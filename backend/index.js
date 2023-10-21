@@ -2,7 +2,7 @@
 const { register, login, logout, profile, verifyToken } = require('./controllers/auth.controller.js');
 const { authRequired } = require('./middlewares/validarToken.js')
 const { validateSchema } = require('./middlewares/validarMiddleware.js')
-const { registerSchema, loginSchema, productoSchema } = require('./schemas/auth.schema.js')
+const { registerSchema, loginSchema, productoSchema, modeloSchema, categoriaSchema } = require('./schemas/auth.schema.js')
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -48,7 +48,7 @@ app.delete('/eliminar-producto/:id', authRequired, eliminarProducto);
 // Categorias
 app.get("/categorias", authRequired, todasCategorias);
 
-app.post('/crear-categoria', authRequired, crearCategoria);
+app.post('/crear-categoria', authRequired, validateSchema(categoriaSchema),crearCategoria);
 
 
 // Modelos
@@ -58,7 +58,7 @@ app.get('/modelo/:nombre', authRequired, obtenerModelo);
 
 app.get('/categoriaModelo/:categoria', authRequired, obtenerModelosCategoria);
 
-app.post('/crear-modelo', authRequired, crearModelo);
+app.post('/crear-modelo', validateSchema(modeloSchema),crearModelo);
 
 
 const start = async () => {

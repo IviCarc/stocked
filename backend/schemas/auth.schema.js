@@ -17,17 +17,30 @@ const registerSchema = yup.object({
 
 const productoSchema = yup
     .object({
-        producto: yup.string().min(4, "Mínimo 4 caracteres").required(),
+        producto: yup.string().min(4, "Producto debe tener al menos 4 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required(),
         precio: yup.number().min(0).required(),
-        descripcion: yup.string().min(4, "Mínimo 4 caracteres").required(),
-        cantidadDisponible: yup.number().integer("Debe ingresar números enteros").min(0).required(),
-        categoria: yup.string().required("Debe seleccionar una categoria"),
-        modelo: yup.string(),
-        // imagen: yup.mixed()
-        //     .test("test", "La imagen debe tener formato JPG o PNG", value => {
-        //         return value.type === "image/jpeg" || value.type === "image/png"
-        //     })
+        descripcion: yup.string().min(4, "Descripcion debe tener al menos 4 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required(),
+        cantidadDisponible: yup.number().integer("Cantidad disponible debe ser un numero entero").min(0, "Cantidad disponible debe ser 0 o más").required(),
+        categoria: yup.string().min(4, "Categoria debe tener al menos 3 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required("Debe seleccionar una categoria"),
+        modelo: yup.string().matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").min(4, "Modelo debe tener al menos 4 caracteres"),
     })
     .required()
 
-module.exports = { registerSchema, loginSchema, productoSchema }
+const categoriaSchema = yup.object({
+    categoria: yup.string().min(4, "Mínimo 4 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required()
+})
+
+const modeloSchema = yup
+    .object({
+        nombreModelo: yup.string().min(4, "Debe ingresar al menos 3 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required(),
+        categoria: yup.string().matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required("Debe seleccionar una categoria"),
+        caracteristicas: yup.array()
+            .of(
+                yup.string()
+                .min(4, "Debe ingresar al menos 4 caracteres")
+                .matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos"))
+            .required("Tienes que ingresar al menos una caracteristica").min(1, "Debe tener al menos una característica"),
+    })
+    .required()
+
+module.exports = { registerSchema, loginSchema, productoSchema, modeloSchema, categoriaSchema };
