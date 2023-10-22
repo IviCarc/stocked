@@ -6,31 +6,35 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import "../css/product.css";
-import axios from '../api/axios' 
-
+import axios from '../api/axios'
+import Alert from "./Alert";
+import Swal from 'sweetalert2'
 
 const Product = (props) => {
 
 	const navigate = useNavigate();
 
-	const handleEliminarProducto = async (productId) => {
-		try {
-			// Mostrar una ventana de confirmación antes de eliminar
-			const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar este producto?');
-
-			if (confirmDelete) {
-				const res = await fetch(`http://localhost:5000/eliminar-producto/${productId}`, {
-					method: 'DELETE',
-				});
-				if (res.status === 204) {
-					// Redirige a la página de stock
+	const handleEliminarProducto = async (productId, productCategoria) => {
+		Swal.fire({
+			title: 'Estás seguro de que deseas eliminar el producto?',
+			showCancelButton: true,
+			confirmButtonText: 'Eliminar',
+			denyButtonText: `Cancelar`,
+		}).then(async (result) => {
+			if (result.isConfirmed) {
+				try {
+					await axios.delete(`http://localhost:5000/eliminar-producto/${productId}/${productCategoria}`);
+				} catch (e) {
+					Alert("error", "Error al eliminar el producto");
+					return
+				}
+				Alert("success", "Producto eliminado");
+				setTimeout(() => {
 					navigate('/');
 					window.location.reload();
-				}
+				}, 1500)
 			}
-		} catch (error) {
-			console.error('Error al eliminar el producto:', error);
-		}
+		})
 	};
 
 	const id = useLocation().pathname.split("/")[2]; // ID
@@ -39,7 +43,6 @@ const Product = (props) => {
 
 	const obtenerProducto = async () => {
 		const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'producto/' + id);
-		console.log(categorias.data)
 		setProducto(categorias.data);
 	}
 
@@ -47,13 +50,13 @@ const Product = (props) => {
 
 	const editarProducto = async () => {
 		if (isEditing) {
-			const res = await axios.put(process.env.REACT_APP_BASE_URL + 'editar-producto/', producto);
-			if (res.status === 200) {
-				alert("guardado")
+			try {
+				await axios.put(process.env.REACT_APP_BASE_URL + 'editar-producto/', producto);
+			} catch (e) {
+				Alert("error", "Error al editar el producto");
+				return
 			}
-			if (res.status == 204) {
-				alert("no guardado")
-			}
+			Alert("success", "Producto editado correctamente");
 		}
 		setIsEditing(!isEditing); // Cambiar el estado directamente al contrario del valor actual
 	};
@@ -86,7 +89,6 @@ const Product = (props) => {
 			}
 		} else {
 			setProducto({ ...producto, cantidadDisponible: producto.cantidadDisponible + 1 });
-
 		}
 	}
 
@@ -119,9 +121,11 @@ const Product = (props) => {
 									</p>
 								</button>
 								<hr />
-								<button onClick={() => handleEliminarProducto(
-									producto._id
-								)}><p><b>Eliminar</b> <FontAwesomeIcon icon={faTrash} className="trashIconProduct" /> </p></button>
+								<button onClick={() => handleEliminarProducto(producto._id, producto.categoria)}>
+									<p> <b>Eliminar</b>
+										<FontAwesomeIcon icon={faTrash} className="trashIconProduct" />
+									</p>
+								</button>
 							</div>
 						</div>
 
@@ -182,16 +186,11 @@ const Product = (props) => {
 
 					</>
 
-
 					:
-
-
 
 					<div></div>}
 
 			</div>
-
-
 
 		</div>
 	);

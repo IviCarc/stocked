@@ -43,7 +43,7 @@ app.post('/crear-producto', authRequired, upload.single('imagen'), validateSchem
 
 app.put('/editar-producto', authRequired, editarProducto);
 
-app.delete('/eliminar-producto/:id', authRequired, eliminarProducto);
+app.delete('/eliminar-producto/:id/:categoria', authRequired, eliminarProducto);
 
 // Categorias
 app.get("/categorias", authRequired, todasCategorias);

@@ -25,7 +25,6 @@ const StockView = (props) => {
     const [categorias, setCategorias] = useState(null);
     const fetchCategorias = async () => {
         let data = await axios.get('http://localhost:5000/categorias');
-        console.log(data.data)
         setCategorias(data.data);
     }
     useEffect(() => {

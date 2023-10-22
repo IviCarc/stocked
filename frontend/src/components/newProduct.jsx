@@ -114,15 +114,11 @@ const NewProduct = () => {
         }
 
         if (isNaN(parseFloat(inputValue))) {
-            console.log("NAN")
             return; // No se modifica el valor si no es numérico
         }
 
         if (inputValue[0] == "0") {
-            console.log(parseFloat(inputValue) * 1)
             setValue(e.target.name, parseFloat(inputValue) * 1);
-            console.log(inputValue)
-
             return
         }
         // Se actualiza el valor utilizando setValue

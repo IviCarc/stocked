@@ -13,7 +13,7 @@ controller.todosProductos = async (req, res) => {
 
 // Funcion de la pagina principal
 controller.todasCategorias = async (req, res) => {
-    const usuario = await User.findById(req.user.id).populate({path: 'categorias', populate: {path: 'productos'}}).exec();
+    const usuario = await User.findById(req.user.id).populate({ path: 'categorias', populate: { path: 'productos' } }).exec();
     return res.send(usuario.categorias);
 }
 
@@ -51,19 +51,33 @@ controller.crearCategoria = async (req, res) => {
 }
 
 controller.editarProducto = async (req, res) => {
-    const { id } = req.params;
-    const producto = await Producto.findOneAndUpdate({ _id: id }, { ...req.body }, { new: true });
+    const producto = await Producto.findOneAndUpdate({ _id: req.body._id }, { ...req.body }, { new: true });
     await producto.save();
     return res.status(201).json(producto);
 }
 
 controller.eliminarProducto = async (req, res) => {
-    const { id } = req.params;
+    const { id, categoria } = req.params;
     const producto = await Producto.findOneAndDelete({ _id: id });
 
-    const categoria = await Categoria.findOneAndUpdate({ productos: producto._id }, { $pull: { productos: producto._id } });
+    const user = await User.findOne({ _id: req.user.id }).exec();
 
-    await categoria.save();
+    const categoriaIndex = user.categorias.findIndex(
+        (cat) => cat.categoria === categoria
+    );
+
+    categoriaIndex == -1 ? res.status(404).json({ message: "Categoria no encontrada" }) : null;
+
+    const productoIndex = user.categorias[categoriaIndex].productos.findIndex(
+        (productoId) => productoId.toString() === id
+      );
+
+    productoIndex == -1 ? res.status(404).json({ message: "Producto no encontrado" }) : null;
+
+      // Eliminar el producto por su índice
+    user.categorias[categoriaIndex].productos.splice(productoIndex, 1);
+
+    await user.save();
 
     return res.status(201).json(producto);
 }
