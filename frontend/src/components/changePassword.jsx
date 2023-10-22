@@ -8,7 +8,7 @@ const ChangePassword = (props) => {
 
     const handleResetPasswordRequest = async () => {
         try {
-            const response = await fetch('/api/reset-password', {
+            const response = await fetch('http://localhost:5000/api/change-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

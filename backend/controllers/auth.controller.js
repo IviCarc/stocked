@@ -1,9 +1,19 @@
 const { User } = require("../models/models.js");
-const bycrpt = require("bcryptjs");
+const bcrypt = require("bcryptjs");
 const createAccessToken = require("../libs/jwt.js");
 const jwt = require("jsonwebtoken");
 const { TOKEN_SECRET } = require("../config.js");
 const nodemailer = require("nodemailer");
+const Cookies = require('js-cookie');
+const randomstring = require('randomstring');
+
+const transporter = nodemailer.createTransport({
+  service: "Gmail",
+  auth: {
+    user: "marconcinileandrogaston@gmail.com", // Cambia esto con tu dirección de correo
+    pass: "290405lea", // Contraseña de tu correo
+  },
+});
 
 const register = async (req, res) => {
   const { email, password, username } = req.body;
@@ -12,7 +22,7 @@ const register = async (req, res) => {
     const userFound = await User.findOne({ email });
     if (userFound) return res.status(400).json(["El email ya esta en uso"]);
 
-    const passwordHash = await bycrpt.hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       username,
@@ -20,7 +30,6 @@ const register = async (req, res) => {
       password: passwordHash,
       categorias: [],
     });
-    console.log(newUser);
     const userSaved = await newUser.save();
     const token = await createAccessToken({ id: userSaved._id });
 
@@ -46,12 +55,12 @@ const login = async (req, res) => {
   try {
     const userFound = await User.findOne({ email });
 
-    if (!userFound) return res.status(400).json({ message: "User not found" });
+    if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
 
-    const isMatch = await bycrpt.compare(password, userFound.password);
+    const isMatch = await bcrypt.compare(password, userFound.password);
 
     if (!isMatch)
-      return res.status(400).json({ message: "Incorrect Password" });
+      return res.status(400).json({ message: "Contraseña incorrecta" });
 
     const token = await createAccessToken({ id: userFound._id });
 
@@ -59,6 +68,9 @@ const login = async (req, res) => {
       Secure: true,
       SameSite: "None",
     });
+
+    
+
     res.json({
       id: userFound.id,
       username: userFound.username,
@@ -66,6 +78,8 @@ const login = async (req, res) => {
       createAt: userFound.createdAt,
       updateAt: userFound.updatedAt,
     });
+
+    
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -81,8 +95,7 @@ const logout = async (req, res) => {
 const profile = async (req, res) => {
   console.log(req.user);
   const userFound = await User.findById(req.user.id);
-  if (!userFound) return res.status(400).json({ message: "User not found" });
-  console.log(userFound);
+  if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
 
   return res.json({
     id: userFound._id,
@@ -92,7 +105,6 @@ const profile = async (req, res) => {
     updatedAt: userFound.updatedAt,
     categorias: userFound.categorias,
   });
-  res.send("profile");
 };
 
 const verifyToken = async (req, res) => {
@@ -113,25 +125,16 @@ const verifyToken = async (req, res) => {
   });
 };
 
-const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "marconcinileandro2043@gmail.com", // Cambia esto con tu dirección de correo
-    pass: "leluma30", // Contraseña de tu correo
-  },
-});
-
 const resetPassword = async (req, res) => {
   const { email } = req.body;
 
   try {
-    // Verifica si el usuario con el correo electrónico existe
     const userFound = await User.findOne({ email });
     if (!userFound)
       return res.status(400).json({ message: "Usuario no encontrado" });
 
     // Genera un token único y de corta duración
-    const resetToken = crypto.randomBytes(32).toString("hex");
+    const resetToken = randomstring.generate({ length: 32 });
 
     // Almacena el token en la base de datos junto con una fecha de expiración
     userFound.resetPasswordToken = resetToken;
@@ -140,7 +143,7 @@ const resetPassword = async (req, res) => {
 
     // Envía un correo electrónico al usuario con un enlace de restablecimiento de contraseña
     const mailOptions = {
-      from: "marconcinileandro2043@gmail.com",
+      from: "marconcinileandrogaston@gmail.com",
       to: userFound.email,
       subject: "Restablecimiento de Contraseña",
       text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${req.headers.origin}/reset-password/${resetToken}`,
@@ -162,12 +165,10 @@ const resetPassword = async (req, res) => {
   }
 };
 
-// Controlador para cambiar la contraseña
 const changePassword = async (req, res) => {
   const { resetToken, newPassword } = req.body;
 
   try {
-    // Busca el usuario por el token y verifica la fecha de expiración
     const userFound = await User.findOne({
       resetPasswordToken: resetToken,
       resetPasswordExpires: { $gt: Date.now() },
@@ -177,8 +178,7 @@ const changePassword = async (req, res) => {
       return res.status(400).json({ message: "Token inválido o expirado" });
     }
 
-    // Hashea y actualiza la contraseña del usuario
-    const hashedPassword = await bycrpt.hash(newPassword, 10);
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
     userFound.password = hashedPassword;
     userFound.resetPasswordToken = null;
     userFound.resetPasswordExpires = null;

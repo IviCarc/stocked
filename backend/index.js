@@ -30,7 +30,7 @@ URL = process.env.URL || 'http://localhost:5000';
 app.post("/api/register",validateSchema(registerSchema),register)
 app.post("/api/login",validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
-app.get("/verifyToken",verifyToken)
+app.get("/api/verifyToken",verifyToken)
 app.get("/api/profile",authRequired ,profile)
 app.post('/api/reset-password', resetPassword);
 app.post('/api/change-password', changePassword);
