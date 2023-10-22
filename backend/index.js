@@ -58,7 +58,7 @@ app.get('/modelo/:nombre', authRequired, obtenerModelo);
 
 app.get('/categoriaModelo/:categoria', authRequired, obtenerModelosCategoria);
 
-app.post('/crear-modelo', validateSchema(modeloSchema),crearModelo);
+app.post('/crear-modelo', authRequired, validateSchema(modeloSchema),crearModelo);
 
 
 const start = async () => {

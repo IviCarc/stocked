@@ -14,6 +14,8 @@ import ChangePassword from './components/changePassword';
 import CrearCategoria from './components/crearCategoria';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
+
+
 const App = () => {
   return (
     <AuthProvider>
@@ -24,13 +26,11 @@ const App = () => {
           <Route path='ChangePassword' element={<ChangePassword />} />
           <Route element={<ProtectedRoute />}>
             <Route path='/' element={<Header />}>
-              <Route path='' element={<StockView  />} />
-              <Route path="producto/:id" element={<Product  />} /> 
-              
+              <Route path='' element={<StockView />} />
+              <Route path="producto/:id" element={<Product />} />
               <Route path='new-product' element={<NewProduct />} />
               <Route path='new-model' element={<NewModel />} />
               <Route path='new-category' element={<CrearCategoria />} />
-              {/* productos={productos} productos={productos} */}
             </Route>
           </Route>
         </Routes>

@@ -20,14 +20,8 @@ controller.todasCategorias = async (req, res) => {
 controller.obtenerProducto = async (req, res) => {
     const { categoria, id } = req.params;
     const producto = await Producto.findOne({ _id: id });
-    console.log("h")
     return res.send(producto);
 }
-
-// getAllProducts es la prueba que utiliza la página 
-
-// Por ahora, el producto es agregado a cada categoria sin importar si ya fue agregado una vez, es decir hay repetidos.
-// Hay que agregar la funcionalidad de la cantidad en el producto y utilizar la peticion PUT para editar esta.
 
 controller.crearProducto = async (req, res) => {
     const usuario = await User.findOne({ _id: req.user.id }).exec();
@@ -46,6 +40,7 @@ controller.crearProducto = async (req, res) => {
     }
 
     await usuario.save()
+
     return res.status(201).json(nuevoProducto);
 };
 

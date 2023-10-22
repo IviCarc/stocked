@@ -4,10 +4,12 @@ import '../css/inputs.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCloudArrowUp } from '@fortawesome/free-solid-svg-icons'
 import axios from '../api/axios'
-
 import * as yup from 'yup'
 import { useForm, Controller } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
+
+import Alert from "./Alert"
+
 
 const schema = yup
     .object({
@@ -24,14 +26,14 @@ const schema = yup
     })
     .required()
 
-const NewProduct = (props) => {
+const NewProduct = () => {
     const {
         register,
         handleSubmit,
-        watch,
         control,
-        formState: { errors },
-        setValue
+        formState: { errors, isSubmitting, isSubmitSuccessful },
+        setValue,
+        reset
     } = useForm({
         resolver: yupResolver(schema),
         defaultValues: {
@@ -42,7 +44,6 @@ const NewProduct = (props) => {
 
     const [listaCategorias, setListaCategorias] = useState(null);
     const [listaModelos, setListaModelos] = useState(null);
-    const [res, setRes] = useState(false)
     const [inputsModelo, setInputsModelo] = useState(null)
 
     const capitalizeFirstLetter = (str) => {
@@ -52,14 +53,22 @@ const NewProduct = (props) => {
     }
 
     const obtenerModelos = async (categoria) => {
-        const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'categoriaModelo/' + categoria);
-        setListaModelos(modelos.data);
+        try {
+            const modelos = await axios.get(process.env.REACT_APP_BASE_URL + 'categoriaModelo/' + categoria);
+            setListaModelos(modelos.data);
+        } catch (e) {
+            // MySwal.fire({
+            //     icon: 'error',
+            //     title: '¡Error al obtener los modelos!',
+            //     showConfirmButton: false,
+            //     timer: 1500
+            // })
+        }
     }
 
     const obtenerCaracteristicasModelo = async (e) => {
         setInputsModelo((await axios.get(process.env.REACT_APP_BASE_URL + 'modelo/' + e.target.value)).data)
     }
-
 
     const obtenerCategorias = async () => {
         const categorias = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
@@ -75,10 +84,21 @@ const NewProduct = (props) => {
 
     const onSubmit = async (data) => {
         try {
-            const res = await axios.post(process.env.REACT_APP_BASE_URL + "crear-producto", data, { headers: { 'Content-Type': 'multipart/form-data' } })
-        } catch(e) {
-            alert(e.response.data.message)
+            let res = await axios.post(process.env.REACT_APP_BASE_URL + "crear-producto", data, { headers: { 'Content-Type': 'multipart/form-data' } })
+        } catch (e) {
+            Alert("error", "Error al crear el producto")
+            return
         }
+        Alert("success", "¡Producto creado!")
+
+        // MySwal.fire({
+        //     icon: 'success',
+        //     title: '¡Producto creado!',
+        //     showConfirmButton: false,
+        //     timer: 1500
+        // })
+        reset()
+
     }
 
     const allowOnlyNumber = (value) => {
@@ -95,7 +115,7 @@ const NewProduct = (props) => {
 
         if (isNaN(parseFloat(inputValue))) {
             console.log("NAN")
-            return ; // No se modifica el valor si no es numérico
+            return; // No se modifica el valor si no es numérico
         }
 
         if (inputValue[0] == "0") {
@@ -103,7 +123,7 @@ const NewProduct = (props) => {
             setValue(e.target.name, parseFloat(inputValue) * 1);
             console.log(inputValue)
 
-            return  
+            return
         }
         // Se actualiza el valor utilizando setValue
         setValue(e.target.name, parseFloat(inputValue));
@@ -135,7 +155,7 @@ const NewProduct = (props) => {
 
                             </select>
                         </div>
-                            {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
+                        {errors.categoria && <p className="input-error-message">{errors.categoria.message}</p>}
                     </div>
 
                     <div className="input-div">
@@ -233,10 +253,6 @@ const NewProduct = (props) => {
                 </div>
 
                 <button className='btn' id='send-btn' type="submit">Subir producto</button>
-
-                {
-                    res && <p className='sended'>Producto enviado correctamente</p>
-                }
 
             </form>
         </div>

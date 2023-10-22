@@ -1,8 +1,8 @@
 .new-product {
     display: flex;
     justify-content: center;
-    height: calc(100vh - 80px);
     align-items: center;
+    margin: 20px 0px;
 }
 
 .new-product-inside-div {

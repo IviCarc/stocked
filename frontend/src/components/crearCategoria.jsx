@@ -4,6 +4,7 @@ import * as yup from "yup"
 import "../css/crearCategoria.css"
 import "../css/inputs.css"
 import axios from '../api/axios'
+import Alert from './Alert'
 
 const schema = yup
 	.object({
@@ -16,11 +17,19 @@ export default function CrearCategoria() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		reset
 	} = useForm({
 		resolver: yupResolver(schema),
 	})
 	const onSubmit = async (data) => {
-		await axios.post(process.env.REACT_APP_BASE_URL + "crear-categoria", data)
+		try{
+			await axios.post(process.env.REACT_APP_BASE_URL + "crear-categoria", data)
+		} catch (e) {
+			Alert("error", "Error al crear la categoria");
+			return
+		}
+		Alert("success", "¡Categoria creada!");
+		reset();
 	}
 
 	return (

@@ -8,6 +8,7 @@ import axios from '../api/axios'
 import { useForm, Control, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
+import Alert from './Alert'
 
 const schema = yup
     .object({
@@ -29,7 +30,8 @@ const NewModel = (props) => {
         register,
         handleSubmit,
         formState: { errors },
-        control
+        control,
+        reset
     } = useForm({
         resolver: yupResolver(schema)
     })
@@ -50,7 +52,14 @@ const NewModel = (props) => {
     }
 
     const onSubmit = async (data) => {
-        await axios.post(process.env.REACT_APP_BASE_URL + "crear-modelo", data)
+        try {
+            await axios.post(process.env.REACT_APP_BASE_URL + "crear-modelo", data)
+        } catch (e) {
+            Alert("error", "Error al crear el modelo");
+            return
+        }
+        Alert("success", "¡Modelo creado!");
+        reset();
     }
 
     const obtenerCategorias = async () => {

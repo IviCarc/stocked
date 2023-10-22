@@ -22,7 +22,6 @@ const productoSchema = yup
         descripcion: yup.string().min(4, "Descripcion debe tener al menos 4 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required(),
         cantidadDisponible: yup.number().integer("Cantidad disponible debe ser un numero entero").min(0, "Cantidad disponible debe ser 0 o más").required(),
         categoria: yup.string().min(4, "Categoria debe tener al menos 3 caracteres").matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").required("Debe seleccionar una categoria"),
-        modelo: yup.string().matches(/^[A-Za-z\s]+$/, "Sólo puede ingresar caracteres alfabéticos").min(4, "Modelo debe tener al menos 4 caracteres"),
     })
     .required()
 
