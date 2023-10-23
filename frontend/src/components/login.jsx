@@ -43,7 +43,7 @@ const Login = () => {
                     <p className="error-msj">Contraseña es requerido</p>
                 )}
 
-<p className='changePasswordLink'><Link  to='http://localhost:3000/ChangePassword/'>¿Olvido su contraseña?</Link></p>
+<p className='changePasswordLink'><Link  to='http://localhost:3000/resetPassword/'>¿Olvido su contraseña?</Link></p>
                 
                 <div className="btn-container">
                     <button className='btn'>Ingresar</button>

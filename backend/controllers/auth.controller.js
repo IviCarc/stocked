@@ -2,17 +2,18 @@ const { User } = require("../models/models.js");
 const bcrypt = require("bcryptjs");
 const createAccessToken = require("../libs/jwt.js");
 const jwt = require("jsonwebtoken");
-const { TOKEN_SECRET } = require("../config.js");
 const nodemailer = require("nodemailer");
-const Cookies = require('js-cookie');
 const randomstring = require('randomstring');
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
-  auth: {
-    user: "marconcinileandrogaston@gmail.com", // Cambia esto con tu dirección de correo
-    pass: "290405lea", // Contraseña de tu correo
-  },
+  service: 'gmail',
+   host: 'smtp.gmail.com',
+   port: 465,
+   secure: true,
+   auth: {
+    user: 'stocked2043@gmail.com',
+    pass: 'kcoo cibx djbq dudf ',
+   },
 });
 
 const register = async (req, res) => {
@@ -69,8 +70,6 @@ const login = async (req, res) => {
       SameSite: "None",
     });
 
-    
-
     res.json({
       id: userFound.id,
       username: userFound.username,
@@ -79,7 +78,7 @@ const login = async (req, res) => {
       updateAt: userFound.updatedAt,
     });
 
-    
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -87,6 +86,8 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   res.cookie("token", "", {
+    httpOnly: true,
+    secure: true,
     expires: new Date(0),
   });
   return res.sendStatus(200);
@@ -107,15 +108,28 @@ const profile = async (req, res) => {
   });
 };
 
-const verifyToken = async (req, res) => {
+const verifyToken = (req, res) => {
   const { token } = req.cookies;
-  if (!token) return res.send(false);
 
-  jwt.verify(token, TOKEN_SECRET, async (error, user) => {
-    if (error) return res.sendStatus(401);
+  if (!token) {
+    console.log("NO HAY TOKEN");
+    return res.send(false);
+  }
 
-    const userFound = await User.findById(user.id);
-    if (!userFound) return res.sendStatus(401);
+  jwt.verify(token, 'some secret key', async (error, decoded) => {
+    // console.log("Token decodificado:", decoded);
+
+    if (error) {
+      console.log("Error al verificar el token:", error);
+      return res.sendStatus(401);
+    }
+
+    const userFound = await User.findById(decoded.id);
+
+    if (!userFound) {
+      console.log("Usuario no encontrado en la base de datos");
+      return res.sendStatus(401);
+    }
 
     return res.json({
       id: userFound._id,
@@ -125,7 +139,7 @@ const verifyToken = async (req, res) => {
   });
 };
 
-const resetPassword = async (req, res) => {
+const resetPasswordRequest = async (req, res) => {
   const { email } = req.body;
 
   try {
@@ -143,7 +157,7 @@ const resetPassword = async (req, res) => {
 
     // Envía un correo electrónico al usuario con un enlace de restablecimiento de contraseña
     const mailOptions = {
-      from: "marconcinileandrogaston@gmail.com",
+      from: "stocked2043@gmail.com",
       to: userFound.email,
       subject: "Restablecimiento de Contraseña",
       text: `Para restablecer tu contraseña, haz clic en el siguiente enlace: ${req.headers.origin}/reset-password/${resetToken}`,
@@ -165,29 +179,71 @@ const resetPassword = async (req, res) => {
   }
 };
 
-const changePassword = async (req, res) => {
-  const { resetToken, newPassword } = req.body;
+const resetPassword = async (req, res) => {
+  const { token, password, confirmPassword } = req.body;
 
   try {
     const userFound = await User.findOne({
-      resetPasswordToken: resetToken,
-      resetPasswordExpires: { $gt: Date.now() },
+      resetPasswordToken: token,
+      resetPasswordExpires: { $gt: Date.now() }, // Comprueba que el token no haya caducado
     });
 
     if (!userFound) {
-      return res.status(400).json({ message: "Token inválido o expirado" });
+      return res.status(400).json({ message: 'Token no válido o caducado' });
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    userFound.password = hashedPassword;
-    userFound.resetPasswordToken = null;
-    userFound.resetPasswordExpires = null;
+    // Verifica que las contraseñas coincidan
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Las contraseñas no coinciden' });
+    }
 
+    // Actualiza la contraseña del usuario
+    userFound.password = password;
+    userFound.resetPasswordToken = undefined;
+    userFound.resetPasswordExpires = undefined;
     await userFound.save();
 
-    res.json({ message: "Contraseña restablecida con éxito" });
+    res.status(200).json({ message: 'Contraseña restablecida con éxito' });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+const changePassword = async (req, res) => {
+  const { userId } = req.user.id; // Obtén el ID del usuario desde la solicitud autenticada
+  const { oldPassword, newPassword } = req.body;
+
+  try {
+    // Busca al usuario por su ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    // Comprueba si la contraseña anterior es válida
+    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Contraseña anterior incorrecta" });
+    }
+
+    // Hashea y actualiza la nueva contraseña
+    const newPasswordHash = await bcrypt.hash(newPassword, 10);
+    user.password = newPasswordHash;
+    await user.save();
+
+    // Genera un nuevo token de acceso
+    const newToken = await createAccessToken({ id: user._id });
+
+    // Devuelve una respuesta exitosa
+    return res.status(200).json({
+      message: "Contraseña cambiada con éxito",
+      token: newToken,
+    });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
   }
 };
 
@@ -197,6 +253,7 @@ module.exports = {
   logout,
   profile,
   verifyToken,
+  resetPasswordRequest,
   resetPassword,
-  changePassword,
+  changePassword
 };

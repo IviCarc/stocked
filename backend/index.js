@@ -1,5 +1,5 @@
 
-const {register, login, logout, profile, verifyToken, resetPassword, changePassword} = require('./controllers/auth.controller.js');
+const {register, login, logout, profile, verifyToken, resetPasswordRequest,changePassword} = require('./controllers/auth.controller.js');
 const {authRequired} = require('./middlewares/validarToken.js')
 const {validateSchema} = require('./middlewares/validarMiddleware.js')
 const {registerSchema, loginSchema} = require('./schemas/auth.schema.js')
@@ -32,11 +32,11 @@ app.post("/api/login",validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
 app.get("/api/verifyToken",verifyToken)
 app.get("/api/profile",authRequired ,profile)
-app.post('/api/reset-password', resetPassword);
-app.post('/api/change-password', changePassword);
-
+app.post('/api/reset-password', resetPasswordRequest);
+app.post("/api/change-password", authRequired, changePassword);
 
 // Productos
+
 app.get("/productos", authRequired, todosProductos);
 
 app.get('/producto/:id', authRequired, obtenerProducto);

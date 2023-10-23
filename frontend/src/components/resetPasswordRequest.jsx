@@ -1,14 +1,14 @@
-import "../css/changePassword.css"
+import "../css/resetPassword.css"
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { useState } from 'react'
 
-const ChangePassword = (props) => {
+const ResetPasswordRequest = (props) => {
     const navigate = useNavigate()
     const [email, setEmail] = useState('');
 
     const handleResetPasswordRequest = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/change-password', {
+            const response = await fetch('http://localhost:5000/api/reset-password', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ const ChangePassword = (props) => {
     }
 
     return (
-        <div className='changePassword'>
+        <div className='resetPassword'>
             <h1 className='title'>STOCKED</h1>
             <h4 className='subtitle'>Ingrese el correo de su cuenta. En caso de ser correcto, le llegará un correo con el token de restablecimiento.</h4>
             <div className="input-container">
@@ -46,4 +46,4 @@ const ChangePassword = (props) => {
     )
 }
 
-export default ChangePassword;
+export default ResetPasswordRequest;
