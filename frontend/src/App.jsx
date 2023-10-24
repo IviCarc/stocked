@@ -15,6 +15,7 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './ProtectedRoute';
 import ResetPasswordRequest from './components/resetPasswordRequest';
 import CambiarContraseña from './components/cambiarContraseña';
+import ResetPassword from './components/resetPassword';
 
 const App = () => {
   return (
@@ -23,7 +24,9 @@ const App = () => {
         <Routes>
           <Route path='login' element={<Login />} />
           <Route path='register' element={<Register />} />
-          <Route path='resetPassword' element={<ResetPasswordRequest />} />
+          <Route path='resetPasswordRequest' element={<ResetPasswordRequest />} />
+          <Route path='resetPassword' element={<ResetPassword />} />
+          <Route path='reset-password/:token' element={<ResetPassword />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path='/' element={<Header />}>

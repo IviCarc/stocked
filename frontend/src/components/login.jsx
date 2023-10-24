@@ -1,23 +1,27 @@
-import "../css/login.css"
-import "../css/inputs.css"
+import "../css/login.css";
+import "../css/inputs.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
-import { useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form';
 import { useAuth } from "../context/AuthContext";
-import { useEffect } from "react";
-
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Login = () => {
-
-    const { register, handleSubmit, formState:{errors} } = useForm()
-    const {signIn,  errores, isAuthenticated} = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { signIn, errores, isAuthenticated } = useAuth();
     const onSubmit = (data) => signIn(data);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     useEffect(() => {
         if (isAuthenticated) {
-          navigate("/");
+            navigate("/");
         }
-      }, [isAuthenticated]);
-    
+    }, [isAuthenticated]);
+
     const navigate = useNavigate();
 
     return (
@@ -38,22 +42,33 @@ const Login = () => {
                 )}
 
                 <label htmlFor="password"></label>
-                <input type="password" {...register("password", { required: true })} className='input' placeholder="Ingrese su contraseña" />
+                <input
+                    type={showPassword ? 'text' : 'password'}
+                    {...register("password", { required: true })}
+                    className='input'
+                    placeholder="Ingrese su contraseña"
+                />
                 {errors.password && (
                     <p className="error-msj">Contraseña es requerido</p>
                 )}
-
-<p className='changePasswordLink'><Link  to='http://localhost:3000/resetPassword/'>¿Olvido su contraseña?</Link></p>
-                
+                <div className="password-container">
+                    <button
+                        type="button"
+                        onClick={togglePasswordVisibility} className="password-btn "
+                    >
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                </div>
+                <div className="changePassword-container">
+                    <p ><Link className='changePasswordLink' to='http://localhost:3000/resetPasswordRequest/'>¿Olvidó su contraseña?</Link></p>
+                </div>
                 <div className="btn-container">
                     <button className='btn'>Ingresar</button>
-                    <Link className=' registerLink' to='http://localhost:3000/register/'><button className='btn btn-register'>Registrarse</button></Link>
+                    <Link className='registerLink' to='http://localhost:3000/register/'><button className='btn btn-register'>Registrarse</button></Link>
                 </div>
             </form>
-
-
         </div>
     )
 }
 
-export default Login
+export default Login;

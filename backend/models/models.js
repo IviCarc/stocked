@@ -20,7 +20,9 @@ const userSchema = new mongoose.Schema({
         categoria: String,
         productos: [{ type: Schema.Types.ObjectId, ref: "Producto" }],
         modelos: [{ type: Schema.Types.ObjectId, ref: "Modelo" }]
-    }]
+    }],
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
 }, {
     timestamps: true
 }

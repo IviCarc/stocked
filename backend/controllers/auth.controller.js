@@ -7,13 +7,13 @@ const randomstring = require('randomstring');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-   host: 'smtp.gmail.com',
-   port: 465,
-   secure: true,
-   auth: {
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
+  auth: {
     user: 'stocked2043@gmail.com',
     pass: 'kcoo cibx djbq dudf ',
-   },
+  },
 });
 
 const register = async (req, res) => {
@@ -143,17 +143,17 @@ const resetPasswordRequest = async (req, res) => {
   const { email } = req.body;
 
   try {
-    const userFound = await User.findOne({ email });
-    if (!userFound)
-      return res.status(400).json({ message: "Usuario no encontrado" });
+    const userFound = await User.findOne({ email: email });
+    if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
 
     // Genera un token único y de corta duración
     const resetToken = randomstring.generate({ length: 32 });
 
     // Almacena el token en la base de datos junto con una fecha de expiración
     userFound.resetPasswordToken = resetToken;
-    userFound.resetPasswordExpires = Date.now() + 3600000; // Expira en 1 hora
+    userFound.resetPasswordExpires = Date.now() + 600000; // Expira en 1 hora
     await userFound.save();
+    console.log(userFound)
 
     // Envía un correo electrónico al usuario con un enlace de restablecimiento de contraseña
     const mailOptions = {
@@ -180,72 +180,74 @@ const resetPasswordRequest = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-  const { token, password, confirmPassword } = req.body;
+  const { token, password } = req.body;
 
   try {
     const userFound = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }, // Comprueba que el token no haya caducado
+      resetPasswordToken: token
     });
-
+    // console.log(token)
+    // console.log(userFound)
     if (!userFound) {
-      return res.status(400).json({ message: 'Token no válido o caducado' });
+      return res.status(400).json({ message: 'Token inválido' });
+    }
+    if(userFound.resetPasswordExpires < Date.now()){
+      return res.status(400).json({ message: 'Token Vencido' });
     }
 
-    // Verifica que las contraseñas coincidan
-    if (password !== confirmPassword) {
-      return res.status(400).json({ message: 'Las contraseñas no coinciden' });
-    }
-
-    // Actualiza la contraseña del usuario
-    userFound.password = password;
+    const passwordHash = await bcrypt.hash(password, 10);
+    userFound.password = passwordHash;
     userFound.resetPasswordToken = undefined;
     userFound.resetPasswordExpires = undefined;
     await userFound.save();
 
-    res.status(200).json({ message: 'Contraseña restablecida con éxito' });
+    res.status(200).json({ message: 'Contraseña cambiada con éxito' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message });
   }
-};
+}
 
 const changePassword = async (req, res) => {
-  const { userId } = req.user.id; // Obtén el ID del usuario desde la solicitud autenticada
-  const { oldPassword, newPassword } = req.body;
-
   try {
-    // Busca al usuario por su ID
+    // Obtén el ID del usuario desde el token (asumiendo que el usuario está autenticado)
+    const userId = req.user.id;
+
+    // Obtén la nueva contraseña y la contraseña actual desde la solicitud del cliente
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    // Busca al usuario en la base de datos
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+      return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Comprueba si la contraseña anterior es válida
-    const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+    // Verifica si la contraseña actual coincide con la contraseña en la base de datos
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
 
     if (!isPasswordValid) {
-      return res.status(400).json({ message: "Contraseña anterior incorrecta" });
+      return res.status(400).json({ message: 'La contraseña actual no es válida' });
     }
 
-    // Hashea y actualiza la nueva contraseña
-    const newPasswordHash = await bcrypt.hash(newPassword, 10);
-    user.password = newPasswordHash;
-    await user.save();
+    // Verifica si la nueva contraseña es igual a la contraseña anterior
+    if (currentPassword === newPassword) {
+      return res.status(400).json({ message: 'La nueva contraseña no puede ser igual a la anterior' });
+    }
 
-    // Genera un nuevo token de acceso
-    const newToken = await createAccessToken({ id: user._id });
+    // Hashea la nueva contraseña
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Devuelve una respuesta exitosa
-    return res.status(200).json({
-      message: "Contraseña cambiada con éxito",
-      token: newToken,
-    });
+    // Actualiza la contraseña del usuario en la base de datos
+    await User.findByIdAndUpdate(userId, { password: hashedPassword });
+
+    res.status(200).json({ message: 'Contraseña cambiada con éxito' });
   } catch (error) {
-    return res.status(500).json({ message: error.message });
+    console.error(error);
+    res.status(500).json({ message: 'Error al cambiar la contraseña' });
   }
 };
+
 
 module.exports = {
   register,

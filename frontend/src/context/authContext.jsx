@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
 import Cookies from 'js-cookie'
+import Swal from "sweetalert2";
 
 const AuthContext = createContext();
 
@@ -25,9 +26,23 @@ export const AuthProvider = ({ children }) => {
       // console.log(res.data); 
       setUser(res.data);
       setIsAuthenticated(true)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Registrado correctamente',
+        showConfirmButton: false,
+        timer: 1000
+      })
     } catch (error) {
       console.log(error.response)
       setErrors(error.response.data)
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        showConfirmButton: false,
+        timer: 1000,
+        title: 'Error al registrarse'
+      })
     }
   };
 
@@ -37,10 +52,28 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
+      if (error.response.data.message == "Usuario no encontrado") {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 1000,
+          title: 'Usuario no encontrado'
+        })
+      }
+      else if (error.response.data.message == "Contraseña incorrecta") {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          showConfirmButton: false,
+          timer: 1000,
+          title: 'Contraseña incorrecta'
+        })
+      }
       if (Array.isArray(error.response.data)) {
         console.log(error)
-        // return setErrors(error.response.data)
-        // setErrors([error.response.data.message])
+        setErrors(error.response.data)
+
       }
     }
   };
@@ -78,7 +111,7 @@ export const AuthProvider = ({ children }) => {
     if (errores.length > 0) {
       const timer = setTimeout(() => {
         setErrors([]);
-      }, 5000);
+      }, 7000);
       return () => clearTimeout(timer);
     }
   }, [errores]);

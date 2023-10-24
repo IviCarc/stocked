@@ -1,31 +1,31 @@
 import '../css/cambiarContraseña.css'
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { useForm } from 'react-hook-form'
 import { useAuth } from "../context/AuthContext";
+import axios from "../api/axios"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 
 const CambiarContraseña = (props) => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const { errores } = useAuth();
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
   
-    const onSubmit = async (formData) => {
+    const onSubmit = async (data) => {
       try {
-        const response = await fetch('/api/cambiar-contrasena', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-  
+        const response = await axios.post('changePassword',data)
         if (response.ok) {
           // Contraseña cambiada con éxito, puedes redirigir al usuario a otra página
-          navigate('/ruta-de-exito');
+          navigate('/stock');
         } else {
           // Maneja errores de respuesta del servidor
-          const data = await response.json();
+          const data = response.data;
           console.error(data.message);
         }
       } catch (error) {
@@ -34,8 +34,7 @@ const CambiarContraseña = (props) => {
     };
   
     return (
-      <div className='resetPassword'>
-        <h4 className='subtitle'>Restablecer contraseña</h4>
+      <div className='cambiarContraseña'>
         {errores.map((error, i) => (
           <div className='error-div' key={i}>
             {error}
@@ -43,10 +42,10 @@ const CambiarContraseña = (props) => {
         ))}
         <form className='input-register' onSubmit={handleSubmit(onSubmit)}>
           <div className='input-container'>
-            <label htmlFor='oldPassword'>Contraseña anterior</label>
+            <label htmlFor='currentPassword'>Contraseña anterior</label>
             <input
-              type='password'
-              {...register('oldPassword', { required: true })}
+              type={showPassword ? 'text' : 'password'}
+              {...register('currentPassword', { required: true })}
               className='input inputCambiar'
               placeholder='Ingrese su contraseña anterior'
             />
@@ -55,7 +54,7 @@ const CambiarContraseña = (props) => {
             )}
             <label htmlFor='newPassword'>Nueva contraseña</label>
             <input
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               {...register('newPassword', { required: true })}
               className='input inputCambiar'
               placeholder='Ingrese su nueva contraseña'
@@ -65,7 +64,7 @@ const CambiarContraseña = (props) => {
             )}
             <label htmlFor='confirmPassword'>Confirmar contraseña</label>
             <input
-              type='password'
+              type={showPassword ? 'text' : 'password'}
               {...register('confirmPassword', { required: true })}
               className='input inputCambiar'
               placeholder='Confirme su nueva contraseña'
@@ -74,6 +73,15 @@ const CambiarContraseña = (props) => {
               <p className='error-msj'>Confirmar contraseña es requerida</p>
             )}
           </div>
+          <div className="password-container">
+                    <button
+                        type="button"
+                        onClick={togglePasswordVisibility} className="password-btn"
+
+                    >
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                </div>
           <div className='btn-container'>
             <button type='submit' className='btn btn-send'>
               Restablecer Contraseña
