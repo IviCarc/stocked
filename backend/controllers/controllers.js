@@ -5,6 +5,7 @@ const { Producto, Categoria, Modelo, User } = require('../models/models');
 const controller = {}
 
 controller.todosProductos = async (req, res) => {
+    console.log(req.user)
     const todosProductos = await Producto.find({
         user: req.user.id
     });

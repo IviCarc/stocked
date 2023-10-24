@@ -1,5 +1,5 @@
 
-const { register, login, logout, profile, verifyToken } = require('./controllers/auth.controller.js');
+const { register, login, logout, profile, verifyToken, resetPasswordRequest,resetPassword, changePassword} = require('./controllers/auth.controller.js');
 const { authRequired } = require('./middlewares/validarToken.js')
 const { validateSchema } = require('./middlewares/validarMiddleware.js')
 const { registerSchema, loginSchema, productoSchema, modeloSchema, categoriaSchema } = require('./schemas/auth.schema.js')
@@ -30,11 +30,17 @@ URL = process.env.URL || 'http://localhost:5000';
 app.post("/api/register", validateSchema(registerSchema), register)
 app.post("/api/login", validateSchema(loginSchema), login)
 app.post("/api/logout", logout)
-app.get("/verify", verifyToken)
-app.get("/api/profile", authRequired, profile)
+app.get("/api/verifyToken",verifyToken)
+app.get("/api/profile",authRequired ,profile)
 
+app.post('/api/reset-password-request', resetPasswordRequest);
+app.post('/api/reset-password/:token', resetPassword);
+app.post('/api/reset-password',resetPassword);
+
+app.post('/api/changePassword',authRequired, changePassword);
 
 // Productos
+
 app.get("/productos", authRequired, todosProductos);
 
 app.get('/producto/:id', authRequired, obtenerProducto);

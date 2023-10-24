@@ -17,6 +17,7 @@ ul {
     padding: 10px;
     padding-left: 15%;
 }
+
 li {
     list-style: none;
     text-decoration: none;
@@ -31,7 +32,7 @@ li {
     position: relative;
 }
 
-li:hover .header-link::after  {
+li:hover .header-link::after {
     width: 100%;
 }
 
@@ -54,6 +55,37 @@ li:hover .header-link::after  {
     justify-content: center;
     align-items: center;
 }
+
 .logo-container img {
     height: 90%;
+}
+
+
+html body div#root nav ul li a button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.username-menu.css-1e6y48t-MuiButtonBase-root-MuiButton-root{
+    color: black;
+    list-style: none;
+    text-decoration: none;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.301);
+    font-size: 16px;
+    position: relative;
+    padding: 0;
+    justify-content: center;
+
+}
+
+html body div#simple-menu.MuiMenu-root.MuiPopover-root.MuiModal-root.css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiMenu-paper.MuiPopover-paper.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper ul.MuiList-root.MuiList-padding.MuiMenu-list.css-6hp17o-MuiList-root-MuiMenu-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+html body div#simple-menu.MuiMenu-root.MuiPopover-root.MuiModal-root.css-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root div.MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation8.MuiMenu-paper.MuiPopover-paper.css-3dzjca-MuiPaper-root-MuiPopover-paper-MuiMenu-paper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cambiarContraseña:focus, :visited{
+    color: black;
 }

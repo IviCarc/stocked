@@ -1,0 +1,25 @@
+.cambiarContraseña {
+    min-width:min-content;
+    width: 35%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    box-shadow: -15px 15px 20px 4px rgba(0, 0, 0, 0.377);
+    padding: 0px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.185);
+    background-color: #fff;
+}
+
+.inputCambiar{
+    margin: 2px;
+
+}
+
+.input-container{
+    padding-top: 20px;
+}

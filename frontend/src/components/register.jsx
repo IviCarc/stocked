@@ -2,7 +2,9 @@ import "../css/register.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from 'react-hook-form'
 import { useAuth } from '../context/AuthContext'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 const Register = (props) => {
     const { signUp, isAuthenticated, errores } = useAuth();
@@ -12,9 +14,17 @@ const Register = (props) => {
         formState: { errors },
       } = useForm();
       const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
     
       const onSubmit = async (value) => {
-        await signUp(value);
+        try {
+            await signUp(value);    
+        } catch (error) {
+            console.log("error al enviar")
+        }
       };
     
       useEffect(() => {
@@ -46,10 +56,19 @@ const Register = (props) => {
                 )}
 
                 <label htmlFor="password"></label>
-                <input type="password" {...register("password", { required: true })} className='input' placeholder="Ingrese una contraseña" />
+                <input type={showPassword ? 'text' : 'password'} {...register("password", { required: true })} className='input' placeholder="Ingrese una contraseña" />
                 {errors.password && (
                     <p className="error-msj">Contraseña es requerido</p>
                 )}
+                <div className="password-container">
+                    <button
+                        type="button"
+                        onClick={togglePasswordVisibility} className="password-btn"
+
+                    >
+                        <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                    </button>
+                </div>
 
 
                 <div className="register-container">
