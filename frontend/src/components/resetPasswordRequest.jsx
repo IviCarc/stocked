@@ -19,7 +19,16 @@ const ResetPasswordRequest = (props) => {
                 body: JSON.stringify({ email }),
             });
 
-            if (response.status === 200) {
+            if (response.status != 200) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000,
+                    title: "Usuario no encontrado"
+                })
+            } else if (response.status != 400) {
+                // Manejar errores, por ejemplo, correo no encontrado
                 Swal.fire({
                     position: 'center',
                     icon: 'success',
@@ -28,16 +37,7 @@ const ResetPasswordRequest = (props) => {
                     title: 'Solicitud de restablecimiento enviada.'
                 })
                 navigate('/login')
-            } else if (response.status === 400) {
-                // Manejar errores, por ejemplo, correo no encontrado
-
-                Swal.fire({
-                    position: 'center',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 1000,
-                    title: "Usuario no encontrado"
-                })
+                
                 // alert("Error al solicitar restablecimiento de contraseña")
             } else {
                 alert('Error al solicitar restablecimiento de contraseña')

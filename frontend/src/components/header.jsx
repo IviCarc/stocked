@@ -30,7 +30,7 @@ const Header = () => {
                     <li><Link className='header-link' to='new-product'>Crear Producto</Link></li>
                     <li><Link className='header-link' to='new-category'>Crear Categoria</Link></li>
                     <li>
-                        <Link className='' >
+                        <Link id='menu' >
                             <Button className="username-menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                                 {user.username}
                             </Button>
@@ -42,7 +42,7 @@ const Header = () => {
                                 onClose={handleClose}
                             >
                                 <Link to='cambiarContraseña'>
-                                <MenuItem className="cambiarContraseña">Cambiar Contraseña</MenuItem>
+                                <MenuItem className="">Cambiar Contraseña</MenuItem>
                                 </Link>
                                 <MenuItem onClick={logout}>Cerrar Sesion</MenuItem>
                             </Menu>
