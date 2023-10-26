@@ -4,7 +4,6 @@ import BusquedaIcon from '../imgs/magnifying-glass-solid.svg'
 import '../css/stockView.css'
 import { useEffect, useState } from 'react'
 import axios from '../api/axios'
-// import axios, * as others from 'axios';
 
 const Card = (props) => {
     return (
@@ -43,8 +42,8 @@ const StockView = (props) => {
         <div className="stock">
             <div className="busqueda">
                 <div className="select">
-                    <select name="format" id="format">
-                        <option selected disabled>Categoria</option>
+                    <select defaultValue={''} name="format" id="format">
+                        <option value="" disabled>Categoria</option>
                         <option value="libro">Libros</option>
                         <option value="auto">Autos</option>
                     </select>

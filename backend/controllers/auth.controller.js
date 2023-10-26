@@ -94,7 +94,6 @@ const logout = async (req, res) => {
 };
 
 const profile = async (req, res) => {
-  console.log(req.user);
   const userFound = await User.findById(req.user.id);
   if (!userFound) return res.status(400).json({ message: "Usuario no encontrado" });
 
@@ -112,12 +111,10 @@ const verifyToken = (req, res) => {
   const { token } = req.cookies;
 
   if (!token) {
-    console.log("NO HAY TOKEN");
     return res.send(false);
   }
 
   jwt.verify(token, 'some secret key', async (error, decoded) => {
-    // console.log("Token decodificado:", decoded);
 
     if (error) {
       console.log("Error al verificar el token:", error);
@@ -127,8 +124,7 @@ const verifyToken = (req, res) => {
     const userFound = await User.findById(decoded.id);
 
     if (!userFound) {
-      console.log("Usuario no encontrado en la base de datos");
-      return res.sendStatus(401);
+      return res.sendStatus(401).json({message: "Usuario no encontrado"});
     }
 
     return res.json({
@@ -153,7 +149,6 @@ const resetPasswordRequest = async (req, res) => {
     userFound.resetPasswordToken = resetToken;
     userFound.resetPasswordExpires = Date.now() + 600000; // Expira en 1 hora
     await userFound.save();
-    console.log(userFound)
 
     // Envía un correo electrónico al usuario con un enlace de restablecimiento de contraseña
     const mailOptions = {

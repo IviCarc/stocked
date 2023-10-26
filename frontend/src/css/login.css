@@ -24,6 +24,12 @@
     font-size: 40px;
 }
 
+.btn {
+    cursor: pointer !important;
+    pointer-events: auto;
+    z-index: 10000;
+}
+
 .subtitle {
     text-align: center;
     font-weight: 500;
@@ -51,10 +57,6 @@
     justify-content: space-around;
     text-align: center;
     align-items: center;
-}
-.btn {
-    display: flex;
-    justify-content: center;
 }
 
 .registerLink{
@@ -88,7 +90,8 @@
     font-weight: 500;
     transition: all .2s ease-in;
     text-shadow:  0px 4px 4px rgba(0, 0, 0, 0.267);
-    cursor: pointer;
+    cursor: pointer !important;
+    z-index: 1000000 !important;
 }
 
 .password-btn:hover {

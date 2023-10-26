@@ -3,7 +3,7 @@ import "../css/inputs.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import { useState, useEffect } from "react"
+import { useState, useEffect, Fragment } from "react"
 import axios from '../api/axios'
 import { useForm, Control, useFieldArray } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -86,11 +86,11 @@ const NewModel = (props) => {
                 {errors.nombreModelo && <p className="input-error-message">{errors.nombreModelo.message}</p>}
 
                 <div className="input-container-newModel" id='newmodel-select'>
-                    <select className="select" name="categoria" id="newmodel-categoria"  {...register("categoria")}>
+                    <select defaultValue={''} className="select" name="categoria" id="newmodel-categoria"  {...register("categoria")}>
 
-                        <option disabled selected value=''>Seleccione una categoria</option>
+                        <option disabled  value=''>Seleccione una categoria</option>
                         {listaCategorias && listaCategorias.map((categoria, i) => {
-                            return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
+                            return <option key={categoria._id} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                         })}
 
                     </select>
@@ -100,9 +100,9 @@ const NewModel = (props) => {
                 {
                     fields.map((field, i) => {
                         return (
-                            <>
+                            <Fragment key={field.id}>
                                 <div className="input-container-newModel">
-                                    <input key={field.id}
+                                    <input 
                                         type="text"
                                         className="input input-newModel"
                                         placeholder="Caracteristica creada"
@@ -111,7 +111,7 @@ const NewModel = (props) => {
                                     {fields.length > 1 ? (<FontAwesomeIcon icon={faTrash} className="trashIcon" onClick={() => remove(i)} listid={i} />) : null}
                                 </div>
                                 {errors?.caracteristicas?.[i] && <p className="input-error-message">{errors.caracteristicas[i].message}</p>}
-                            </>
+                            </Fragment>
                         )
                     })
                 }
@@ -121,7 +121,7 @@ const NewModel = (props) => {
                     <button type="button" onClick={() => append("")} className="input input-newModel plusinput" >Añadir Caracteristica</button>
                 </div>
 
-                <button className="btn" type="submit" onClick={(e) => console.log(errors)}>Crear</button>
+                <button className="btn" type="submit" >Crear</button>
 
             </form>
         </div>

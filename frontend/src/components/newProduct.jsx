@@ -90,13 +90,6 @@ const NewProduct = () => {
             return
         }
         Alert("success", "¡Producto creado!")
-
-        // MySwal.fire({
-        //     icon: 'success',
-        //     title: '¡Producto creado!',
-        //     showConfirmButton: false,
-        //     timer: 1500
-        // })
         reset()
 
     }
@@ -140,13 +133,13 @@ const NewProduct = () => {
                     <div className="input-div">
                         <label htmlFor="categoria" className='input-label'>Categoria</label>
                         <div className="newproduct-select-container " id=''>
-                            <select className="select select-newProduct" id="" {...register("categoria")}
+                            <select defaultValue={''} className="select select-newProduct" id="" {...register("categoria")}
                                 onChange={(e) => obtenerModelos(e.target.value)}>
 
-                                <option selected disabled value=''>Seleccione una categoria</option>
+                                <option disabled value=''>Seleccione una categoria</option>
 
                                 {listaCategorias && listaCategorias.map((categoria, i) => {
-                                    return <option key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
+                                    return <option key={categoria._id} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
                                 })}
 
                             </select>
@@ -157,11 +150,11 @@ const NewProduct = () => {
                     <div className="input-div">
                         <label htmlFor="modelo" className='input-label'>Modelo</label>
                         <div className="newproduct-select-container" id=''>
-                            <select className="select select-newProduct" id="modelo" {...register("modelo")}
+                            <select defaultValue={''} className="select select-newProduct" id="modelo" {...register("modelo")}
                                 onChange={obtenerCaracteristicasModelo}>
-                                <option selected disabled value=''>Seleccione un modelo</option>
+                                <option disabled value=''>Seleccione un modelo</option>
                                 {listaModelos && listaModelos.map((modelo, i) => {
-                                    return <option key={i} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
+                                    return <option key={modelo} value={modelo}>{capitalizeFirstLetter(modelo)}</option>
                                 })}
                             </select>
                         </div>
@@ -238,7 +231,7 @@ const NewProduct = () => {
 
                     {inputsModelo && inputsModelo.map((caracteristica, i) => {
                         return (
-                            <div className="input-div" key={i}>
+                            <div className="input-div" key={caracteristica}>
                                 <label htmlFor={caracteristica} className='input-label'>{capitalizeFirstLetter(caracteristica)}:</label>
                                 <input className='input' type="text" name={caracteristica}
                                     {...register(caracteristica)} />
