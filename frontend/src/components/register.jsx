@@ -12,24 +12,25 @@ const Register = (props) => {
         register,
         handleSubmit,
         formState: { errors },
-      } = useForm();
-      const navigate = useNavigate();
+    } = useForm();
+    const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    
-      const onSubmit = async (value) => {
+
+    const onSubmit = async (value) => {
         try {
-            await signUp(value);    
+            await signUp(value);
         } catch (error) {
-            console.log("error al enviar")
+            console.log("Error al enviar")
+            console.log(error)
         }
-      };
-    
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         if (isAuthenticated) navigate("/");
-      }, [isAuthenticated]);
+    }, [isAuthenticated]);
     return (
         <div className='register'>
             <h1 className='title'>STOCKED</h1>
