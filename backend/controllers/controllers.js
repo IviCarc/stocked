@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const fs = require('fs');
 const { Producto, Categoria, Modelo, User } = require('../models/models');
 
 const controller = {}
 
 controller.todosProductos = async (req, res) => {
-    console.log(req.user)
     const todosProductos = await Producto.find({
         user: req.user.id
     });
@@ -71,11 +71,23 @@ controller.eliminarProducto = async (req, res) => {
 
     const productoIndex = user.categorias[categoriaIndex].productos.findIndex(
         (productoId) => productoId.toString() === id
-      );
+    );
+
 
     productoIndex == -1 ? res.status(404).json({ message: "Producto no encontrado" }) : null;
 
-      // Eliminar el producto por su índice
+    // Obtener la imagen del producto a eliminar
+    const imagenProducto = producto.imagen;
+
+    // Eliminar la imagen del sistema de archivos
+    fs.unlink(`public/images/${imagenProducto}`, (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Error al eliminar la imagen del producto" });
+        }
+    });
+
+    // Eliminar el producto por su índice
     user.categorias[categoriaIndex].productos.splice(productoIndex, 1);
 
     await user.save();

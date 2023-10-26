@@ -6,6 +6,7 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { faMinus } from "@fortawesome/free-solid-svg-icons";
 import React, { useEffect, useState } from "react";
 import "../css/product.css";
+import "../css/inputs.css";
 import axios from '../api/axios'
 import Alert from "./Alert";
 import Swal from 'sweetalert2'
@@ -141,7 +142,7 @@ const Product = (props) => {
 										if (key !== "__v" && key !== "cantidadDisponible" && key !== "_id" && key !== "producto" && key !== 'categoria' && key !== 'imagen') {
 											return (
 												<div className="caracteristica-container" key={index}>
-													<label for={key}>{capitalizeFirstLetter(key)}:</label>
+													<label htmlFor={key}>{capitalizeFirstLetter(key)}:</label>
 													<input type="text" className={isEditing ? "input info-input" : "input-editing"}
 														disabled={!isEditing}
 														value={producto[key]}
@@ -159,7 +160,7 @@ const Product = (props) => {
 													<div className={"select select-container-product" + (!isEditing ? " not-editable" : "")}>
 														<select name="categoria" id="" className={"select-product" + (!isEditing ? " not-editable" : "")} onChange={(e) => onChange(e, setProducto, producto)} >
 															{listaCategorias && listaCategorias.map((categoria, i) => {
-																return <option className="" key={i} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
+																return <option className="" key={categoria._id} value={categoria.categoria}>{capitalizeFirstLetter(categoria.categoria)}</option>
 															})}
 
 														</select>
