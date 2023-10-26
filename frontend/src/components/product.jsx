@@ -115,14 +115,14 @@ const Product = (props) => {
 								<img src={`${process.env.REACT_APP_BASE_URL + "images/" + producto.imagen}`} alt="adawd" />
 							</div>
 							<div className="price-producto">
-								<button className="btn-edit" id="editProduct" onClick={editarProducto}>
+								<button className="btn-edit" onClick={editarProducto}>
 									<p>
 										<b>{isEditing ? "Guardar" : "Editar"}</b>{" "}
 										<FontAwesomeIcon icon={faPenToSquare} className="editIconProduct" />
 									</p>
 								</button>
 								<hr />
-								<button onClick={() => handleEliminarProducto(producto._id, producto.categoria)}>
+								<button className="btn-edit" onClick={() => handleEliminarProducto(producto._id, producto.categoria)}>
 									<p> <b>Eliminar</b>
 										<FontAwesomeIcon icon={faTrash} className="trashIconProduct" />
 									</p>
@@ -139,11 +139,11 @@ const Product = (props) => {
 
 								{
 									Object.keys(producto).map((key, index) => {
-										if (key !== "__v" && key !== "cantidadDisponible" && key !== "_id" && key !== "producto" && key !== 'categoria' && key !== 'imagen') {
+										if (key != 'descripcion' && key !== "__v" && key !== "cantidadDisponible" && key !== "_id" && key !== "producto" && key !== 'categoria' && key !== 'imagen') {
 											return (
 												<div className="caracteristica-container" key={index}>
-													<label htmlFor={key}>{capitalizeFirstLetter(key)}:</label>
-													<input type="text" className={isEditing ? "input info-input" : "input-editing"}
+													<label htmlFor={key}><b>{capitalizeFirstLetter(key)}</b>:</label>
+													<input type="text" className={isEditing ? "input info-input" : " input info-input input-editing"}
 														disabled={!isEditing}
 														value={producto[key]}
 														onChange={(e) => onChange(e, setProducto, producto)}
@@ -152,11 +152,10 @@ const Product = (props) => {
 												</div>
 											);
 										}
-
 										if (key == 'categoria') {
 											return (
 												<div className="caracteristica-container" key={index}>
-													<label htmlFor="categoria">{capitalizeFirstLetter(key)}</label>
+													<label htmlFor="categoria"><b>{capitalizeFirstLetter(key)}</b></label>
 													<div className={"select select-container-product" + (!isEditing ? " not-editable" : "")}>
 														<select name="categoria" id="" className={"select-product" + (!isEditing ? " not-editable" : "")} onChange={(e) => onChange(e, setProducto, producto)} >
 															{listaCategorias && listaCategorias.map((categoria, i) => {
@@ -170,14 +169,30 @@ const Product = (props) => {
 											)
 										}
 
+
 									}
 
 
 									)
 								}
+
+
+
+							</div>
+							<div className="caracteristica-container" id="descripcion-container" >
+								<label htmlFor='categoria'><b>Descripción del producto</b>:</label>
+								<textarea className={isEditing ? "input info-input" : "input info-input input-editing"} disabled={!isEditing}
+									name="descripcion" id="descripcion"
+									onChange={(e) => onChange(e, setProducto, producto)}
+									value={producto.descripcion}
+									col="30" 
+									rows="5"
+								>
+
+								</textarea>
 							</div>
 							<div className="info-unidades">
-								<p>Unidades Disponibles:</p>
+								<p><b>Unidades Disponibles:</b></p>
 
 								<FontAwesomeIcon icon={faMinus} className={isEditing ? "iconMinus" : "disabled"} onClick={sumarUnidad} />
 								<p>{producto.cantidadDisponible}</p>
