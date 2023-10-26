@@ -29,5 +29,5 @@ yarn-error.log*
 .vs
 /.vs
 
-/public/images
+backend/public/images
 /images
