@@ -12,7 +12,7 @@ const loginSchema = yup.object({
 const registerSchema = yup.object({
     username: yup.string().min(4).required(),
     email: yup.string().email().required(),
-    password: yup.string().min(6).required()
+    password: yup.string().min(6, "Contraseña debe tener al menos 6 caracteres").required()
 })
 
 const productoSchema = yup

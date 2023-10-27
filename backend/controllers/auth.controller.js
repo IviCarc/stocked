@@ -205,29 +205,27 @@ const resetPassword = async (req, res) => {
 
 const changePassword = async (req, res) => {
   try {
-    // Obtén el ID del usuario desde el token (asumiendo que el usuario está autenticado)
     const userId = req.user.id;
-
-    // Obtén la nueva contraseña y la contraseña actual desde la solicitud del cliente
     const { currentPassword, newPassword, confirmPassword } = req.body;
-
-    // Busca al usuario en la base de datos
     const user = await User.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Verifica si la contraseña actual coincide con la contraseña en la base de datos
     const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    
 
     if (!isPasswordValid) {
       return res.status(400).json({ message: 'La contraseña actual no es válida' });
     }
 
-    // Verifica si la nueva contraseña es igual a la contraseña anterior
     if (currentPassword === newPassword) {
       return res.status(400).json({ message: 'La nueva contraseña no puede ser igual a la anterior' });
+    }
+
+    if (confirmPassword !== newPassword) {
+      return res.status(400).json({ message: 'La nueva contraseña debe coincidir con la contraseña de confirmación' });
     }
 
     // Hashea la nueva contraseña
@@ -242,6 +240,7 @@ const changePassword = async (req, res) => {
     res.status(500).json({ message: 'Error al cambiar la contraseña' });
   }
 };
+
 
 
 module.exports = {

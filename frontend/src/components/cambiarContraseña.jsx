@@ -6,7 +6,25 @@ import { useAuth } from "../context/AuthContext";
 import axios from "../api/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import Swal from "sweetalert2";
+import Alert from "./Alert";
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from 'yup'
+
+const schema = yup
+  .object({
+    currentPassword: yup
+    .string()
+    .required('La contraseña anterior es requerida'),
+  newPassword: yup
+    .string()
+    .min(6, 'La nueva contraseña debe tener al menos 6 caracteres')
+    .required('La nueva contraseña es requerida'),
+  confirmPassword: yup
+    .string()
+    .oneOf([yup.ref('newPassword'), null], 'Las contraseñas no coinciden')
+    .required('La confirmación de contraseña es requerida'),
+  })
+  .required();
 
 const CambiarContraseña = (props) => {
   const navigate = useNavigate();
@@ -14,7 +32,9 @@ const CambiarContraseña = (props) => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema)
+});
   const { errores } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {
@@ -22,64 +42,19 @@ const CambiarContraseña = (props) => {
   };
 
   const onSubmit = async (data) => {
-  try {
-    const response = await axios.post('changePassword', data)
-
-    if (response.ok) {
-      // La solicitud se completó con éxito (código 200)
-      const responseData = await response.json();
-      if (responseData.message === 'Contraseña cambiada con éxito') {
-        // Contraseña cambiada con éxito, muestra un mensaje de éxito y redirige al usuario
-        Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: responseData.message,
-        });
-        navigate('/stock');
-      } else {
-        // El servidor devolvió un mensaje inesperado
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Respuesta inesperada del servidor',
-        });
-      }
-    } else if (response.status === 400) {
-      // El servidor respondió con un código de estado 400 (Bad Request)
-      const errorData = await response.json();
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: errorData.message,
-      });
-    } else {
-      // Otro error del servidor u error de red
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Ha ocurrido un error en el servidor',
-      });
+    try {
+      await axios.post("changePassword", data);
+      // Contraseña cambiada con éxito, muestra un mensaje de éxito y redirige al usuario
+      Alert("success", "Contraseña cambiada");
+      navigate("/");
+    } catch (error) {
+      console.error(error.response.data.message);
+      Alert("error", error.response.data.message);
     }
-  } catch (error) {
-    // Error de conexión: No se pudo conectar al servidor
-    Swal.fire({
-      icon: 'error',
-      title: 'Error de conexión',
-      text: 'No se pudo conectar al servidor',
-    });
-    console.error(error);
-  }
-};
-
-  
+  };
 
   return (
     <div className="cambiarContraseña">
-      {errores.map((error, i) => (
-        <div className="error-div" key={i}>
-          {error}
-        </div>
-      ))}
       <form className="input-register" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-container">
           <label htmlFor="currentPassword">Contraseña anterior</label>
@@ -89,9 +64,9 @@ const CambiarContraseña = (props) => {
             className="input inputCambiar"
             placeholder="Ingrese su contraseña anterior"
           />
-          {errors.oldPassword && (
-            <p className="error-msj">Contraseña anterior es requerida</p>
-          )}
+          {errors.currentPassword && <p className="input-error-message">{errors.currentPassword.message}</p>}
+
+
           <label htmlFor="newPassword">Nueva contraseña</label>
           <input
             type={showPassword ? "text" : "password"}
@@ -99,9 +74,8 @@ const CambiarContraseña = (props) => {
             className="input inputCambiar"
             placeholder="Ingrese su nueva contraseña"
           />
-          {errors.newPassword && (
-            <p className="error-msj">Nueva contraseña es requerida</p>
-          )}
+          {errors.newPassword && <p className="input-error-message">{errors.newPassword.message}</p>}
+
           <label htmlFor="confirmPassword">Confirmar contraseña</label>
           <input
             type={showPassword ? "text" : "password"}
@@ -109,9 +83,7 @@ const CambiarContraseña = (props) => {
             className="input inputCambiar"
             placeholder="Confirme su nueva contraseña"
           />
-          {errors.confirmPassword && (
-            <p className="error-msj">Confirmar contraseña es requerida</p>
-          )}
+          {errors.confirmPassword && <p className="input-error-message">{errors.confirmPassword.message}</p>}
         </div>
         <div className="password-container">
           <button

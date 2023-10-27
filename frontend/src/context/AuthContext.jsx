@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { registerRequest, loginRequest, verifyTokenRequest } from "../api/auth";
 import Cookies from 'js-cookie'
+import Alert from '../components/Alert.js'
 
 const AuthContext = createContext();
 
@@ -25,6 +26,8 @@ export const AuthProvider = ({ children }) => {
       setUser(res.data);
       setIsAuthenticated(true)
     } catch (error) {
+      console.log(error)
+      Alert('error', error.response.data[0])
       setErrors(error.response.data)
     }
   };
@@ -38,6 +41,7 @@ export const AuthProvider = ({ children }) => {
       if (Array.isArray(error.response.data)) {
         return setErrors(error.response.data)
       }
+      Alert('error', error.response.data.message)
       setErrors([error.response.data.message])
     }
   };

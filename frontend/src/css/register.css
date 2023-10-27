@@ -59,3 +59,7 @@
     text-align: center;
     width: max-content;
 }
+
+.input-error-message{
+    text-align: center;
+}
