@@ -30,6 +30,12 @@
     z-index: 10000;
 }
 
+.btn-ingresar{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
 .subtitle {
     text-align: center;
     font-weight: 500;

@@ -10,13 +10,14 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
     box-shadow: -15px 15px 20px 4px rgba(0, 0, 0, 0.377);
     padding: 30px;
     width: 50%;
     justify-content: center;
     align-items: center;
     height: fit-content;
+    margin-bottom: 40px;
+
 }
 
 .inputs-container {
