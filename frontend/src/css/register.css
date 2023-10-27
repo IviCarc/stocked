@@ -29,6 +29,7 @@
 .btn-back, .btn-register, .btn-send{
    width: fit-content;
    margin: 10px;
+   z-index: 0;
 }
 .btn-back{
     background-color: rgba(255, 0, 0, 0.8);

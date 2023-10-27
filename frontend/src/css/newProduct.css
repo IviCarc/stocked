@@ -40,12 +40,11 @@
     text-align: center;
 }
 
-.input-label {
-}
 
 #send-btn {
     width: 150px;
     margin-top: 20px;
+    z-index: 0;
 }
 
 .newproduct-select-container {

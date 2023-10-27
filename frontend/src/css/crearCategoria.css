@@ -31,3 +31,9 @@
     width: 100%;
     text-align: center;
 }
+
+.btn-crear{
+    z-index: 0;
+    display: flex;
+    justify-content: center;
+}
