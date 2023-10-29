@@ -94,10 +94,6 @@ const NewProduct = () => {
 
     }
 
-    const allowOnlyNumber = (value) => {
-        return value.replace(/[^0-9]/g, '')
-    }
-
     const onChange = (e) => {
         const inputValue = e.target.value;
 

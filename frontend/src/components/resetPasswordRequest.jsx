@@ -5,9 +5,10 @@ import Swal from "sweetalert2";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-
+import Alert from "./Alert";
+import axios from "axios";
 const schema = yup.object({
-    email: yup
+  email: yup
     .string()
     .required('El correo electrónico es obligatorio')
     .email('Debe ser un correo electrónico válido')
@@ -28,39 +29,18 @@ const ResetPasswordRequest = (props) => {
     resolver: yupResolver(schema),
   });
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
 
-  const handleResetPasswordRequest = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/reset-password-request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.status !== 200) {
-        Swal.fire({
-          position: "center",
-          icon: "error",
-          showConfirmButton: false,
-          timer: 1000,
-          title: "Usuario no encontrado",
-        });
-      } else {
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          showConfirmButton: false,
-          timer: 1000,
-          title: "Solicitud de restablecimiento enviada.",
-        });
-        navigate("/login");
-      }
-    } catch (error) {
-      console.error("Error de conexión:", error);
+  const handleResetPasswordRequest = async (data) => {
+    Swal.showLoading()
+    try{
+      await axios.post(process.env.REACT_APP_BASE_URL + "api/reset-password-request", data)
+    } catch (e) {
+      Alert("error", e.response.data.message)
+      return
     }
+    Swal.close()
+    Alert("success", "Solicitud de restablecimiento enviada.")
+    navigate("/login");
   };
 
   return (
@@ -74,8 +54,6 @@ const ResetPasswordRequest = (props) => {
         <input
           type="email"
           {...register("email")}
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
           className="input"
           name="email"
           placeholder="Ingrese su correo electrónico"
@@ -86,9 +64,9 @@ const ResetPasswordRequest = (props) => {
         <Link className="backLink" to="http://localhost:3000/login/">
           <button className="btn btn-back">Volver</button>
         </Link>
-          <button type="submit" className="btn btn-send">
-            Enviar
-          </button>
+        <button type="submit" className="btn btn-send">
+          Enviar
+        </button>
       </div>
     </form>
   );
