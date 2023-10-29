@@ -17,7 +17,7 @@ const schema = yup
         .email('Debe ser un correo electrónico válido')
         .test('is-com', 'Debe terminar en ".com"', (value) => {
           if (value && yup.string().email().isValidSync(value)) {
-            return value.endsWith('.com');
+            return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
           }
           return true; // No se aplica la validación si el campo está vacío o no es un correo electrónico válido
         }),

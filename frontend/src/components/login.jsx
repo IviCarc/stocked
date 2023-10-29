@@ -11,7 +11,13 @@ import * as yup from "yup";
 
 const schema = yup
   .object({
-    email: yup.string().email("Debe ser un email válido").required("Campo obligatorio"),
+    email: yup.string().email("Debe ser un email válido").required("Campo obligatorio")
+    .test('is-com', 'Debe terminar en ".com"', (value) => {
+      if (value && yup.string().email().isValidSync(value)) {
+        return /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value);
+      }
+      return true; // No se aplica la validación si el campo está vacío o no es un correo electrónico válido
+    }),
     password: yup.string().min(6, "Mínimo 6 caracteres").required()
   })
   .required();

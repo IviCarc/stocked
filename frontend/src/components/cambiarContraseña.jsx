@@ -14,7 +14,7 @@ const schema = yup
   .object({
     currentPassword: yup
     .string()
-    .required('La contraseña anterior es requerida'),
+    .required('La contraseña actual es requerida'),
   newPassword: yup
     .string()
     .min(6, 'La nueva contraseña debe tener al menos 6 caracteres')
@@ -57,12 +57,12 @@ const CambiarContraseña = (props) => {
     <div className="cambiarContraseña">
       <form className="input-register" onSubmit={handleSubmit(onSubmit)}>
         <div className="input-container">
-          <label htmlFor="currentPassword">Contraseña anterior</label>
+          <label htmlFor="currentPassword">Contraseña actual</label>
           <input
             type={showPassword ? "text" : "password"}
             {...register("currentPassword", { required: true })}
             className="input inputCambiar"
-            placeholder="Ingrese su contraseña anterior"
+            placeholder="Ingrese su contraseña actual"
           />
           {errors.currentPassword && <p className="input-error-message">{errors.currentPassword.message}</p>}
 
