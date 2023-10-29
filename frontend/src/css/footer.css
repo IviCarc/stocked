@@ -1,0 +1,24 @@
+.footer {
+    position: fixed; /* Para que el footer siempre esté en la parte inferior */
+    bottom: 0;
+    width: 100%;
+    background-color: #333; /* Cambia esto al color que desees */
+    color: #fff; /* Cambia esto al color que desees */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+  }
+
+  .footer-span{
+    padding: 10px;
+  }
+
+  @media (max-width: 720px) {
+    .footer-span{
+
+    padding: 5px;
+  }
+  }
+  

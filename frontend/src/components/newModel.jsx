@@ -121,7 +121,7 @@ const NewModel = (props) => {
                     <button type="button" onClick={() => append("")} className="input input-newModel plusinput" >Añadir Caracteristica</button>
                 </div>
 
-                <button className="btn" type="submit" >Crear</button>
+                <button className="btn btn-crear" type="submit" >Crear</button>
 
             </form>
         </div>

@@ -91,7 +91,7 @@ const Login = () => {
           </p>
         </div>
         <div className="btn-container">
-          <button type="submit" className="btn">
+          <button type="submit" className="btn btn-ingresar">
             Ingresar
           </button>
           <Link className="registerLink" to="http://localhost:3000/register/">

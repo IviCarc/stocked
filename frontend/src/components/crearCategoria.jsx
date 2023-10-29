@@ -39,7 +39,7 @@ export default function CrearCategoria() {
 					<input {...register("categoria")} className="input-newCategoria input" autoComplete="off" placeholder="Nombre de la categoria" />
 					<p className="input-error-message">{errors.categoria?.message}</p>
 				</div>
-				<button type="submit" className="btn">Crear</button>
+				<button type="submit" className="btn btn-crear">Crear</button>
 			</form>
 		</div>
 	)

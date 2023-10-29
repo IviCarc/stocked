@@ -5,6 +5,8 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars, faBoxOpen } from '@fortawesome/free-solid-svg-icons';
 
 const Header = () => {
     const { isAuthenticated, logout, user } = useAuth();
@@ -16,21 +18,32 @@ const Header = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
-    
-    
-    return ( 
+    const [menuVisible, setMenuVisible] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuVisible(!menuVisible);
+    };
+
+    const closeMenu = () => {
+        setMenuVisible(false);
+    };
+
+    return (
         <>
             <nav>
+                <button id="nav-btn" onClick={toggleMenu}>
+                    <FontAwesomeIcon className="menu-icon" icon={faBars} />
+                </button>
                 <div className='logo-container'>
-                    <img src={require("../imgs/logo.png")} alt="" />
+                    <FontAwesomeIcon className="logo-caja" icon={faBoxOpen} />
                 </div>
-                <ul>
-                    <li><Link className='header-link' to='new-model'>Crear Modelo</Link></li>
-                    <li><Link className='header-link' to=''>Ver Stock</Link></li>
-                    <li><Link className='header-link' to='new-product'>Crear Producto</Link></li>
-                    <li><Link className='header-link' to='new-category'>Crear Categoria</Link></li>
+                <ul className={`nav-links ${menuVisible ? 'active' : ''}`}>
+                    <li><Link className='header-link' to='new-model' onClick={closeMenu}>Crear Modelo</Link></li>
+                    <li><Link className='header-link' to='' onClick={closeMenu}>Ver Stock</Link></li>
+                    <li><Link className='header-link' to='new-product' onClick={closeMenu}>Crear Producto</Link></li>
+                    <li><Link className='header-link' to='new-category' onClick={closeMenu}>Crear Categoria</Link></li>
                     <li>
-                        <Link id='menu' >
+                        <Link id='menu'>
                             <Button className="username-menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                                 {user.username}
                             </Button>
@@ -41,10 +54,10 @@ const Header = () => {
                                 open={Boolean(anchorEl)}
                                 onClose={handleClose}
                             >
-                                <Link to='cambiarContraseña'>
-                                <MenuItem className="">Cambiar Contraseña</MenuItem>
+                                <Link to='cambiarContraseña' onClick={closeMenu}>
+                                    <MenuItem className="">Cambiar Contraseña</MenuItem>
                                 </Link>
-                                <MenuItem onClick={logout}>Cerrar Sesion</MenuItem>
+                                <MenuItem onClick={() => { logout(); closeMenu(); }}>Cerrar Sesión</MenuItem>
                             </Menu>
                         </Link>
                     </li>
