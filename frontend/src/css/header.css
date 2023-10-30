@@ -9,6 +9,7 @@ nav {
 
 
 ul {
+    text-align: center;
     display: flex;
     width: 80%;
     justify-content: space-evenly;
@@ -149,6 +150,7 @@ li {
         background-color: #97CEEE;
         z-index: 1;
         padding: 20px 0;
+        text-align: center;
     }
 
     ul.nav-links.active {

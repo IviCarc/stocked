@@ -44,7 +44,7 @@ const Header = () => {
                     <li><Link className='header-link' to='new-category' onClick={closeMenu}>Crear Categoria</Link></li>
                     <li>
                         <Link id='menu'>
-                            <Button className="username-menu" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                            <Button className="username-menu header-link" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                                 {user.username}
                             </Button>
                             <Menu
