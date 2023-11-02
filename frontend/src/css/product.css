@@ -1,11 +1,9 @@
 .producto {
     display: flex;
     width: 50%;
-    height: calc(100vh - 80px);
-    margin: auto;
+    margin: 50px auto;
     justify-content: center;
     align-items: center;
-    margin-bottom: 30px;
 }
 
 .container-product {
@@ -31,6 +29,8 @@
 }
 
 .img-product {
+    justify-content: center;
+    align-items: center;
     display: flex;
     max-width: 500px;
     width: 100%;
