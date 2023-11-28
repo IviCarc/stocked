@@ -61,7 +61,7 @@ const ResetPasswordRequest = (props) => {
         {errors.email && <p className="input-error-message">{errors.email.message}</p>}
       </div>
       <div className="btn-container">
-        <Link className="backLink" to="http://localhost:3000/login/">
+        <Link className="backLink" to="/login/">
           <button className="btn btn-back">Volver</button>
         </Link>
         <button type="submit" className="btn btn-send">

@@ -84,7 +84,7 @@ const Login = () => {
           <p>
             <Link
               className="changePasswordLink"
-              to="http://localhost:3000/resetPasswordRequest/"
+              to="/resetPasswordRequest/"
             >
               ¿Olvidó su contraseña?
             </Link>
@@ -94,7 +94,7 @@ const Login = () => {
           <button type="submit" className="btn btn-ingresar">
             Ingresar
           </button>
-          <Link className="registerLink" to="http://localhost:3000/register/">
+          <Link className="registerLink" to="/register/">
             <button className="btn btn-register">Registrarse</button>
           </Link>
         </div>

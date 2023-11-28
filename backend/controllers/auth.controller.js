@@ -17,6 +17,7 @@ const transporter = nodemailer.createTransport({
 });
 
 const register = async (req, res) => {
+  console.log("AA")
   const { email, password, username } = req.body;
 
   try {
@@ -51,6 +52,7 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
+  console.log("AA")
   const { email, password } = req.body;
 
   try {

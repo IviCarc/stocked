@@ -15,10 +15,14 @@ const cookieParser = require('cookie-parser');
 const multer = require('multer')
 const upload = multer({ dest: 'public/images/' })
 
+// app.use(cors());1
+
 app.use(cors({
     origin: "http://localhost:3000",
     credentials: true
 }));
+
+
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/images', express.static('images'));

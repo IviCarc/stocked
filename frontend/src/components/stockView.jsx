@@ -6,7 +6,7 @@ import axios from '../api/axios';
 
 const Card = (props) => {
     return (
-        <Link className="card" to={`http://localhost:3000/producto/${props.id}`}>
+        <Link className="card" to={`/producto/${props.id}`}>
             <div className="img-container">
                 <img src={`${process.env.REACT_APP_BASE_URL}images/${props.imagen}`} alt="product-img" />
             </div>
@@ -24,7 +24,7 @@ const StockView = (props) => {
     const [searchValue, setSearchValue] = useState('');
 
     const fetchCategorias = async () => {
-        let data = await axios.get('http://localhost:5000/categorias');
+        let data = await axios.get(process.env.REACT_APP_BASE_URL + 'categorias');
         setCategorias(data.data);
     };
 

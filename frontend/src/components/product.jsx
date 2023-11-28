@@ -24,7 +24,7 @@ const Product = (props) => {
 		}).then(async (result) => {
 			if (result.isConfirmed) {
 				try {
-					await axios.delete(`http://localhost:5000/eliminar-producto/${productId}/${productCategoria}`);
+					await axios.delete(process.env.REACT_APP_BASE_URL +  `eliminar-producto/${productId}/${productCategoria}`);
 				} catch (e) {
 					Alert("error", "Error al eliminar el producto");
 					return
